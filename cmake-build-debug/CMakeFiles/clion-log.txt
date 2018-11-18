@@ -1,0 +1,4 @@
+"C:\Program Files\JetBrains\CLion 2018.2.5\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/mingw530_32/bin/mingw32-make.exe -DCMAKE_C_COMPILER=C:/Qt/Tools/mingw530_32/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw530_32/bin/g++.exe -G "CodeBlocks - MinGW Makefiles" C:\Users\Aubin\Desktop\RFSM_Graphic
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/Aubin/Desktop/RFSM_Graphic/cmake-build-debug
