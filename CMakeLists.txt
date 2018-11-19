@@ -17,8 +17,8 @@ find_package(Qt5Widgets CONFIG
 
 # Populate a CMake variable with the sources
 set(SOURCES
-        main.cpp
-        )
+        src/main.cpp
+        src/MainWindow.cpp src/MainWindow.hpp)
 # Tell CMake to create the helloworld executable
 add_executable(RFSM_Graphic ${SOURCES})
 # Use the Widgets module from Qt 5

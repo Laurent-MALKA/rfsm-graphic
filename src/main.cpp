@@ -1,15 +1,14 @@
 #include <QApplication>
-#include <QPushButton>
 #include <QMainWindow>
+
+#include "MainWindow.hpp"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    QPushButton hello("Hello world!", 0);
-    hello.resize(100, 30);
-
-    hello.show();
+    MainWindow window;
+    window.show();
 
     return app.exec();
 }
