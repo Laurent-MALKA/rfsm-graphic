@@ -7,7 +7,7 @@
 #include <QPushButton>
 
 #include "MainWindow.hpp"
-#include "Canvas.hpp"
+//#include "Canvas.hpp"
 
 MainWindow::MainWindow() : QMainWindow() {
     setWindowTitle("RFSM Graphic");
@@ -108,7 +108,8 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
 
 void MainWindow::createCanevas()
 {
-    canevas = new Canvas();
+    //canevas = new Canvas();
+    canevas = new QFrame();
     canevas->setStyleSheet("background:#ecf0f1");
 }
 

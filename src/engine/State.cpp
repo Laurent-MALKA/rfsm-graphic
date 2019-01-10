@@ -1,20 +1,20 @@
 #include <stdexcept>
-#include "Node.hpp"
+#include "State.hpp"
 #include "Transition.hpp"
 
-unsigned int Node::nodes_counter = 0;
+unsigned int State::nodes_counter = 0;
 
-Node::Node()
+State::State()
 {
     id = nodes_counter++;
 }
 
-unsigned int Node::getId() const
+unsigned int State::getId() const
 {
     return id;
 }
 
-const Transition& Node::getInTransition(int id) const
+const Transition& State::getInTransition(int id) const
 {
     unsigned int index = findInTransition(id);
     if((unsigned)index == in_transitions.size())
@@ -23,7 +23,7 @@ const Transition& Node::getInTransition(int id) const
     return *in_transitions[index];
 }
 
-const Transition& Node::getOutTransition(int id) const
+const Transition& State::getOutTransition(int id) const
 {
     unsigned int index = findOutTransition(id);
     if((unsigned)index == out_transitions.size())
@@ -32,37 +32,37 @@ const Transition& Node::getOutTransition(int id) const
     return *out_transitions[index];
 }
 
-const std::vector<Transition*> Node::getInTransitions() const
+const std::vector<Transition*> State::getInTransitions() const
 {
     return in_transitions;
 }
 
-const std::vector<Transition*> Node::getOutTransitions() const
+const std::vector<Transition*> State::getOutTransitions() const
 {
     return out_transitions;
 }
 
-std::vector<Transition*> Node::getInTransitions()
+std::vector<Transition*> State::getInTransitions()
 {
     return in_transitions;
 }
 
-std::vector<Transition*> Node::getOutTransitions()
+std::vector<Transition*> State::getOutTransitions()
 {
     return out_transitions;
 }
 
-void Node::addInTransition(Transition* transition)
+void State::addInTransition(Transition* transition)
 {
     in_transitions.push_back(transition);
 }
 
-void Node::addOutTransition(Transition* transition)
+void State::addOutTransition(Transition* transition)
 {
     out_transitions.push_back(transition);
 }
 
-void Node::removeInTransition(int id)
+void State::removeInTransition(int id)
 {
     unsigned int index = findInTransition(id);
     if((unsigned)index == in_transitions.size())
@@ -72,7 +72,7 @@ void Node::removeInTransition(int id)
     in_transitions.erase(in_transitions.begin() + index);
 }
 
-void Node::removeOutTransition(int id)
+void State::removeOutTransition(int id)
 {
     unsigned int index = findOutTransition(id);
     if((unsigned)index == out_transitions.size())
@@ -82,32 +82,32 @@ void Node::removeOutTransition(int id)
     out_transitions.erase(out_transitions.begin() + index);
 }
 
-const std::string& Node::getName() const
+const std::string& State::getName() const
 {
     return name;
 }
 
-void Node::setName(const char* name)
+void State::setName(const char* name)
 {
     this->name = name;
 }
 
-void Node::setName(std::string name)
+void State::setName(std::string name)
 {
     this->name = name;
 }
 
-bool Node::isInInTransitions(int id)
+bool State::isInInTransitions(int id)
 {
     return findInTransition(id) != in_transitions.size();
 }
 
-bool Node::isInOutTransitions(int id)
+bool State::isInOutTransitions(int id)
 {
     return findOutTransition(id) != out_transitions.size();
 }
 
-unsigned int Node::findInTransition(int id) const
+unsigned int State::findInTransition(int id) const
 {
     if(id < 0)
         throw std::invalid_argument("Id must be positive");
@@ -120,7 +120,7 @@ unsigned int Node::findInTransition(int id) const
     return index;
 }
 
-unsigned int Node::findOutTransition(int id) const
+unsigned int State::findOutTransition(int id) const
 {
     if(id < 0)
         throw std::invalid_argument("Id must be positive");

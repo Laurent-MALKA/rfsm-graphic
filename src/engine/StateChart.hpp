@@ -2,7 +2,7 @@
 #define STATE_CHART_HPP_INCLUDED
 
 #include <vector>
-#include "Node.hpp"
+#include "State.hpp"
 #include "Transition.hpp"
 #include "Variable.hpp"
 
@@ -16,7 +16,7 @@ class StateChart
         std::vector<Variable*> inout_variables;
         std::vector<Variable*> intern_variables;
 
-        std::vector<Node *> nodes;
+        std::vector<State *> nodes;
         int initial_node_id;
         std::string initial_action;
 
@@ -36,7 +36,7 @@ class StateChart
         void addInoutVariable();
         void addInternVariable();
                 
-        const Node& getNode(int node_id) const;
+        const State& getNode(int node_id) const;
         bool nodeExists(int node_id);
 
         unsigned int addNode(const char* name);

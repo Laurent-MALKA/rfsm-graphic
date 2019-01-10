@@ -3,7 +3,7 @@
 
 #include <vector>
 
-class Node;
+class State;
 
 class Transition
 {
@@ -13,11 +13,11 @@ class Transition
         std::string condition;
         std::string action;
 
-        Node& starting_node;
-        Node& end_node;
+        State& starting_node;
+        State& end_node;
 
     public:
-        Transition(Node& starting_node, Node& end_node);
+        Transition(State& starting_node, State& end_node);
 
         unsigned int getId() const;
 
@@ -30,8 +30,8 @@ class Transition
         void setAction(std::string action);
         bool hasAction();
 
-        const Node& getStartingNode() const;
-        const Node& getEndNode() const;
+        const State& getStartingNode() const;
+        const State& getEndNode() const;
 
         unsigned int getStartingNodeId() const;
         unsigned int getEndNodeId() const;

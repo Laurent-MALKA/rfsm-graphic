@@ -1,10 +1,10 @@
 #include "../includes/catch.hpp"
 #include "../src/engine/Transition.hpp"
-#include "../src/engine/Node.hpp"
+#include "src/engine/State.hpp"
 
 TEST_CASE("transition")
 {
-    Node n1, n2;
+    State n1, n2;
     Transition transition(n1,n2);
 
     SECTION("transition.id")

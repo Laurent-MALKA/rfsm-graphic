@@ -1,10 +1,10 @@
 #include <stdexcept>
 #include "Transition.hpp"
-#include "Node.hpp"
+#include "State.hpp"
 
 unsigned int Transition::transitions_counter = 0;
 
-Transition::Transition(Node& starting_node, Node& end_node) : starting_node(starting_node), end_node(end_node)
+Transition::Transition(State& starting_node, State& end_node) : starting_node(starting_node), end_node(end_node)
 {
     id = transitions_counter++;
 
@@ -52,12 +52,12 @@ bool Transition::hasAction()
     return !action.empty();
 }
 
-const Node& Transition::getStartingNode() const
+const State& Transition::getStartingNode() const
 {
     return starting_node;
 }
 
-const Node& Transition::getEndNode() const
+const State& Transition::getEndNode() const
 {
     return end_node;
 }

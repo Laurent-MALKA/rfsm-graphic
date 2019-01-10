@@ -1,15 +1,15 @@
 #include "../includes/catch.hpp"
-#include "../src/engine/Node.hpp"
+#include "src/engine/State.hpp"
 #include "../src/engine/Transition.hpp"
 
 TEST_CASE("node")
 {
-    Node node;
+    State node;
 
     SECTION("node.id")
     {
         REQUIRE(node.getId() == 0);
-        REQUIRE(Node().getId() == 1);
+        REQUIRE(State().getId() == 1);
     }
 
     SECTION("node.name")
@@ -24,8 +24,8 @@ TEST_CASE("node")
     SECTION("node.transitions")
     {
         // Init
-        Node starting_node;
-        Node end_node;
+        State starting_node;
+        State end_node;
         Transition transition(starting_node, end_node);
         unsigned transition_id = transition.getId();
 

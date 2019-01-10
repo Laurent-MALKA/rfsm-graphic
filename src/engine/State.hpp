@@ -6,7 +6,7 @@
 
 class Transition;
 
-class Node
+class State
 {
     private:
         static unsigned int nodes_counter;
@@ -16,8 +16,8 @@ class Node
         std::vector<Transition *> out_transitions;
 
     public:
-        Node();
-        //Node(Node&); //for copy/pasting
+        State();
+        //State(State&); //for copy/pasting
 
         unsigned int getId() const;
 

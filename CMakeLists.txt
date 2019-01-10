@@ -19,7 +19,7 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 set(COMMON_SOURCES
         src/Config.cpp  
         src/gui/MainWindow.cpp
-        src/engine/Node.cpp
+        src/engine/State.cpp
         src/engine/StateChart.cpp
         src/engine/Transition.cpp
         src/engine/Variable.cpp)
