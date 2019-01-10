@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.1)
 
 project(RFSM_Graphic)
 
@@ -11,9 +11,7 @@ set(CMAKE_AUTOUIC ON)
 
 # Find the QtWidgets library
 #find_package(Qt5Widgets CONFIG REQUIRED)
-find_package(Qt5Widgets CONFIG
-        PATHS C:/Qt/5.11.2/mingw53_32/lib/cmake/Qt5Widgets
-        NO_DEFAULT_PATH)
+find_package(Qt5Widgets CONFIG REQUIRED)
 
 # Populate a CMake variable with the sources
 set(SOURCES
