@@ -4,17 +4,17 @@
 #include "Transition.hpp"
 #include "StateChart.hpp"
 
-StateChart::StateChart(): initial_node_id(-1)
+StateChart::StateChart(): initial_state_id(-1)
 {
 }
 
 StateChart::~StateChart()
 {
-    for(auto &node: nodes)
+    for(auto &state: states)
     {
-        for(auto& out_transition: node->getOutTransitions())
+        for(auto& out_transition: state->getOutTransitions())
             delete out_transition;
-        delete node;
+        delete state;
     }
 }
 
@@ -58,54 +58,54 @@ void StateChart::addInternVariable()
     intern_variables.push_back(new Variable());
 }
 
-const State& StateChart::getNode(int node_id) const
+const State& StateChart::getState(int state_id) const
 {
-    unsigned int index = findNodeIndex(node_id);
-    if(index == nodes.size())
-        throw std::invalid_argument("Invalid node id");
+    unsigned int index = findStateIndex(state_id);
+    if(index == states.size())
+        throw std::invalid_argument("Invalid state id");
     
-    return *nodes[index];
+    return *states[index];
 }
 
-bool StateChart::nodeExists(int node_id)
+bool StateChart::stateExists(int state_id)
 {
-    return findNodeIndex(node_id) != nodes.size();
+    return findStateIndex(state_id) != states.size();
 }
 
-unsigned int StateChart::addNode(const char* name)
+unsigned int StateChart::addState(const char* name)
 {
-    State* new_node = new State();
-    new_node->setName(name);
-    nodes.push_back(new_node);
+    State* new_state = new State();
+    new_state->setName(name);
+    states.push_back(new_state);
 
-    return new_node->getId();
+    return new_state->getId();
 }
 
-unsigned int StateChart::addNode(std::string name)
+unsigned int StateChart::addState(std::string name)
 {
-    State* new_node = new State();
-    new_node->setName(name);
-    nodes.push_back(new_node);
+    State* new_state = new State();
+    new_state->setName(name);
+    states.push_back(new_state);
 
-    return new_node->getId();
+    return new_state->getId();
 }
 
-unsigned int StateChart::addTransition(int starting_node_id, int end_node_id, std::string condition, std::string action)
+unsigned int StateChart::addTransition(int starting_state_id, int end_state_id, std::string condition, std::string action)
 {
-    unsigned int starting_node_index = findNodeIndex(starting_node_id);
-    unsigned int end_node_index = findNodeIndex(end_node_id);
+    unsigned int starting_state_index = findStateIndex(starting_state_id);
+    unsigned int end_state_index = findStateIndex(end_state_id);
     
-    if(starting_node_index == nodes.size())
-        throw std::invalid_argument("Invalid starting node id");
+    if(starting_state_index == states.size())
+        throw std::invalid_argument("Invalid starting state id");
     
-    if(end_node_index == nodes.size())
-        throw std::invalid_argument("Invalid end node id");
+    if(end_state_index == states.size())
+        throw std::invalid_argument("Invalid end state id");
 
-    State* starting_node = nodes[starting_node_index];
-    State* end_node = nodes[end_node_index];
+    State* starting_state = states[starting_state_index];
+    State* end_state = states[end_state_index];
 
-    Transition *new_transition = new Transition(*starting_node,
-                                                *end_node);
+    Transition *new_transition = new Transition(*starting_state,
+                                                *end_state);
 
     new_transition->setCondition(condition);
     new_transition->setAction(action);
@@ -113,10 +113,10 @@ unsigned int StateChart::addTransition(int starting_node_id, int end_node_id, st
     return new_transition->getId();
 }
 
-void StateChart::setInitialNode(int node_id)
+void StateChart::setInitialState(int state_id)
 {
-    if(nodeExists(node_id))
-        initial_node_id = node_id;
+    if(stateExists(state_id))
+        initial_state_id = state_id;
 }
 
 void StateChart::setInitialAction(std::string action)
@@ -124,44 +124,44 @@ void StateChart::setInitialAction(std::string action)
     initial_action = action;
 }
 
-void StateChart::deleteNode(int node_id)
+void StateChart::deleteState(int state_id)
 {
-    unsigned int node_index = findNodeIndex(node_id);
-    if(node_index == nodes.size())
-        throw std::invalid_argument("Invalid node id");
+    unsigned int state_index = findStateIndex(state_id);
+    if(state_index == states.size())
+        throw std::invalid_argument("Invalid state id");
 
-    State* node = nodes[node_index];
+    State* state = states[state_index];
     
-    for(auto& out_transition: node->getOutTransitions())
+    for(auto& out_transition: state->getOutTransitions())
     {
-        unsigned int end_node_index = findNodeIndex(out_transition->getEndNode().getId());
-        nodes[end_node_index]->removeInTransition(out_transition->getId());
+        unsigned int end_state_index = findStateIndex(out_transition->getEndState().getId());
+        states[end_state_index]->removeInTransition(out_transition->getId());
     }
 
-    for(auto& in_transition: node->getInTransitions())
+    for(auto& in_transition: state->getInTransitions())
     {
-        unsigned int starting_node_index = findNodeIndex(in_transition->getEndNode().getId());
-        nodes[starting_node_index]->removeOutTransition(in_transition->getId());
+        unsigned int starting_state_index = findStateIndex(in_transition->getEndState().getId());
+        states[starting_state_index]->removeOutTransition(in_transition->getId());
     }
 
-    delete nodes[node_index];
-    nodes.erase(nodes.begin() + node_index);
+    delete states[state_index];
+    states.erase(states.begin() + state_index);
 }
 
 void StateChart::deleteTransition(int transition_id)
 {
     //Can be greatly improved
     bool transition_found = false;
-    for(auto& node: nodes)
+    for(auto& state: states)
     {
-        if(node->isInInTransitions(transition_id))
+        if(state->isInInTransitions(transition_id))
         {
-            node->removeInTransition(transition_id);
+            state->removeInTransition(transition_id);
             transition_found = true;
         }
-        if(node->isInOutTransitions(transition_id))
+        if(state->isInOutTransitions(transition_id))
         {
-            node->removeOutTransition(transition_id);
+            state->removeOutTransition(transition_id);
             transition_found = true;
         }
     }
@@ -217,12 +217,12 @@ std::string StateChart::toFSMCode()
 
     code << "states: " << std::endl;
     first = true;
-    for(auto& node: nodes)
+    for(auto& state: states)
     {
         if(!first)
             code << "," << std::endl;
         code << indent << indent;
-        code << node->getName();
+        code << state->getName();
         first = false;
     }
     code << ";" << std::endl;
@@ -246,18 +246,18 @@ std::string StateChart::toFSMCode()
     code << indent;
     code << "trans: " << std::endl;
     first = true;
-    for(auto& node: nodes)
+    for(auto& state: states)
     {
-        for(auto& transition: node->getOutTransitions())
+        for(auto& transition: state->getOutTransitions())
         {
             if(!first)
                 code << "," << std::endl;
             code << indent << indent;
-            code << transition->getStartingNode().getName() << " -- ";
+            code << transition->getStartingState().getName() << " -- ";
             code << transition->getCondition() << " | ";
             if(transition->hasAction())
                 code << transition->getAction() << " ";
-            code << "-> " << transition->getEndNode().getName();
+            code << "-> " << transition->getEndState().getName();
         }
     }
     code << ";" << std::endl;
@@ -267,20 +267,20 @@ std::string StateChart::toFSMCode()
     code << indent << indent;
     if(initial_action != "")
         code << "| " << initial_action << " ";
-    code << "-> " << nodes[initial_node_id]->getName() << ";" << std::endl;
+    code << "-> " << states[initial_state_id]->getName() << ";" << std::endl;
     
     code << "}";
 
     return code.str();
 }
 
-unsigned int StateChart::findNodeIndex(int node_id) const
+unsigned int StateChart::findStateIndex(int state_id) const
 {
-    if (node_id < 0)
+    if (state_id < 0)
         throw std::invalid_argument("Id must be positive");
 
     unsigned int index = 0;
-    while (index < nodes.size() && nodes[index]->getId() != (unsigned)node_id)
+    while (index < states.size() && states[index]->getId() != (unsigned)state_id)
     {
         index++;
     }

@@ -16,8 +16,8 @@ class StateChart
         std::vector<Variable*> inout_variables;
         std::vector<Variable*> intern_variables;
 
-        std::vector<State *> nodes;
-        int initial_node_id;
+        std::vector<State *> states;
+        int initial_state_id;
         std::string initial_action;
 
     public:
@@ -36,23 +36,23 @@ class StateChart
         void addInoutVariable();
         void addInternVariable();
                 
-        const State& getNode(int node_id) const;
-        bool nodeExists(int node_id);
+        const State& getState(int state_id) const;
+        bool stateExists(int state_id);
 
-        unsigned int addNode(const char* name);
-        unsigned int addNode(std::string name);
-        unsigned int addTransition(int starting_node_id, int end_node_id, std::string condition, std::string action);
+        unsigned int addState(const char* name);
+        unsigned int addState(std::string name);
+        unsigned int addTransition(int starting_state_id, int end_state_id, std::string condition, std::string action);
 
-        void setInitialNode(int node_id);
+        void setInitialState(int state_id);
         void setInitialAction(std::string action);
 
-        void deleteNode(int node_id);
+        void deleteState(int state_id);
         void deleteTransition(int transition_id);
 
         std::string toFSMCode();
         
     private:
-        unsigned int findNodeIndex(int node_id) const;
+        unsigned int findStateIndex(int state_id) const;
 };
 
 #endif

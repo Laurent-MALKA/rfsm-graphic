@@ -2,11 +2,11 @@
 #include "State.hpp"
 #include "Transition.hpp"
 
-unsigned int State::nodes_counter = 0;
+unsigned int State::states_counter = 0;
 
 State::State()
 {
-    id = nodes_counter++;
+    id = states_counter++;
 }
 
 unsigned int State::getId() const
@@ -67,7 +67,7 @@ void State::removeInTransition(int id)
     unsigned int index = findInTransition(id);
     if((unsigned)index == in_transitions.size())
         throw std::invalid_argument("Transition id not found");
-    
+
     //Handle transition destruction
     in_transitions.erase(in_transitions.begin() + index);
 }
@@ -77,7 +77,7 @@ void State::removeOutTransition(int id)
     unsigned int index = findOutTransition(id);
     if((unsigned)index == out_transitions.size())
         throw std::invalid_argument("Transition id not found");
-    
+
     //Handle transition destruction
     out_transitions.erase(out_transitions.begin() + index);
 }

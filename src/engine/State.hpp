@@ -9,7 +9,7 @@ class Transition;
 class State
 {
     private:
-        static unsigned int nodes_counter;
+        static unsigned int states_counter;
         unsigned int id;
         std::string name;
         std::vector<Transition *> in_transitions;

@@ -6,44 +6,44 @@ TEST_CASE("stateChart")
 {
     StateChart sc;
 
-    unsigned int node1_id = sc.addNode("E1");
-    unsigned int node2_id = sc.addNode("E2");
+    unsigned int state1_id = sc.addState("E1");
+    unsigned int state2_id = sc.addState("E2");
     std::string condition = "condition1";
     std::string action = "action1";
 
-    unsigned int transition_id = sc.addTransition(node1_id, node2_id, condition, action);
-    sc.setInitialNode(0);
+    unsigned int transition_id = sc.addTransition(state1_id, state2_id, condition, action);
+    sc.setInitialState(0);
 
     SECTION("stateChart.initialisation1")
     {
-        REQUIRE(sc.getNode(node1_id).getInTransitions().empty());
-        REQUIRE(!sc.getNode(node1_id).getOutTransitions().empty());
-        REQUIRE(!sc.getNode(node2_id).getInTransitions().empty());
-        REQUIRE(sc.getNode(node2_id).getOutTransitions().empty());
+        REQUIRE(sc.getState(state1_id).getInTransitions().empty());
+        REQUIRE(!sc.getState(state1_id).getOutTransitions().empty());
+        REQUIRE(!sc.getState(state2_id).getInTransitions().empty());
+        REQUIRE(sc.getState(state2_id).getOutTransitions().empty());
 
-        REQUIRE(sc.getNode(node1_id).getOutTransition(transition_id).getEndNodeId() == node2_id);
-        REQUIRE(sc.getNode(node2_id).getInTransition(transition_id).getStartingNodeId() == node1_id);
+        REQUIRE(sc.getState(state1_id).getOutTransition(transition_id).getEndStateId() == state2_id);
+        REQUIRE(sc.getState(state2_id).getInTransition(transition_id).getStartingStateId() == state1_id);
 
     }
 
     SECTION("stateChart.deletion1")
     {
         REQUIRE_NOTHROW(sc.deleteTransition(transition_id));
-        REQUIRE(sc.getNode(node1_id).getInTransitions().empty());
-        REQUIRE(sc.getNode(node1_id).getOutTransitions().empty());
-        REQUIRE(sc.getNode(node2_id).getInTransitions().empty());
-        REQUIRE(sc.getNode(node2_id).getOutTransitions().empty());
-        REQUIRE_NOTHROW(sc.deleteNode(node1_id));
-        REQUIRE_NOTHROW(sc.deleteNode(node2_id));
+        REQUIRE(sc.getState(state1_id).getInTransitions().empty());
+        REQUIRE(sc.getState(state1_id).getOutTransitions().empty());
+        REQUIRE(sc.getState(state2_id).getInTransitions().empty());
+        REQUIRE(sc.getState(state2_id).getOutTransitions().empty());
+        REQUIRE_NOTHROW(sc.deleteState(state1_id));
+        REQUIRE_NOTHROW(sc.deleteState(state2_id));
     }
 
     SECTION("stateChart.deletion2")
     {
-        REQUIRE_NOTHROW(sc.deleteNode(node1_id));
-        REQUIRE(sc.getNode(node2_id).getInTransitions().empty());
-        REQUIRE(sc.getNode(node2_id).getOutTransitions().empty());
+        REQUIRE_NOTHROW(sc.deleteState(state1_id));
+        REQUIRE(sc.getState(state2_id).getInTransitions().empty());
+        REQUIRE(sc.getState(state2_id).getOutTransitions().empty());
         REQUIRE_THROWS_AS(sc.deleteTransition(transition_id), std::invalid_argument);
-        REQUIRE_NOTHROW(sc.deleteNode(node2_id));
+        REQUIRE_NOTHROW(sc.deleteState(state2_id));
     }
 
     /*SECTION("stateChart.codeGeneration")

@@ -28,7 +28,7 @@ set(TARGET_SOURCE
         src/main.cpp)
 
 set(TEST_SOURCES
-        test/nodeTest.cpp  
+        test/stateTest.cpp  
         test/stateChartTest.cpp  
         test/tests.cpp  
         test/transitionTest.cpp  
