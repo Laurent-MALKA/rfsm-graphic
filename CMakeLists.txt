@@ -9,13 +9,16 @@ set(CMAKE_AUTOMOC ON)
 # Create code from a list of Qt designer ui files
 set(CMAKE_AUTOUIC ON)
 
+# Require C++ version
+set(CMAKE_CXX_STANDARD 11)
+
 # Find the QtWidgets library
 find_package(Qt5Widgets CONFIG REQUIRED)
 
 # Populate a CMake variable with the sources
 set(COMMON_SOURCES
         src/Config.cpp  
-        src/MainWindow.cpp
+        src/gui/MainWindow.cpp
         src/engine/Node.cpp
         src/engine/StateChart.cpp
         src/engine/Transition.cpp

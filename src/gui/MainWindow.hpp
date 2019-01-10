@@ -1,9 +1,12 @@
 #ifndef RFSM_GRAPHIC_MAINWINDOW_HPP
 #define RFSM_GRAPHIC_MAINWINDOW_HPP
 
+#include <string>
+
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QFrame>
+#include <QPushButton>
 
 class MainWindow : public QMainWindow
 {
@@ -43,6 +46,7 @@ public:
 private:
     void createCentralWidget();
     void createMenu();
+    QPushButton* createPushButton(std::string label, std::string icon_path);
     void createToolBar();
     void createCanevas();
     void createPropertiesPanel();
