@@ -10,17 +10,37 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 # Find the QtWidgets library
-#find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Widgets CONFIG REQUIRED)
 
 # Populate a CMake variable with the sources
-set(SOURCES
-        src/main.cpp
-        src/MainWindow.cpp src/MainWindow.hpp)
+set(COMMON_SOURCES
+        src/Config.cpp  
+        src/MainWindow.cpp
+        src/engine/Node.cpp
+        src/engine/StateChart.cpp
+        src/engine/Transition.cpp
+        src/engine/Variable.cpp)
+
+set(TARGET_SOURCE
+        src/main.cpp)
+
+set(TEST_SOURCES
+        test/nodeTest.cpp  
+        test/stateChartTest.cpp  
+        test/tests.cpp  
+        test/transitionTest.cpp  
+        test/variableTest.cpp)
+
 # Tell CMake to create the helloworld executable
-add_executable(RFSM_Graphic ${SOURCES})
+add_executable(app ${COMMON_SOURCES} ${TARGET_SOURCE})
+add_executable(tests ${COMMON_SOURCES} ${TEST_SOURCES})
 # Use the Widgets module from Qt 5
-target_link_libraries(RFSM_Graphic
+target_link_libraries(app
+        Qt5::Core
+        Qt5::Widgets
+        Qt5::Gui)
+
+target_link_libraries(tests
         Qt5::Core
         Qt5::Widgets
         Qt5::Gui)
