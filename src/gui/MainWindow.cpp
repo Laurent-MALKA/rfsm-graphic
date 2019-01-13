@@ -5,6 +5,7 @@
 
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QSignalMapper>
 
 #include "MainWindow.hpp"
 
@@ -14,6 +15,7 @@ MainWindow::MainWindow() : QMainWindow() {
 
     createMenu();
     createCentralWidget();
+    current_tool = new AddStateTool(canvas);
 }
 
 /**
@@ -43,7 +45,7 @@ void MainWindow::createMenu()
  */
 void MainWindow::createCentralWidget()
 {
-    QWidget* central_widget = new QWidget();
+    central_widget = new QWidget();
 
     QHBoxLayout* main_layout = new QHBoxLayout();
 
@@ -105,6 +107,11 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
     layout->addWidget(transition_tool);
 
     tool_bar->setLayout(layout);
+
+    //connect events
+    connect(select_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::select); });
+    connect(state_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::state); });
+    connect(transition_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::transition); });
 }
 
 void MainWindow::createCanvas()
@@ -154,3 +161,20 @@ void MainWindow::undo() {}
  * Redo the last command
  */
 void MainWindow::redo() {}
+
+/**
+ * Set the current tool for the canvas
+ */
+void MainWindow::setCurrentTool(ToolEnum tool)
+{
+    switch(tool)
+    {
+        case ToolEnum::select:
+            break;
+        case ToolEnum::state:
+            break;
+        case ToolEnum::transition:
+            break;
+    }
+    central_widget->setCursor(current_tool->getCursor());
+}

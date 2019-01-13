@@ -18,7 +18,6 @@ class Canvas : public QFrame
   public:
     void addState(std::string name, int posX, int posY);
     //void addEdge(/* NODE infos */);
-
 };
 
 #endif

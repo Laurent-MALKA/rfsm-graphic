@@ -9,6 +9,10 @@
 #include <QPushButton>
 
 #include "Canvas.hpp"
+#include "Tool.hpp"
+#include "AddStateTool.hpp"
+
+enum class ToolEnum {select, state, transition};
 
 class MainWindow : public QMainWindow
 {
@@ -29,9 +33,12 @@ private:
     QMenu* help_menu;
         QAction* about_action;
 
+    QWidget *central_widget;
     QFrame *tool_bar;
     Canvas *canvas;
     QFrame *properties_panel;
+
+    Tool* current_tool;
 
 public slots:
     void newFile();
@@ -41,6 +48,7 @@ public slots:
     void exportContent();
     void undo();
     void redo();
+    void setCurrentTool(ToolEnum tool);
 
 public:
     MainWindow();

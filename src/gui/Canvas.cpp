@@ -1,6 +1,6 @@
 #include "Canvas.hpp"
-
 #include "../engine/State.hpp"
+#include "../gui/StateUI.hpp"
 
 /**
  * Create a state in the state charts and display it

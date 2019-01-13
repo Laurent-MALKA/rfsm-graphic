@@ -21,6 +21,8 @@ set(COMMON_SOURCES
         src/gui/MainWindow.cpp
         src/gui/Canvas.cpp
         src/gui/StateUI.cpp
+        src/gui/Tool.cpp
+        src/gui/AddStateTool.cpp
         src/engine/State.cpp
         src/engine/StateChart.cpp
         src/engine/Transition.cpp
