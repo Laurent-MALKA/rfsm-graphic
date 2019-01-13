@@ -7,7 +7,6 @@
 #include <QPushButton>
 
 #include "MainWindow.hpp"
-//#include "Canvas.hpp"
 
 MainWindow::MainWindow() : QMainWindow() {
     setWindowTitle("RFSM Graphic");
@@ -53,8 +52,8 @@ void MainWindow::createCentralWidget()
 
     createToolBar();
     main_layout->addWidget(tool_bar);
-    createCanevas();
-    main_layout->addWidget(canevas);
+    createCanvas();
+    main_layout->addWidget(canvas);
     createPropertiesPanel();
     main_layout->addWidget(properties_panel);
 
@@ -72,9 +71,9 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
 
     QPushButton* button = new QPushButton;
     button->setToolTip(label.c_str());
-    button->setStyleSheet("border:none; padding:0; margin:0;");
     button->setIcon(QIcon(icon_path.c_str()));
     button->setMinimumSize(32,32);
+    button->setFlat(true);
 
     return button;
 }
@@ -86,12 +85,14 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
 {
      // Create the tool_bar
     tool_bar = new QFrame();
+    tool_bar->setStyleSheet("background-color: grey");
     tool_bar->setFixedWidth(32);
-    tool_bar->setStyleSheet("background:#2c3e50; padding:0");
 
     // Init the layout of the tool_bar
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setAlignment(Qt::AlignTop);
+    layout->setSpacing(8);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     // Create all buttons
     QPushButton* select_tool = createPushButton("Sélection", "../assets/select.svg");
@@ -106,17 +107,17 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
     tool_bar->setLayout(layout);
 }
 
-void MainWindow::createCanevas()
+void MainWindow::createCanvas()
 {
-    //canevas = new Canvas();
-    canevas = new QFrame();
-    canevas->setStyleSheet("background:#ecf0f1");
+    canvas = new Canvas();
+    canvas->addState("state1", 100, 100);
 }
 
 void MainWindow::createPropertiesPanel()
 {
     properties_panel = new QFrame();
-    properties_panel->setStyleSheet("background:#2c3e50");
+    properties_panel->setFixedWidth(64);
+    properties_panel->setStyleSheet("background: grey");
 }
 
 /**

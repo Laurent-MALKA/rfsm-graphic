@@ -37,6 +37,7 @@ class StateChart
         void addInternVariable();
                 
         const State& getState(int state_id) const;
+        State& getState(int state_id);
         bool stateExists(int state_id);
 
         unsigned int addState(const char* name);

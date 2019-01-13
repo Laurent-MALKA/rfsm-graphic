@@ -8,6 +8,8 @@
 #include <QFrame>
 #include <QPushButton>
 
+#include "Canvas.hpp"
+
 class MainWindow : public QMainWindow
 {
 
@@ -28,7 +30,7 @@ private:
         QAction* about_action;
 
     QFrame *tool_bar;
-    QFrame *canevas;
+    Canvas *canvas;
     QFrame *properties_panel;
 
 public slots:
@@ -48,7 +50,7 @@ private:
     void createMenu();
     QPushButton* createPushButton(std::string label, std::string icon_path);
     void createToolBar();
-    void createCanevas();
+    void createCanvas();
     void createPropertiesPanel();
 
 };

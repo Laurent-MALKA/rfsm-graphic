@@ -63,7 +63,16 @@ const State& StateChart::getState(int state_id) const
     unsigned int index = findStateIndex(state_id);
     if(index == states.size())
         throw std::invalid_argument("Invalid state id");
-    
+
+    return *states[index];
+}
+
+State& StateChart::getState(int state_id)
+{
+    unsigned int index = findStateIndex(state_id);
+    if(index == states.size())
+        throw std::invalid_argument("Invalid state id");
+
     return *states[index];
 }
 
@@ -94,10 +103,10 @@ unsigned int StateChart::addTransition(int starting_state_id, int end_state_id, 
 {
     unsigned int starting_state_index = findStateIndex(starting_state_id);
     unsigned int end_state_index = findStateIndex(end_state_id);
-    
+
     if(starting_state_index == states.size())
         throw std::invalid_argument("Invalid starting state id");
-    
+
     if(end_state_index == states.size())
         throw std::invalid_argument("Invalid end state id");
 
@@ -131,7 +140,7 @@ void StateChart::deleteState(int state_id)
         throw std::invalid_argument("Invalid state id");
 
     State* state = states[state_index];
-    
+
     for(auto& out_transition: state->getOutTransitions())
     {
         unsigned int end_state_index = findStateIndex(out_transition->getEndState().getId());
@@ -226,7 +235,7 @@ std::string StateChart::toFSMCode()
         first = false;
     }
     code << ";" << std::endl;
-    
+
     if(intern_variables.size() != 0)
     {
         code << indent;
@@ -268,7 +277,7 @@ std::string StateChart::toFSMCode()
     if(initial_action != "")
         code << "| " << initial_action << " ";
     code << "-> " << states[initial_state_id]->getName() << ";" << std::endl;
-    
+
     code << "}";
 
     return code.str();
