@@ -95,11 +95,11 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
     layout->setContentsMargins(0, 0, 0, 0);
 
     // Create all buttons
-    QPushButton* select_tool = createPushButton("Sélection", "../assets/select.svg");
-    QPushButton* init_state_tool = createPushButton("Etat initial", "../assets/init_state.svg");
-    QPushButton* state_tool = createPushButton("Etat", "../assets/state.svg");
+    QPushButton* select_tool = createPushButton("Selection", "../assets/select.svg");
+    QPushButton* init_state_tool = createPushButton("Initial State", "../assets/init_state.svg");
+    QPushButton* state_tool = createPushButton("State", "../assets/state.svg");
     QPushButton* transition_tool = createPushButton("Transition", "../assets/transition.svg");
-    QPushButton* delete_tool = createPushButton("Supprimer", "../assets/delete.svg");
+    QPushButton* delete_tool = createPushButton("Delete", "../assets/delete.svg");
 
     // Bind button to the layout
     layout->addWidget(select_tool);

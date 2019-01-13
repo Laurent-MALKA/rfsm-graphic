@@ -1,8 +1,7 @@
+#include <numeric>
+
 #include "Canvas.hpp"
-
 #include "../engine/State.hpp"
-
-#include <iostream>
 
 /**
  * Create a state in the state charts and display it
@@ -21,7 +20,7 @@ StateUI* Canvas::addState(std::string name, float posX, float posY)
  */
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
-    StateUI* state = this->addState("name", event->x(), event->y());
+    StateUI* state = this->addState(std::string("state_") + std::to_string(states.size()), event->x(), event->y());
     state->move(state->x() - state->width()/2, state->y() - state->height()/2);
     state->show();
 }
