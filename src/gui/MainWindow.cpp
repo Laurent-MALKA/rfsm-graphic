@@ -111,6 +111,8 @@ void MainWindow::createCanvas()
 {
     canvas = new Canvas();
     canvas->addState("state1", 100, 100);
+    canvas->addState("state2", 100, 200);
+    canvas->addState("state3", 200, 300);
 }
 
 void MainWindow::createPropertiesPanel()

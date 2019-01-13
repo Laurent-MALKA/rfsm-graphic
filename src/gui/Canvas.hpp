@@ -14,9 +14,8 @@ class Canvas : public QFrame
     StateChart state_chart;
     std::vector<StateUI*> states;
     
-  
   public:
-    void addState(std::string name, int posX, int posY);
+    void addState(std::string name, float posX, float posY);
     //void addEdge(/* NODE infos */);
 
 };
