@@ -32,6 +32,7 @@ void StateUI::paintEvent(QPaintEvent*)
     painter.setRenderHint(QPainter::Antialiasing, true);
     QPen pen(Qt::black, borderSize);
     painter.setPen(pen);
+    painter.setBrush(Qt::white);
 
     QRectF rect(0, 0, width(), height());
     painter.drawRoundedRect(rect, 10, 10);

@@ -15,9 +15,10 @@ class Canvas : public QFrame
     std::vector<StateUI*> states;
     
   public:
-    void addState(std::string name, float posX, float posY);
+    StateUI* addState(std::string name, float posX, float posY);
     //void addEdge(/* NODE infos */);
 
+    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif
