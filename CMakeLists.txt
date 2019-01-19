@@ -24,7 +24,8 @@ set(COMMON_SOURCES
         src/engine/State.cpp
         src/engine/StateChart.cpp
         src/engine/Transition.cpp
-        src/engine/Variable.cpp)
+        src/engine/Variable.cpp
+        src/engine/InputVariable.cpp)
 
 set(TARGET_SOURCE
         src/main.cpp)

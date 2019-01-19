@@ -5,13 +5,14 @@
 #include "State.hpp"
 #include "Transition.hpp"
 #include "Variable.hpp"
+#include "InputVariable.hpp"
 
 class StateChart
 {
     private:
         std::string name;
         
-        std::vector<Variable*> in_variables;
+        std::vector<InputVariable*> in_variables;
         std::vector<Variable*> out_variables;
         std::vector<Variable*> inout_variables;
         std::vector<Variable*> intern_variables;
@@ -25,8 +26,9 @@ class StateChart
         ~StateChart();
 
         std::string getName() const;
+        void setName(std::string name);
 
-        std::vector<Variable*> getInVariables();
+        std::vector<InputVariable*> getInVariables();
         std::vector<Variable*> getOutVariables();
         std::vector<Variable*> getInoutVariables();
         std::vector<Variable*> getInternVariables();
