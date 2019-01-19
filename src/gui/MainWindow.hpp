@@ -7,6 +7,7 @@
 #include <QMenuBar>
 #include <QFrame>
 #include <QPushButton>
+#include <QGroupBox>
 
 #include "Canvas.hpp"
 
@@ -52,6 +53,12 @@ private:
     void createToolBar();
     void createCanvas();
     void createPropertiesPanel();
+    QGroupBox* createTreeView();
+    QGroupBox* createStatePanel();
+    QGroupBox* createTransitionPanel();
+    QGroupBox* createInputVariablePanel();
+    QGroupBox* createOutputVariablePanel();
+    QGroupBox* createInternVariablePanel();
 
 };
 

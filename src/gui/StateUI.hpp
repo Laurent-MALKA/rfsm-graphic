@@ -11,7 +11,7 @@ class StateUI : public QWidget
 {
     private:
         State& state;
-        float borderSize = 4;
+        float borderSize = 1;
 
     public:
         StateUI(QWidget *parent, State& state, float posX, float posY);

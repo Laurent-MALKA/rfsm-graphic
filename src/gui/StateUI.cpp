@@ -29,11 +29,11 @@ StateUI::StateUI(QWidget *parent, State& state, float posX, float posY) :
 void StateUI::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::Antialiasing);
     QPen pen(Qt::black, borderSize);
     painter.setPen(pen);
     painter.setBrush(Qt::white);
 
-    QRectF rect(0, 0, width(), height());
-    painter.drawRoundedRect(rect, 10, 10);
+    QRectF rect(borderSize/2, borderSize/2, width() - 2*borderSize, height() - 2*borderSize);
+    painter.drawRoundedRect(rect, 20, 20);
 }
