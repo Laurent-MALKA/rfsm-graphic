@@ -18,7 +18,17 @@ StateChart::~StateChart()
     }
 }
 
-std::vector<Variable*> StateChart::getInVariables()
+std::string StateChart::getName() const
+{
+    return name;
+}
+
+void StateChart::setName(std::string name)
+{
+    this->name = name;
+}
+
+std::vector<InputVariable*> StateChart::getInVariables()
 {
     return in_variables;
 }
@@ -40,7 +50,7 @@ std::vector<Variable*> StateChart::getInternVariables()
 
 void StateChart::addInVariable()
 {
-    in_variables.push_back(new Variable());
+    in_variables.push_back(new InputVariable());
 }
 
 void StateChart::addOutVariable()
@@ -276,9 +286,60 @@ std::string StateChart::toFSMCode()
     code << indent << indent;
     if(initial_action != "")
         code << "| " << initial_action << " ";
-    code << "-> " << states[initial_state_id]->getName() << ";" << std::endl;
+    code << "-> " << getState(initial_state_id).getName() << ";" << std::endl;
 
-    code << "}";
+    code << "}" << std::endl << std::endl;
+
+    for(auto& var: in_variables)
+    {
+        code << "input " << var->getName() << " : " << var->getType() << " = " << var->getStimuli() << std::endl;
+    }
+
+    for(auto& var: out_variables)
+    {
+        code << "output " << var->getName() << " : " << var->getType() << std::endl;        
+    }
+
+    code << std::endl;
+
+    code << "fsm instance = " << name << "(";
+    if(in_variables.size() + out_variables.size() + inout_variables.size() != 0)
+    {
+        first = true;
+        code << std::endl;
+        for(auto& var: in_variables)
+        {
+            if(!first)
+            {
+                code << "," << std::endl;
+            }
+            code << indent;
+            code << var->getName();
+            first = false;
+        }
+        for(auto& var: out_variables)
+        {
+            if(!first)
+            {
+                code << "," << std::endl;
+            }
+            code << indent;
+            code << var->getName();
+            first = false;
+        }
+        for(auto& var: inout_variables)
+        {
+            if(!first)
+            {
+                code << "," << std::endl;
+            }
+            code << indent;
+            code << var->getName();
+            first = false;
+        }
+    }
+    
+    code << ")";
 
     return code.str();
 }

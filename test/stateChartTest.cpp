@@ -1,10 +1,11 @@
 #include "../includes/catch.hpp"
 #include "../src/engine/StateChart.hpp"
-//#include <stdexcept>
+#include <iostream>
 
 TEST_CASE("stateChart")
 {
     StateChart sc;
+    sc.setName("test");
 
     unsigned int state1_id = sc.addState("E1");
     unsigned int state2_id = sc.addState("E2");
@@ -12,7 +13,7 @@ TEST_CASE("stateChart")
     std::string action = "action1";
 
     unsigned int transition_id = sc.addTransition(state1_id, state2_id, condition, action);
-    sc.setInitialState(0);
+    sc.setInitialState(state1_id);
 
     SECTION("stateChart.initialisation1")
     {
@@ -46,8 +47,17 @@ TEST_CASE("stateChart")
         REQUIRE_NOTHROW(sc.deleteState(state2_id));
     }
 
-    /*SECTION("stateChart.codeGeneration")
+    sc.addInVariable();
+    auto vars = sc.getInVariables();
+    vars[0]->setStimuli("periodic(10,10,100)");
+    sc.addOutVariable();
+
+    std::cout << sc.toFSMCode();
+    /*
+    //TODO test code generation
+    SECTION("stateChart.codeGeneration")
     {
         REQUIRE(sc.toFSMCode() == "...");
-    }*/
+    }
+    */
 }

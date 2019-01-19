@@ -8,7 +8,7 @@ class AddStateTool : public Tool
     public:
         AddStateTool(Canvas* canvas);
         ~AddStateTool();
-        void act();
+        void act(QMouseEvent *event);
 
         QCursor& getCursor() const;
 

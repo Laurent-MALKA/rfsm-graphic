@@ -8,6 +8,7 @@
 #include <QSignalMapper>
 
 #include "MainWindow.hpp"
+#include "Tools.hpp"
 
 MainWindow::MainWindow() : QMainWindow() {
     setWindowTitle("RFSM Graphic");
@@ -15,7 +16,23 @@ MainWindow::MainWindow() : QMainWindow() {
 
     createMenu();
     createCentralWidget();
-    current_tool = new AddStateTool(canvas);
+    //tools[ToolEnum::select] = new SelectTool(canvas);
+    tools[ToolEnum::add_state] = new AddStateTool(canvas);
+    // tools[ToolEnum::set_initial_state] = new SetInitialStateTool(canvas);
+    // tools[ToolEnum::add_transition] = new AddTransitionTool(canvas);
+    // tools[ToolEnum::deletion] = new DeletionTool(canvas);
+    setCurrentTool(ToolEnum::add_state);
+}
+
+// Tool* MainWindow::getCurrentTool() const
+// {
+//     return current_tool;
+// }
+
+void MainWindow::setCurrentTool(Tool* tool)
+{
+    current_tool = tool;
+    canvas->setCurrentTool(tool);
 }
 
 /**
@@ -97,27 +114,32 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
     layout->setContentsMargins(0, 0, 0, 0);
 
     // Create all buttons
-    QPushButton* select_tool = createPushButton("Sélection", "../assets/select.svg");
-    QPushButton* state_tool = createPushButton("Etat", "../assets/state.svg");
-    QPushButton* transition_tool = createPushButton("Transition", "../assets/transition.svg");
+    QPushButton* select_tool = createPushButton("Selection", "../assets/select.svg");
+    QPushButton* set_initial_state_tool = createPushButton("Initial State", "../assets/init_state.svg");
+    QPushButton* add_state_tool = createPushButton("State", "../assets/state.svg");
+    QPushButton* add_transition_tool = createPushButton("Transition", "../assets/transition.svg");
+    QPushButton* deletion_tool = createPushButton("Delete", "../assets/delete.svg");
 
     // Bind button to the layout
     layout->addWidget(select_tool);
-    layout->addWidget(state_tool);
-    layout->addWidget(transition_tool);
+    layout->addWidget(set_initial_state_tool);
+    layout->addWidget(add_state_tool);
+    layout->addWidget(add_transition_tool);
+    layout->addWidget(deletion_tool);
 
     tool_bar->setLayout(layout);
 
     //connect events
-    connect(select_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::select); });
-    connect(state_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::state); });
-    connect(transition_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::transition); });
+    //connect(select_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::select); });
+    //connect(initial_state_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::set_initial_state); });
+    connect(add_state_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::add_state); });
+    //connect(add_transition_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::add_transition); });
+    //connect(deletion_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::deletion); });
 }
 
 void MainWindow::createCanvas()
 {
-    canvas = new Canvas();
-    canvas->addState("state1", 100, 100);
+    canvas = new Canvas(this);
 }
 
 void MainWindow::createPropertiesPanel()
@@ -167,14 +189,6 @@ void MainWindow::redo() {}
  */
 void MainWindow::setCurrentTool(ToolEnum tool)
 {
-    switch(tool)
-    {
-        case ToolEnum::select:
-            break;
-        case ToolEnum::state:
-            break;
-        case ToolEnum::transition:
-            break;
-    }
+    setCurrentTool(tools[tool]);
     central_widget->setCursor(current_tool->getCursor());
 }

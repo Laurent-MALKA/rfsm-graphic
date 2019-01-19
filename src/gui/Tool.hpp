@@ -4,8 +4,9 @@
 #include <string>
 
 #include <QCursor>
+#include <QMouseEvent>
 
-#include "Canvas.hpp"
+class Canvas;
 
 class Tool
 {
@@ -17,7 +18,7 @@ class Tool
         Tool(Canvas* canvas);
         virtual ~Tool();
 
-        virtual void act() = 0;
+        virtual void act(QMouseEvent *event) = 0;
         void setCursor(std::string path_to_file);
         QCursor& getCursor() const;
 

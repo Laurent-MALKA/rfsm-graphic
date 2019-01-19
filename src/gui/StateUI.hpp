@@ -11,11 +11,11 @@ class StateUI : public QWidget
 {
     private:
         State& state;
-        int posX;
-        int posY;
+        float borderSize = 1;
 
     public:
-        StateUI(QWidget *parent, State& state, int posX, int posY);
+        StateUI(QWidget *parent, State& state, float posX, float posY);
+
         void paintEvent(QPaintEvent*);
 
 };

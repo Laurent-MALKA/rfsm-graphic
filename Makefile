@@ -13,7 +13,7 @@ all: ## Compile the app
 run: all ## Run the app
 	@cd build &&	./app
 
-test: build ## Run the tests
+test: all ## Run the tests
 	@cd build && ./tests
 
 clean:

@@ -2,6 +2,7 @@
 #define RFSM_GRAPHIC_MAINWINDOW_HPP
 
 #include <string>
+#include <map>
 
 #include <QMainWindow>
 #include <QMenuBar>
@@ -9,10 +10,11 @@
 #include <QPushButton>
 
 #include "Canvas.hpp"
-#include "Tool.hpp"
-#include "AddStateTool.hpp"
 
-enum class ToolEnum {select, state, transition};
+
+class Tool;
+
+enum class ToolEnum {select, initial_state, add_state, add_transition, deletion};
 
 class MainWindow : public QMainWindow
 {
@@ -39,6 +41,7 @@ private:
     QFrame *properties_panel;
 
     Tool* current_tool;
+    std::map<ToolEnum, Tool*> tools;
 
 public slots:
     void newFile();
@@ -52,6 +55,9 @@ public slots:
 
 public:
     MainWindow();
+
+    //Tool* getCurrentTool() const;
+    void setCurrentTool(Tool* tool);
 
 private:
     void createCentralWidget();

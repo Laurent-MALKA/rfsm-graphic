@@ -1,4 +1,5 @@
 #include "Tool.hpp"
+#include "Canvas.hpp"
 
 Tool::Tool(Canvas* canvas): canvas(canvas) {}
 
