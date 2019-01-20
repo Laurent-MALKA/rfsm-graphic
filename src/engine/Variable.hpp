@@ -7,14 +7,14 @@
 class Variable
 {
     public:
-        static std::vector<std::string> Type;
+        static std::vector<std::string> Types;
 
     protected:
         int type_index;
         std::string name;
 
     public:
-        Variable();
+        Variable(std::string name, int type_index = 0);
         
         std::string getType() const;
         std::string getName() const;

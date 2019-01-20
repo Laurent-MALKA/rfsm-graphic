@@ -1,15 +1,15 @@
 #include <stdexcept>
 #include "Variable.hpp"
 
-std::vector<std::string> Variable::Type = {"bool", "int", "float", "event"};
+std::vector<std::string> Variable::Types = {"bool", "int", "float"};
 
-Variable::Variable():type_index(0), name("var")
+Variable::Variable(std::string name, int type_index):type_index(0), name(name)
 {
 }
 
 std::string Variable::getType() const
 {
-    return Type[type_index];
+    return Types[type_index];
 }
 
 std::string Variable::getName() const
@@ -19,7 +19,7 @@ std::string Variable::getName() const
 
 void Variable::setType(int type_index)
 {
-    if(0 > type_index || (unsigned)type_index >= Type.size())
+    if(0 > type_index || (unsigned)type_index >= Types.size())
         throw std::invalid_argument("Invalid type index");
 
     this->type_index = type_index;
@@ -28,10 +28,10 @@ void Variable::setType(int type_index)
 void Variable::setType(std::string type)
 {
     unsigned int index = 0;
-    while(index < Type.size() && Type[index] != type)
+    while(index < Types.size() && Types[index] != type)
         index++;
 
-    if(index == Type.size())
+    if(index == Types.size())
         throw std::invalid_argument("Invalid type name");
 
     setType(index);

@@ -48,24 +48,162 @@ std::vector<Variable*> StateChart::getInternVariables()
     return intern_variables;
 }
 
-void StateChart::addInVariable()
+int StateChart::addInVariable()
 {
-    in_variables.push_back(new InputVariable());
+    std::string name = "in_var_" + std::to_string(in_variables.size());
+    in_variables.push_back(new InputVariable(name));
+    return in_variables.size() - 1;
 }
 
-void StateChart::addOutVariable()
+int StateChart::addOutVariable()
 {
-    out_variables.push_back(new Variable());
+    std::string name = "out_var_" + std::to_string(out_variables.size());
+    out_variables.push_back(new Variable(name));
+    return out_variables.size() - 1;
 }
 
-void StateChart::addInoutVariable()
+int StateChart::addInoutVariable()
 {
-    inout_variables.push_back(new Variable());
+    std::string name = "inout_var_" + std::to_string(inout_variables.size());
+    inout_variables.push_back(new Variable(name));
+    return inout_variables.size() - 1;
 }
 
-void StateChart::addInternVariable()
+int StateChart::addInternVariable()
 {
-    intern_variables.push_back(new Variable());
+    std::string name = "intern_var_" + std::to_string(in_variables.size());
+    intern_variables.push_back(new Variable(name));
+    return intern_variables.size() - 1;
+}
+
+const InputVariable* StateChart::getInVariable(int index) const
+{
+    if(0 <= index && index < in_variables.size())
+    {
+        return in_variables[index];
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+const Variable* StateChart::getOutVariable(int index) const
+{
+    if(0 <= index && index < out_variables.size())
+    {
+        return out_variables[index];
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+const Variable* StateChart::getInoutVariable(int index) const
+{
+    if(0 <= index && index < inout_variables.size())
+    {
+        return inout_variables[index];
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+const Variable* StateChart::getInternVariable(int index) const
+{
+    if(0 <= index && index < intern_variables.size())
+    {
+        return intern_variables[index];
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setInVariableName(int index, std::string name)
+{
+    if(0 <= index && index < in_variables.size())
+    {
+        in_variables[index]->setName(name);
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setOutVariableName(int index, std::string name)
+{
+    if(0 <= index && index < out_variables.size())
+    {
+        out_variables[index]->setName(name);
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setInoutVariableName(int index, std::string name)
+{
+    if(0 <= index && index < inout_variables.size())
+    {
+        inout_variables[index]->setName(name);
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setInternVariableName(int index, std::string name)
+{
+    if(0 <= index && index < intern_variables.size())
+    {
+        intern_variables[index]->setName(name);
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setInVariableType(int index, std::string type)
+{
+    if(0 <= index && index < in_variables.size())
+    {
+        in_variables[index]->setType(type);
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setOutVariableType(int index, std::string type)
+{
+    if(0 <= index && index < out_variables.size())
+    {
+        out_variables[index]->setType(type);
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setInoutVariableType(int index, std::string type)
+{
+    if(0 <= index && index < inout_variables.size())
+    {
+        inout_variables[index]->setType(type);
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setInternVariableType(int index, std::string type)
+{
+    if(0 <= index && index < intern_variables.size())
+    {
+        intern_variables[index]->setType(type);
+    }
+    else
+        throw std::out_of_range("invalid index");
+}
+
+void StateChart::setInVariableStimuli(int index, std::string stimuli)
+{
+    if(0 <= index && index < in_variables.size())
+    {
+        in_variables[index]->setStimuli(stimuli);
+    }
+    else
+        throw std::out_of_range("invalid index");
 }
 
 const State& StateChart::getState(int state_id) const
@@ -273,10 +411,13 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             code << indent << indent;
             code << transition->getStartingState().getName() << " -- ";
-            code << transition->getCondition() << " | ";
+            code << transition->getCondition();
             if(transition->hasAction())
-                code << transition->getAction() << " ";
-            code << "-> " << transition->getEndState().getName();
+            {
+                code << " | ";
+                code << transition->getAction();
+            }
+            code << " -> " << transition->getEndState().getName();
         }
     }
     code << ";" << std::endl;

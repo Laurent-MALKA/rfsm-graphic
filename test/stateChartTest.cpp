@@ -9,8 +9,8 @@ TEST_CASE("stateChart")
 
     unsigned int state1_id = sc.addState("E1");
     unsigned int state2_id = sc.addState("E2");
-    std::string condition = "condition1";
-    std::string action = "action1";
+    std::string condition = "in_var_0";
+    std::string action = "";
 
     unsigned int transition_id = sc.addTransition(state1_id, state2_id, condition, action);
     sc.setInitialState(state1_id);
@@ -47,17 +47,15 @@ TEST_CASE("stateChart")
         REQUIRE_NOTHROW(sc.deleteState(state2_id));
     }
 
-    sc.addInVariable();
-    auto vars = sc.getInVariables();
-    vars[0]->setStimuli("periodic(10,10,100)");
-    sc.addOutVariable();
-
-    std::cout << sc.toFSMCode();
-    /*
     //TODO test code generation
     SECTION("stateChart.codeGeneration")
     {
+        
+        sc.addInVariable();
+        auto vars = sc.getInVariables();
+        vars[0]->setStimuli("periodic(10,10,100)");
+        sc.addOutVariable();
+        //std::cout << sc.toFSMCode();
         REQUIRE(sc.toFSMCode() == "...");
     }
-    */
 }

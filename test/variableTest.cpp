@@ -3,12 +3,12 @@
 
 TEST_CASE("variable")
 {
-    Variable var;
+    Variable var("var");
 
     SECTION("variable.initialisation")
     {
-        REQUIRE_NOTHROW(var.setType("event"));
-        REQUIRE(var.getType() == "event");
+        REQUIRE_NOTHROW(var.setType("bool"));
+        REQUIRE(var.getType() == "bool");
         
         REQUIRE_NOTHROW(var.setType(1));
         

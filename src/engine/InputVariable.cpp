@@ -1,8 +1,10 @@
 #include "InputVariable.hpp"
 
-InputVariable::InputVariable():Variable()
-{
+std::vector<std::string> InputVariable::Types = {"event", "bool", "int", "float"};
 
+InputVariable::InputVariable(std::string name, int type_index, std::string stimuli):Variable(name,type_index), stimuli(stimuli)
+{
+    
 }
 
 std::string InputVariable::getStimuli() const
