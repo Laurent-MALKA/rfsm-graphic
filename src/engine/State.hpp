@@ -20,6 +20,8 @@ class State
         //State(State&); //for copy/pasting
 
         unsigned int getId() const;
+        
+        static unsigned int getStatesCounter();
 
         const Transition& getInTransition(int id) const;
         const Transition& getOutTransition(int id) const;

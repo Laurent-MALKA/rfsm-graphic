@@ -18,10 +18,24 @@ const std::vector<StateUI*> Canvas::getStates() const
  */
 StateUI* Canvas::addState(float posX, float posY)
 {
-    std::string name = std::string("state_") + std::to_string(states.size());
+    std::string name = std::string("state_") + std::to_string(State::getStatesCounter());
     unsigned int id = state_chart.addState(name);
     StateUI* state = new StateUI(this, state_chart.getState(id), posX, posY);
     this->states.push_back(state);
 
     return state;
+}
+
+void Canvas::deleteState(int state_id)
+{
+    auto state = states.begin();
+    
+    for(; state != states.end() && (*state)->getState().getId() != state_id; state++);
+    
+    if(state != states.end())
+    {
+        delete *state;
+        states.erase(state);
+    }
+    state_chart.deleteState(state_id);
 }

@@ -14,6 +14,11 @@ unsigned int State::getId() const
     return id;
 }
 
+unsigned int State::getStatesCounter()
+{
+    return states_counter;
+}
+
 const Transition& State::getInTransition(int id) const
 {
     unsigned int index = findInTransition(id);

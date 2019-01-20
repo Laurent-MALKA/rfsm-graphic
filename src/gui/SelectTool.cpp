@@ -5,7 +5,7 @@
 
 SelectTool::SelectTool(MainWindow* main_window) : Tool(main_window)
 {
-    setCursor("../asset/select.svg");
+    setCursor("../assets/select.svg");
 }
 
 SelectTool::~SelectTool() 
@@ -15,16 +15,16 @@ SelectTool::~SelectTool()
 
 void SelectTool::act(QMouseEvent* event)
 {
-    //TODO parcours des transitions
     Canvas* canvas = main_window->getCanvas();
     QPoint click_pos = canvas->mapFrom(main_window, event->pos());
 
-    QWidget* state = canvas->childAt(click_pos);
-    if(state)
+    QWidget* widget = canvas->childAt(click_pos);
+    if(widget)
     {
-        while(state->parentWidget() != canvas)
-            state = state->parentWidget();
-        std::cout << ((StateUI*)state)->getState().getId() << std::endl;
+        while(widget->parentWidget() != canvas)
+            widget = widget->parentWidget();
+        StateUI* state = (StateUI*)widget;
+        std::cout << state->getState().getId() << std::endl;
     }
         //std::cout << "[" << state->x() << "," << state->y() << "]" << std::endl;
 

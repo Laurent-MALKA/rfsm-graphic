@@ -12,6 +12,9 @@ set(CMAKE_AUTOUIC ON)
 # Require C++ version
 set(CMAKE_CXX_STANDARD 11)
 
+#
+set(CMAKE_BUILD_TYPE Debug)
+
 # Find the QtWidgets library
 find_package(Qt5Widgets CONFIG REQUIRED)
 
@@ -33,6 +36,7 @@ set(TARGET_SOURCE
         src/gui/Tool.cpp
         src/gui/SelectTool.cpp
         src/gui/AddStateTool.cpp
+        src/gui/DeletionTool.cpp
         )
 
 set(TEST_SOURCES

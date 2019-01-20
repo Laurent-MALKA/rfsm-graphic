@@ -18,6 +18,7 @@ class Canvas : public QFrame
 
     const std::vector<StateUI*> getStates() const;
     StateUI* addState(float posX, float posY);
+    void deleteState(int state_id);
     
     //void addEdge(/* NODE infos */);
 };
