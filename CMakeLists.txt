@@ -18,19 +18,22 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 # Populate a CMake variable with the sources
 set(COMMON_SOURCES
         src/Config.cpp  
-        src/gui/MainWindow.cpp
-        src/gui/Canvas.cpp
-        src/gui/StateUI.cpp
-        src/gui/Tool.cpp
-        src/gui/AddStateTool.cpp
         src/engine/State.cpp
         src/engine/StateChart.cpp
         src/engine/Transition.cpp
         src/engine/Variable.cpp
-        src/engine/InputVariable.cpp)
+        src/engine/InputVariable.cpp
+        )
 
 set(TARGET_SOURCE
-        src/main.cpp)
+        src/main.cpp
+        src/gui/MainWindow.cpp
+        src/gui/Canvas.cpp
+        src/gui/StateUI.cpp
+        src/gui/Tool.cpp
+        src/gui/SelectTool.cpp
+        src/gui/AddStateTool.cpp
+        )
 
 set(TEST_SOURCES
         test/stateTest.cpp  

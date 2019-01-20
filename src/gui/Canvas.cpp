@@ -8,6 +8,11 @@
 Canvas::Canvas(QWidget* parent) : QFrame(parent)
 {}
 
+const std::vector<StateUI*> Canvas::getStates() const
+{
+    return states;
+}
+
 /**
  * Create a state in the state charts and display it
  */
@@ -19,17 +24,4 @@ StateUI* Canvas::addState(float posX, float posY)
     this->states.push_back(state);
 
     return state;
-}
-
-void Canvas::setCurrentTool(Tool* tool)
-{
-    current_tool = tool;
-}
-
-/**
- * Do the action of the selected tool
- */
-void Canvas::mousePressEvent(QMouseEvent *event)
-{
-    current_tool->act(event);
 }

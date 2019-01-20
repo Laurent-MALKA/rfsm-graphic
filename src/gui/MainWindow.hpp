@@ -11,7 +11,7 @@
 #include <QGroupBox>
 
 #include "Canvas.hpp"
-
+#include "Tools.hpp"
 
 class Tool;
 
@@ -59,6 +59,10 @@ public:
 
     //Tool* getCurrentTool() const;
     void setCurrentTool(Tool* tool);
+
+    Canvas* getCanvas();
+
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     void createCentralWidget();

@@ -6,22 +6,21 @@
 #include <QCursor>
 #include <QMouseEvent>
 
-class Canvas;
+class MainWindow;
 
 class Tool
 {
     protected:
-        Canvas* canvas;
+        MainWindow* main_window;
         QCursor* cursor;
 
     public:
-        Tool(Canvas* canvas);
+        Tool(MainWindow* main_window);
         virtual ~Tool();
 
         virtual void act(QMouseEvent *event) = 0;
         void setCursor(std::string path_to_file);
         QCursor& getCursor() const;
-
 };
 
 #endif

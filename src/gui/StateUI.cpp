@@ -13,7 +13,7 @@ StateUI::StateUI(QWidget *parent, State& state, float posX, float posY) :
     this->resize(100 + 2*borderSize, 50 + 2*borderSize); // default size, compute size later ? setWidthFromStateName()
     this->move(posX,posY);
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout();
     layout->setAlignment(Qt::AlignCenter);
 
     QLabel* label = new QLabel(state.getName().c_str());
@@ -21,6 +21,11 @@ StateUI::StateUI(QWidget *parent, State& state, float posX, float posY) :
     layout->addWidget(label);
 
     setLayout(layout);
+}
+
+State& StateUI::getState()
+{
+    return state;
 }
 
 /**

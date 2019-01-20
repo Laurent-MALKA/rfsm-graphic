@@ -22,11 +22,11 @@ MainWindow::MainWindow() : QMainWindow() {
 
     createMenu();
     createCentralWidget();
-    //tools[ToolEnum::select] = new SelectTool(canvas);
-    tools[ToolEnum::add_state] = new AddStateTool(canvas);
-    // tools[ToolEnum::set_initial_state] = new SetInitialStateTool(canvas);
-    // tools[ToolEnum::add_transition] = new AddTransitionTool(canvas);
-    // tools[ToolEnum::deletion] = new DeletionTool(canvas);
+    tools[ToolEnum::select] = new SelectTool(this);
+    tools[ToolEnum::add_state] = new AddStateTool(this);
+    // tools[ToolEnum::set_initial_state] = new SetInitialStateTool(this);
+    // tools[ToolEnum::add_transition] = new AddTransitionTool(this);
+    // tools[ToolEnum::deletion] = new DeletionTool(this);
     setCurrentTool(ToolEnum::add_state);
 }
 
@@ -38,7 +38,17 @@ MainWindow::MainWindow() : QMainWindow() {
 void MainWindow::setCurrentTool(Tool* tool)
 {
     current_tool = tool;
-    canvas->setCurrentTool(tool);
+}
+
+Canvas* MainWindow::getCanvas()
+{
+    return canvas;
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if(canvas->rect().contains(event->pos()))
+        current_tool->act(event);
 }
 
 /**
@@ -135,7 +145,7 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
     tool_bar->setLayout(layout);
 
     //connect events
-    //connect(select_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::select); });
+    connect(select_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::select); });
     //connect(initial_state_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::set_initial_state); });
     connect(add_state_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::add_state); });
     //connect(add_transition_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::add_transition); });

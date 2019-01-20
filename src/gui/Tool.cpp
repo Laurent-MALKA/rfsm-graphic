@@ -1,11 +1,10 @@
 #include "Tool.hpp"
-#include "Canvas.hpp"
+#include "MainWindow.hpp"
 
-Tool::Tool(Canvas* canvas): canvas(canvas) {}
+Tool::Tool(MainWindow* main_window): main_window(main_window) {}
 
 Tool::~Tool()
 {
-    delete canvas;
     delete cursor;
 }
 

@@ -6,22 +6,20 @@
 
 #include "../engine/StateChart.hpp"
 #include "StateUI.hpp"
-#include "Tools.hpp"
 
 class Canvas : public QFrame
 {
   private:
     StateChart state_chart;
     std::vector<StateUI*> states;
-    Tool* current_tool;
     
   public:
     Canvas(QWidget* parent = nullptr);
-    StateUI* addState(float posX, float posY);
-    void setCurrentTool(Tool* tool);
-    //void addEdge(/* NODE infos */);
 
-    void mousePressEvent(QMouseEvent *event);
+    const std::vector<StateUI*> getStates() const;
+    StateUI* addState(float posX, float posY);
+    
+    //void addEdge(/* NODE infos */);
 };
 
 #endif

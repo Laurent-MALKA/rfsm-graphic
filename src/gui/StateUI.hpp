@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QRegion>
 
 #include "../engine/State.hpp"
 
@@ -16,8 +17,9 @@ class StateUI : public QWidget
     public:
         StateUI(QWidget *parent, State& state, float posX, float posY);
 
-        void paintEvent(QPaintEvent*);
+        State& getState();
 
+        void paintEvent(QPaintEvent*);
 };
 
 #endif

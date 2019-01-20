@@ -6,7 +6,7 @@
 class AddStateTool : public Tool
 {
     public:
-        AddStateTool(Canvas* canvas);
+        AddStateTool(MainWindow* main_window);
         ~AddStateTool();
         void act(QMouseEvent *event);
 
