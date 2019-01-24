@@ -8,7 +8,7 @@ help: # Display the aivailables commands
 all: ## Compile the app
 	@mkdir -p build
 	@cmake . -Bbuild
-	@make -s -C build
+	@$(MAKE) -s -C build
 
 run: all ## Run the app
 	@cd build &&	./app
