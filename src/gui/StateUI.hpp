@@ -1,25 +1,25 @@
 #ifndef RFSM_GRAPHIC_STATE_UI_HPP
 #define RFSM_GRAPHIC_STATE_UI_HPP
 
-#include <QWidget>
+#include <QGraphicsWidget>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QRegion>
 
 #include "../engine/State.hpp"
 
-class StateUI : public QWidget
+class StateUI : public QGraphicsWidget
 {
     private:
         State& state;
         float borderSize = 1;
 
     public:
-        StateUI(QWidget *parent, State& state, float posX, float posY);
+        StateUI(State& state, double posX, double posY);
 
         State& getState();
 
-        void paintEvent(QPaintEvent*);
+        void paint(QPainter* painter, const QStyleOptionGraphicsItem *option, QWidget *widget=nullptr);
 };
 
 #endif

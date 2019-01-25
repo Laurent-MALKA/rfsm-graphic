@@ -8,11 +8,8 @@ class AddStateTool : public Tool
     public:
         AddStateTool(MainWindow* main_window);
         ~AddStateTool();
-        void act(QMouseEvent *event);
 
-        QCursor& getCursor() const;
-
-
+        void act(QGraphicsSceneMouseEvent *event);
 };
 
 #endif

@@ -4,7 +4,7 @@
 #include <string>
 
 #include <QCursor>
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 
 class MainWindow;
 
@@ -18,7 +18,7 @@ class Tool
         Tool(MainWindow* main_window);
         virtual ~Tool();
 
-        virtual void act(QMouseEvent *event) = 0;
+        virtual void act(QGraphicsSceneMouseEvent *event) = 0;
         void setCursor(std::string path_to_file);
         QCursor& getCursor() const;
 };

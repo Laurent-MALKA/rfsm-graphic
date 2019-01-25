@@ -13,31 +13,14 @@ SelectTool::~SelectTool()
 
 }
 
-void SelectTool::act(QMouseEvent* event)
+void SelectTool::act(QGraphicsSceneMouseEvent* event)
 {
     Canvas* canvas = main_window->getCanvas();
-    QPoint click_pos = canvas->mapFrom(main_window, event->pos());
+    QGraphicsItem* widget = canvas->itemAt(event->scenePos(), QTransform());
 
-    QWidget* widget = canvas->childAt(click_pos);
     if(widget)
     {
-        while(widget->parentWidget() != canvas)
-            widget = widget->parentWidget();
-        StateUI* state = (StateUI*)widget;
-        std::cout << state->getState().getId() << std::endl;
+        StateUI* state = (StateUI*)widget; //TODO refactor with type()
+        std::cout << state->getState().getId() << std::endl; //TODO get properties in side panel
     }
-        //std::cout << "[" << state->x() << "," << state->y() << "]" << std::endl;
-
-    // auto states = canvas->getStates();
-    // auto state = states.crbegin();
-    // for(; state != states.crend(); state++)
-    // {
-    //     if((*state)->getRegion().contains(event->pos()))
-    //         break;
-    // } 
-
-
-    // if(state != states.crend())
-    // else
-    //     std::cout << "Noeud non trouvé" << std::endl;
 }

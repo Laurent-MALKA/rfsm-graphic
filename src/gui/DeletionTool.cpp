@@ -11,17 +11,16 @@ DeletionTool::~DeletionTool()
 
 }
 
-void DeletionTool::act(QMouseEvent* event)
+void DeletionTool::act(QGraphicsSceneMouseEvent* event)
 {
     Canvas* canvas = main_window->getCanvas();
-    QPoint click_pos = canvas->mapFrom(main_window, event->pos());
+    QPointF click_pos = event->scenePos();
 
-    QWidget* widget = canvas->childAt(click_pos);
+    QGraphicsItem* widget = canvas->itemAt(click_pos, QTransform());
 
     if(widget)
     {
-        while(widget->parentWidget() != canvas)
-            widget = widget->parentWidget();
+    
         StateUI* state = (StateUI*)widget;
         canvas->deleteState(state->getState().getId());
     }

@@ -14,6 +14,7 @@
 #include "Tools.hpp"
 
 class Tool;
+class QGraphicsView;
 
 enum class ToolEnum {select, initial_state, add_state, add_transition, deletion};
 
@@ -39,6 +40,7 @@ private:
     QWidget *central_widget;
     QFrame *tool_bar;
     Canvas *canvas;
+    QGraphicsView *view;
     QFrame *properties_panel;
 
     Tool* current_tool;
@@ -57,12 +59,12 @@ public slots:
 public:
     MainWindow();
 
-    //Tool* getCurrentTool() const;
+    Tool* getCurrentTool();
     void setCurrentTool(Tool* tool);
 
     Canvas* getCanvas();
 
-    void mousePressEvent(QMouseEvent *event);
+    //void mousePressEvent(QMouseEvent *event);
 
 private:
     void createCentralWidget();

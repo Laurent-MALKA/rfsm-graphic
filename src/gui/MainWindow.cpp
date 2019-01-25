@@ -12,6 +12,7 @@
 #include <QComboBox>
 #include <QTreeView>
 #include <QSignalMapper>
+#include <QGraphicsView>
 
 #include "MainWindow.hpp"
 #include "Tools.hpp"
@@ -30,10 +31,10 @@ MainWindow::MainWindow() : QMainWindow() {
     setCurrentTool(ToolEnum::add_state);
 }
 
-// Tool* MainWindow::getCurrentTool() const
-// {
-//     return current_tool;
-// }
+Tool* MainWindow::getCurrentTool()
+{
+   return current_tool;
+}
 
 void MainWindow::setCurrentTool(Tool* tool)
 {
@@ -43,12 +44,6 @@ void MainWindow::setCurrentTool(Tool* tool)
 Canvas* MainWindow::getCanvas()
 {
     return canvas;
-}
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    if(canvas->rect().contains(event->pos()))
-        current_tool->act(event);
 }
 
 /**
@@ -88,7 +83,9 @@ void MainWindow::createCentralWidget()
     createToolBar();
     main_layout->addWidget(tool_bar);
     createCanvas();
-    main_layout->addWidget(canvas);
+    view = new QGraphicsView(canvas);
+    view->centerOn(QPointF(0,0));
+    main_layout->addWidget(view);
     createPropertiesPanel();
     main_layout->addWidget(properties_panel);
 
@@ -155,7 +152,7 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
 void MainWindow::createCanvas()
 {
     canvas = new Canvas(this);
-    canvas->setStyleSheet("background-color: white;");
+    //canvas->setStyleSheet("background-color: white;");
 }
 
 void MainWindow::createPropertiesPanel()
@@ -353,4 +350,14 @@ void MainWindow::setCurrentTool(ToolEnum tool)
 {
     setCurrentTool(tools[tool]);
     central_widget->setCursor(current_tool->getCursor());
+    if(tool == ToolEnum::select)
+    {
+        canvas->setStatesFlag(QGraphicsItem::ItemIsMovable, true);
+        canvas->setStatesFlag(QGraphicsItem::ItemIsSelectable, true);
+    }
+    else
+    {
+        canvas->setStatesFlag(QGraphicsItem::ItemIsMovable, false);
+        canvas->setStatesFlag(QGraphicsItem::ItemIsSelectable, false);
+    }
 }

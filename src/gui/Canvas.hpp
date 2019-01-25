@@ -3,23 +3,31 @@
 
 #include <vector>
 #include <QFrame>
+#include <QGraphicsScene>
 
 #include "../engine/StateChart.hpp"
 #include "StateUI.hpp"
 
-class Canvas : public QFrame
+class MainWindow;
+
+class Canvas : public QGraphicsScene
 {
   private:
     StateChart state_chart;
     std::vector<StateUI*> states;
+    QGraphicsView *view;
+    MainWindow *main_window;
     
   public:
-    Canvas(QWidget* parent = nullptr);
+    Canvas(MainWindow* parent = nullptr);
 
     const std::vector<StateUI*> getStates() const;
-    StateUI* addState(float posX, float posY);
+    StateUI* addState(double posX, double posY);
     void deleteState(int state_id);
-    
+
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
+
+    void setStatesFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled = true);
     //void addEdge(/* NODE infos */);
 };
 

@@ -11,10 +11,11 @@ AddStateTool::~AddStateTool()
     
 }
 
-void AddStateTool::act(QMouseEvent *event)
+void AddStateTool::act(QGraphicsSceneMouseEvent *event)
 {
     Canvas* canvas = main_window->getCanvas();
-    StateUI* state = canvas->addState(event->x(), event->y());
-    state->move(state->x() - state->width()/2, state->y() - state->height()/2);
-    state->show();
+    QPointF click_pos = event->scenePos();
+
+    StateUI* state = canvas->addState(click_pos.x(), click_pos.y());
+    state->setFlag(QGraphicsItem::ItemIsMovable, false);
 }
