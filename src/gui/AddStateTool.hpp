@@ -9,7 +9,9 @@ class AddStateTool : public Tool
         AddStateTool(MainWindow* main_window);
         ~AddStateTool();
 
-        void act(QGraphicsSceneMouseEvent *event);
+        void pressAct(QGraphicsSceneMouseEvent *event);
+        void releaseAct(QGraphicsSceneMouseEvent *event) {}
+        
 };
 
 #endif

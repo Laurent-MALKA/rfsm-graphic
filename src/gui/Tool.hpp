@@ -18,7 +18,8 @@ class Tool
         Tool(MainWindow* main_window);
         virtual ~Tool();
 
-        virtual void act(QGraphicsSceneMouseEvent *event) = 0;
+        virtual void pressAct(QGraphicsSceneMouseEvent *event) = 0;
+        virtual void releaseAct(QGraphicsSceneMouseEvent *event) = 0;
         void setCursor(std::string path_to_file);
         QCursor& getCursor() const;
 };

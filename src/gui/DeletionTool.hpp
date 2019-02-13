@@ -9,7 +9,8 @@ class DeletionTool : public Tool
         DeletionTool(MainWindow* main_window);
         ~DeletionTool();
 
-        void act(QGraphicsSceneMouseEvent* event);
+        void pressAct(QGraphicsSceneMouseEvent* event);
+        void releaseAct(QGraphicsSceneMouseEvent *event) {}
 };
 
 #endif

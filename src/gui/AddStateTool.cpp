@@ -11,7 +11,7 @@ AddStateTool::~AddStateTool()
     
 }
 
-void AddStateTool::act(QGraphicsSceneMouseEvent *event)
+void AddStateTool::pressAct(QGraphicsSceneMouseEvent *event)
 {
     Canvas* canvas = main_window->getCanvas();
     QPointF click_pos = event->scenePos();

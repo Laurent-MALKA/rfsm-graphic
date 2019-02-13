@@ -11,7 +11,8 @@ class SelectTool : public Tool
         SelectTool(MainWindow* main_window);
         ~SelectTool();
 
-        void act(QGraphicsSceneMouseEvent* event);
+        void pressAct(QGraphicsSceneMouseEvent* event);
+        void releaseAct(QGraphicsSceneMouseEvent *event) {}
 };
 
 #endif

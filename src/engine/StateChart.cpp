@@ -229,6 +229,20 @@ bool StateChart::stateExists(int state_id)
     return findStateIndex(state_id) != states.size();
 }
 
+Transition& StateChart::getTransition(int transition_id)
+{
+    for(auto& state: states)
+    {
+        for(auto& transition: state->getOutTransitions())
+        {
+            if(transition->getId() == transition_id)
+                return *transition;
+        }
+    }
+
+    throw std::invalid_argument("Wrong transition id");
+}
+
 unsigned int StateChart::addState(const char* name)
 {
     State* new_state = new State();
@@ -297,7 +311,7 @@ void StateChart::deleteState(int state_id)
 
     for(auto& in_transition: state->getInTransitions())
     {
-        unsigned int starting_state_index = findStateIndex(in_transition->getEndState().getId());
+        unsigned int starting_state_index = findStateIndex(in_transition->getStartingState().getId());
         states[starting_state_index]->removeOutTransition(in_transition->getId());
     }
 

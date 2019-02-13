@@ -1,5 +1,6 @@
 #include <numeric>
 #include <iostream>
+#include <stdexcept>
 
 #include <QGraphicsScene>
 
@@ -35,24 +36,70 @@ StateUI* Canvas::addState(double posX, double posY)
     return state;
 }
 
+TransitionUI* Canvas::addTransition(StateUI& start_state, StateUI& end_state)
+{
+    int start_state_id = start_state.getState().getId();
+    int end_state_id = end_state.getState().getId();
+    
+    unsigned int id = state_chart.addTransition(start_state_id, end_state_id);
+    TransitionUI* transition = new TransitionUI(state_chart.getTransition(id), start_state, end_state);
+    this->transitions.push_back(transition);
+
+    addItem(transition);
+
+    return transition;
+}
+
+
 void Canvas::deleteState(int state_id)
 {
     auto state = states.begin();
     
     for(; state != states.end() && (*state)->getState().getId() != state_id; state++);
     
-    if(state != states.end())
+    if(state == states.end())
+        throw std::invalid_argument("State ID not found");
+
+    for(int i = 0; i < transitions.size(); i++)
     {
-        delete *state;
-        states.erase(state);
+        if(transitions[i]->getStartState().getState().getId() == state_id || transitions[i]->getEndState().getState().getId() == state_id)
+        {
+            delete transitions[i];
+            transitions.erase(transitions.begin() + i);
+            i--;
+        }
     }
+    delete *state;
+    states.erase(state);
+    
     state_chart.deleteState(state_id);
+}
+
+void Canvas::deleteTransition(int transition_id)
+{
+    auto transition = transitions.begin();
+
+    for(; transition != transitions.end() && (*transition)->getTransition().getId() != transition_id; transition++);
+
+    if(transition == transitions.end())
+        throw std::invalid_argument("Transition ID not found");
+
+    delete *transition;
+    transitions.erase(transition);
+
+    state_chart.deleteTransition(transition_id);
 }
 
 void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    main_window->getCurrentTool()->act(event);
+    main_window->getCurrentTool()->pressAct(event);
     QGraphicsScene::mousePressEvent(event);
+}
+
+void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    main_window->getCurrentTool()->releaseAct(event);
+    QGraphicsScene::mouseReleaseEvent(event);
 }
 
 void Canvas::setStatesFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled)

@@ -11,7 +11,7 @@ DeletionTool::~DeletionTool()
 
 }
 
-void DeletionTool::act(QGraphicsSceneMouseEvent* event)
+void DeletionTool::pressAct(QGraphicsSceneMouseEvent* event)
 {
     Canvas* canvas = main_window->getCanvas();
     QPointF click_pos = event->scenePos();
@@ -20,8 +20,16 @@ void DeletionTool::act(QGraphicsSceneMouseEvent* event)
 
     if(widget)
     {
-    
-        StateUI* state = (StateUI*)widget;
-        canvas->deleteState(state->getState().getId());
+        if(widget->type() == StateUI::Type) 
+        {
+            StateUI* state = (StateUI*)widget;
+            canvas->deleteState(state->getState().getId());
+        }
+        else
+        {
+            TransitionUI* transition = (TransitionUI*) widget;
+            canvas->deleteTransition(transition->getTransition().getId());
+        }
+        
     }
 }

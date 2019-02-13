@@ -26,7 +26,7 @@ MainWindow::MainWindow() : QMainWindow() {
     tools[ToolEnum::select] = new SelectTool(this);
     tools[ToolEnum::add_state] = new AddStateTool(this);
     // tools[ToolEnum::set_initial_state] = new SetInitialStateTool(this);
-    // tools[ToolEnum::add_transition] = new AddTransitionTool(this);
+    tools[ToolEnum::add_transition] = new AddTransitionTool(this);
     tools[ToolEnum::deletion] = new DeletionTool(this);
     setCurrentTool(ToolEnum::add_state);
 }
@@ -145,7 +145,7 @@ QPushButton* MainWindow::createPushButton(std::string label, std::string icon_pa
     connect(select_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::select); });
     //connect(initial_state_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::set_initial_state); });
     connect(add_state_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::add_state); });
-    //connect(add_transition_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::add_transition); });
+    connect(add_transition_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::add_transition); });
     connect(deletion_tool, &QPushButton::clicked, this, [this](){ setCurrentTool(ToolEnum::deletion); });
 }
 

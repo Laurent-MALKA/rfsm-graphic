@@ -33,9 +33,11 @@ set(TARGET_SOURCE
         src/gui/MainWindow.cpp
         src/gui/Canvas.cpp
         src/gui/StateUI.cpp
+        src/gui/TransitionUI.cpp
         src/gui/Tool.cpp
         src/gui/SelectTool.cpp
         src/gui/AddStateTool.cpp
+        src/gui/AddTransitionTool.cpp
         src/gui/DeletionTool.cpp
         )
 

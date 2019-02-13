@@ -64,9 +64,11 @@ class StateChart
         State& getState(int state_id);
         bool stateExists(int state_id);
 
+        Transition& getTransition(int transition_id);
+
         unsigned int addState(const char* name);
         unsigned int addState(std::string name);
-        unsigned int addTransition(int starting_state_id, int end_state_id, std::string condition, std::string action);
+        unsigned int addTransition(int starting_state_id, int end_state_id, std::string condition = "", std::string action = "");
 
         void setInitialState(int state_id);
         void setInitialAction(std::string action);
