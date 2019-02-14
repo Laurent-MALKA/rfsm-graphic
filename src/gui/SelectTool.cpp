@@ -5,7 +5,7 @@
 
 SelectTool::SelectTool(MainWindow* main_window) : Tool(main_window)
 {
-    setCursor("../assets/select.svg");
+    setCursor("../assets/select.svg",0,0);
 }
 
 SelectTool::~SelectTool() 

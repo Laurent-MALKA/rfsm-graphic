@@ -9,7 +9,7 @@
 #include "TransitionUI.hpp"
 
 TransitionUI::TransitionUI(Transition& transition, StateUI& start_state, StateUI& end_state)
-    : transition(transition), start_state(start_state), end_state(end_state), border_size(5), arrow_size(20), arrow_angle(30.0)
+    : transition(transition), start_state(start_state), end_state(end_state), border_size(5), arrow_size(25), arrow_angle(30.0)
 {
     //setZValue(2);
 }
