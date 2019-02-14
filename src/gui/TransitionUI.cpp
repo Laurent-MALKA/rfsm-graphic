@@ -46,7 +46,7 @@ QRectF TransitionUI::boundingRect() const
 QPainterPath TransitionUI::shape() const
 {
     QLineF line = this->line();
-    qreal angle = qDegreesToRadians(line.normalVector().angle()); 
+    qreal angle = qDegreesToRadians(line.normalVector().angle());
     QPolygonF polygon;
     polygon << mapToScene(QPointF(line.x1() + border_size*qCos(angle), line.y1() - border_size*qSin(angle)));
     polygon << mapToScene(QPointF(line.x1() - border_size*qCos(angle), line.y1() + border_size*qSin(angle)));
@@ -55,9 +55,9 @@ QPainterPath TransitionUI::shape() const
     polygon << mapToScene(QPointF(line.x1() + border_size*qCos(angle), line.y1() - border_size*qSin(angle)));
     QPainterPath path;
 
-    path.addPolygon(polygon);  
+    path.addPolygon(polygon);
     path.addPolygon(arrow_head);
-    
+
     return path;
 }
 
@@ -71,12 +71,13 @@ void TransitionUI::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     if(start_state.collidesWithItem(&end_state))
         return;
 
-    //QPen pen(Qt::black, border_size);
     QPen pen(Qt::black, border_size);
     QBrush brush(Qt::black);
 
     painter->setPen(pen);
     painter->setBrush(brush);
+
+    painter->setRenderHint(QPainter::Antialiasing);
 
     QPointF start_point = start_state.mapToScene(start_state.rect().center());
     QPointF end_point = end_state.mapToScene(end_state.rect().center());
@@ -99,12 +100,18 @@ void TransitionUI::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     }
     arrow_head.clear();
     arrow_head << end_point;
-    arrow_head << QPointF(end_point.x() - arrow_size*qCos(qDegreesToRadians(arrow_angle-line().angle())), end_point.y() - arrow_size*qSin(qDegreesToRadians(arrow_angle-line().angle())));
-    arrow_head << QPointF(end_point.x() - arrow_size*qCos(qDegreesToRadians(arrow_angle+line().angle())), end_point.y() + arrow_size*qSin(qDegreesToRadians(arrow_angle+line().angle())));
+    QPointF arrow_point_1(end_point.x() - arrow_size*qCos(qDegreesToRadians(arrow_angle-line().angle())), end_point.y() - arrow_size*qSin(qDegreesToRadians(arrow_angle-line().angle())));
+    QPointF arrow_point_2(end_point.x() - arrow_size*qCos(qDegreesToRadians(arrow_angle+line().angle())), end_point.y() + arrow_size*qSin(qDegreesToRadians(arrow_angle+line().angle())));
+    arrow_head << arrow_point_1;
+    arrow_head << arrow_point_2;
+
+    line().intersect(QLineF(arrow_point_1, arrow_point_2), &end_point);
 
     setLine(QLineF(start_point, end_point));
 
     painter->drawLine(line());
+
+    painter->setPen(QPen(Qt::black));
 
     painter->drawPolygon(arrow_head);
 }

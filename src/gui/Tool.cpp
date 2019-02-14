@@ -11,7 +11,7 @@ Tool::~Tool()
 void Tool::setCursor(std::string path_to_file, int hotX, int hotY)
 {
     QPixmap icon(path_to_file.c_str());
-    icon = icon.scaled(32,32,Qt::IgnoreAspectRatio);
+    icon = icon.scaled(32,32,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     cursor = new QCursor(icon, hotX, hotY);
 }
