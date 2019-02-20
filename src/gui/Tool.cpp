@@ -1,7 +1,7 @@
 #include "Tool.hpp"
 #include "MainWindow.hpp"
 
-Tool::Tool(MainWindow* main_window): main_window(main_window), cursor(new QCursor(Qt::ArrowCursor)) {}
+Tool::Tool(MainWindow* main_window): main_window(main_window), cursor(nullptr) {}
 
 Tool::~Tool()
 {
