@@ -11,7 +11,7 @@
 TransitionUI::TransitionUI(Transition& transition, StateUI& start_state, StateUI& end_state)
     : transition(transition), start_state(start_state), end_state(end_state), border_size(5), arrow_size(25), arrow_angle(30.0)
 {
-    //setZValue(2);
+
 }
 
 Transition& TransitionUI::getTransition()
@@ -34,13 +34,7 @@ QRectF TransitionUI::boundingRect() const
     QPointF start_point = start_state.mapToScene(start_state.rect().center());
     QPointF end_point = end_state.mapToScene(end_state.rect().center());
 
-
-
-    return QRectF(std::min(start_point.x(), end_point.x()),
-                 std::min(start_point.y(), end_point.y()),
-                 end_point.x() - start_point.x(),
-                 end_point.y() - start_point.y())
-                 .normalized();
+    return QRectF(start_point, end_point).normalized();
 }
 
 QPainterPath TransitionUI::shape() const
@@ -74,6 +68,15 @@ void TransitionUI::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QPen pen(Qt::black, border_size);
     QBrush brush(Qt::black);
 
+    if(isSelected())
+    {
+        pen.setStyle(Qt::DotLine);
+    }
+    else
+    {
+        pen.setStyle(Qt::SolidLine);
+    }
+    
     painter->setPen(pen);
     painter->setBrush(brush);
 
@@ -104,6 +107,7 @@ void TransitionUI::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QPointF arrow_point_2(end_point.x() - arrow_size*qCos(qDegreesToRadians(arrow_angle+line().angle())), end_point.y() + arrow_size*qSin(qDegreesToRadians(arrow_angle+line().angle())));
     arrow_head << arrow_point_1;
     arrow_head << arrow_point_2;
+    arrow_head << end_point;
 
     line().intersect(QLineF(arrow_point_1, arrow_point_2), &end_point);
 
@@ -111,7 +115,9 @@ void TransitionUI::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     painter->drawLine(line());
 
-    painter->setPen(QPen(Qt::black));
+    pen.setWidth(1);
+    pen.setStyle(Qt::SolidLine);
+    painter->setPen(pen);
 
     painter->drawPolygon(arrow_head);
 }

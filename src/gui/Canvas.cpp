@@ -109,3 +109,11 @@ void Canvas::setStatesFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled)
         state->setFlag(flag, enabled);
     }
 }
+
+void Canvas::setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled)
+{
+    for(auto& transition: transitions)
+    {
+        transition->setFlag(flag, enabled);
+    }
+}

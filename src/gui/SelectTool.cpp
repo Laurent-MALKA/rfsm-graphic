@@ -31,9 +31,6 @@ void SelectTool::pressAct(QGraphicsSceneMouseEvent* event)
             TransitionUI* transition = dynamic_cast<TransitionUI*>(widget);
             if(transition)
                 std::cout << "Transition selected : " << transition->getTransition().getId() << std::endl;
-        }
-        
-        // StateUI* state = (StateUI*)widget; //TODO refactor with type()
-        // std::cout << state->getState().getId() << std::endl; //TODO get properties in side panel
+        }        
     }
 }

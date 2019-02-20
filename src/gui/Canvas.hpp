@@ -17,11 +17,10 @@ class Canvas : public QGraphicsScene
     StateChart state_chart;
     std::vector<StateUI*> states;
     std::vector<TransitionUI*> transitions;
-    QGraphicsView *view;
     MainWindow *main_window;
     
   public:
-    Canvas(MainWindow* parent = nullptr);
+    explicit Canvas(MainWindow* parent = nullptr);
 
     const std::vector<StateUI*> getStates() const;
     StateUI* addState(double posX, double posY);
@@ -33,6 +32,7 @@ class Canvas : public QGraphicsScene
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
     void setStatesFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled = true);
+    void setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled = true);
     //void addEdge(/* NODE infos */);
 };
 

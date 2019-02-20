@@ -354,10 +354,12 @@ void MainWindow::setCurrentTool(ToolEnum tool)
     {
         canvas->setStatesFlag(QGraphicsItem::ItemIsMovable, true);
         canvas->setStatesFlag(QGraphicsItem::ItemIsSelectable, true);
+        canvas->setTransitionsFlag(QGraphicsItem::ItemIsSelectable, true);
     }
     else
     {
         canvas->setStatesFlag(QGraphicsItem::ItemIsMovable, false);
         canvas->setStatesFlag(QGraphicsItem::ItemIsSelectable, false);
+        canvas->setTransitionsFlag(QGraphicsItem::ItemIsSelectable, false);
     }
 }

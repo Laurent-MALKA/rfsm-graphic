@@ -39,6 +39,12 @@ void StateUI::paint(QPainter* painter, const QStyleOptionGraphicsItem *option, Q
 {
     painter->setRenderHint(QPainter::Antialiasing);
     QPen pen(Qt::black, borderSize);
+    
+    if(isSelected())
+        pen.setStyle(Qt::DashLine);
+    else
+        pen.setStyle(Qt::SolidLine);
+    
     painter->setPen(pen);
     painter->setBrush(Qt::white);
 
@@ -59,7 +65,7 @@ void StateUI::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     //TODO Fix (not working)
     for(auto& item: collidingItems(Qt::IntersectsItemBoundingRect))
     {
-        if(zValue() < item->zValue())
+        if(zValue() <= item->zValue())
             setZValue(item->zValue() + 1);
     }
     QGraphicsWidget::dragMoveEvent(event);
