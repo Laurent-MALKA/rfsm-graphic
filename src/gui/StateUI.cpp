@@ -60,13 +60,22 @@ void StateUI::paint(QPainter* painter, const QStyleOptionGraphicsItem *option, Q
     scene()->update();
 }
 
-void StateUI::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+QVariant StateUI::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    //TODO Fix (not working)
-    for(auto& item: collidingItems(Qt::IntersectsItemBoundingRect))
+    if(change == ItemPositionChange || change == ItemSelectedHasChanged && isSelected())
     {
-        if(zValue() <= item->zValue())
-            setZValue(item->zValue() + 1);
+        auto colliding_items = collidingItems();
+        if(colliding_items.size() == 0)
+            setZValue(1);
+        else
+        {
+            for(auto& item: colliding_items)
+            {
+                if(zValue() <= item->zValue())
+                    setZValue(item->zValue() + 1);
+            }
+        }
     }
-    QGraphicsWidget::dragMoveEvent(event);
+
+    return QGraphicsItem::itemChange(change, value);
 }

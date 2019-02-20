@@ -22,7 +22,7 @@ class StateUI : public QGraphicsWidget
 
         void paint(QPainter* painter, const QStyleOptionGraphicsItem *option, QWidget *widget=nullptr);
 
-        void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+        QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 };
 
 #endif
