@@ -23,7 +23,7 @@ std::string StateChart::getName() const
     return name;
 }
 
-void StateChart::setName(std::string name)
+void StateChart::setName(const std::string& name)
 {
     this->name = name;
 }
@@ -116,7 +116,7 @@ const Variable* StateChart::getInternVariable(int index) const
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setInVariableName(int index, std::string name)
+void StateChart::setInVariableName(int index, const std::string& name)
 {
     if(0 <= index && index < in_variables.size())
     {
@@ -126,7 +126,7 @@ void StateChart::setInVariableName(int index, std::string name)
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setOutVariableName(int index, std::string name)
+void StateChart::setOutVariableName(int index, const std::string& name)
 {
     if(0 <= index && index < out_variables.size())
     {
@@ -136,7 +136,7 @@ void StateChart::setOutVariableName(int index, std::string name)
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setInoutVariableName(int index, std::string name)
+void StateChart::setInoutVariableName(int index, const std::string& name)
 {
     if(0 <= index && index < inout_variables.size())
     {
@@ -146,7 +146,7 @@ void StateChart::setInoutVariableName(int index, std::string name)
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setInternVariableName(int index, std::string name)
+void StateChart::setInternVariableName(int index, const std::string& name)
 {
     if(0 <= index && index < intern_variables.size())
     {
@@ -156,7 +156,7 @@ void StateChart::setInternVariableName(int index, std::string name)
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setInVariableType(int index, std::string type)
+void StateChart::setInVariableType(int index, const std::string& type)
 {
     if(0 <= index && index < in_variables.size())
     {
@@ -166,7 +166,7 @@ void StateChart::setInVariableType(int index, std::string type)
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setOutVariableType(int index, std::string type)
+void StateChart::setOutVariableType(int index, const std::string& type)
 {
     if(0 <= index && index < out_variables.size())
     {
@@ -176,7 +176,7 @@ void StateChart::setOutVariableType(int index, std::string type)
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setInoutVariableType(int index, std::string type)
+void StateChart::setInoutVariableType(int index, const std::string& type)
 {
     if(0 <= index && index < inout_variables.size())
     {
@@ -186,7 +186,7 @@ void StateChart::setInoutVariableType(int index, std::string type)
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setInternVariableType(int index, std::string type)
+void StateChart::setInternVariableType(int index, const std::string& type)
 {
     if(0 <= index && index < intern_variables.size())
     {
@@ -196,7 +196,7 @@ void StateChart::setInternVariableType(int index, std::string type)
         throw std::out_of_range("invalid index");
 }
 
-void StateChart::setInVariableStimuli(int index, std::string stimuli)
+void StateChart::setInVariableStimuli(int index, const std::string& stimuli)
 {
     if(0 <= index && index < in_variables.size())
     {
@@ -252,7 +252,7 @@ unsigned int StateChart::addState(const char* name)
     return new_state->getId();
 }
 
-unsigned int StateChart::addState(std::string name)
+unsigned int StateChart::addState(const std::string& name)
 {
     State* new_state = new State();
     new_state->setName(name);
@@ -261,7 +261,7 @@ unsigned int StateChart::addState(std::string name)
     return new_state->getId();
 }
 
-unsigned int StateChart::addTransition(int starting_state_id, int end_state_id, std::string condition, std::string action)
+unsigned int StateChart::addTransition(int starting_state_id, int end_state_id, const std::string& condition, const std::string& action)
 {
     unsigned int starting_state_index = findStateIndex(starting_state_id);
     unsigned int end_state_index = findStateIndex(end_state_id);
@@ -290,7 +290,7 @@ void StateChart::setInitialState(int state_id)
         initial_state_id = state_id;
 }
 
-void StateChart::setInitialAction(std::string action)
+void StateChart::setInitialAction(const std::string& action)
 {
     initial_action = action;
 }

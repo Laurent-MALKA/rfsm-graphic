@@ -22,13 +22,15 @@ void DeletionTool::pressAct(QGraphicsSceneMouseEvent* event)
     {
         if(widget->type() == StateUI::Type) 
         {
-            StateUI* state = (StateUI*)widget;
-            canvas->deleteState(state->getState().getId());
+            StateUI* state = dynamic_cast<StateUI*>(widget);
+            if(state)
+                canvas->deleteState(state->getState().getId());
         }
         else
         {
-            TransitionUI* transition = (TransitionUI*) widget;
-            canvas->deleteTransition(transition->getTransition().getId());
+            TransitionUI* transition = dynamic_cast<TransitionUI*>(widget);
+            if(transition)
+                canvas->deleteTransition(transition->getTransition().getId());
         }
         
     }

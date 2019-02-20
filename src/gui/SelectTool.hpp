@@ -8,7 +8,7 @@ class MainWindow;
 class SelectTool : public Tool
 {
     public:
-        SelectTool(MainWindow* main_window);
+        explicit SelectTool(MainWindow* main_window);
         ~SelectTool();
 
         void pressAct(QGraphicsSceneMouseEvent* event);

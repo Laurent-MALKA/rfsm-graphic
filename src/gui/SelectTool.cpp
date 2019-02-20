@@ -22,13 +22,15 @@ void SelectTool::pressAct(QGraphicsSceneMouseEvent* event)
     {
         if(widget->type() == StateUI::Type)
         {
-            StateUI* state = (StateUI*) widget;
-            std::cout << "State selected : " << state->getState().getId() << std::endl;
+            StateUI* state = dynamic_cast<StateUI*>(widget);
+            if(state)
+                std::cout << "State selected : " << state->getState().getId() << std::endl;
         } 
         else
         {
-            TransitionUI* transition = (TransitionUI*) widget;
-            std::cout << "Transition selected : " << transition->getTransition().getId() << std::endl;
+            TransitionUI* transition = dynamic_cast<TransitionUI*>(widget);
+            if(transition)
+                std::cout << "Transition selected : " << transition->getTransition().getId() << std::endl;
         }
         
         // StateUI* state = (StateUI*)widget; //TODO refactor with type()

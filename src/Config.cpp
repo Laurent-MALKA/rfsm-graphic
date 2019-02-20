@@ -4,7 +4,7 @@
 /**
  * Construct config
  */
-Config::Config(std::string path)
+Config::Config(const std::string& path)
 {
     std::ifstream config_file(path.c_str());
 

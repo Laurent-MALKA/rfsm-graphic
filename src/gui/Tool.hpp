@@ -20,7 +20,7 @@ class Tool
 
         virtual void pressAct(QGraphicsSceneMouseEvent *event) = 0;
         virtual void releaseAct(QGraphicsSceneMouseEvent *event) = 0;
-        void setCursor(std::string path_to_file, int hotX = -1, int hotY = -1);
+        void setCursor(const std::string& path_to_file, int hotX = -1, int hotY = -1);
         QCursor& getCursor() const;
 };
 

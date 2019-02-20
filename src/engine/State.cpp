@@ -97,7 +97,7 @@ void State::setName(const char* name)
     this->name = name;
 }
 
-void State::setName(std::string name)
+void State::setName(const std::string& name)
 {
     this->name = name;
 }

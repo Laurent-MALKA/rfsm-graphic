@@ -17,8 +17,8 @@ void AddTransitionTool::releaseAct(QGraphicsSceneMouseEvent *event)
 {
     Canvas* canvas = main_window->getCanvas();
 
-    StateUI* start_state = (StateUI*)canvas->itemAt(event->buttonDownScenePos(Qt::LeftButton), QTransform());
-    StateUI* end_state = (StateUI*)canvas->itemAt(event->scenePos(), QTransform());
+    StateUI* start_state = dynamic_cast<StateUI*>(canvas->itemAt(event->buttonDownScenePos(Qt::LeftButton), QTransform()));
+    StateUI* end_state = dynamic_cast<StateUI*>(canvas->itemAt(event->scenePos(), QTransform()));
     
     if(start_state && end_state)
     {

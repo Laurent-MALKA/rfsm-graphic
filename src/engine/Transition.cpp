@@ -42,7 +42,7 @@ void Transition::setAction(const char* action)
     this->action = action;
 }
 
-void Transition::setAction(std::string action)
+void Transition::setAction(const std::string& action)
 {
     this->action = action;
 }

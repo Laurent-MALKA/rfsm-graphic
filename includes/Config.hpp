@@ -13,7 +13,7 @@ class Config
         nlohmann::json parsed_config;
 
     public:
-        Config(std::string path = "config/config.json");
+        Config(const std::string& path = "config/config.json");
 
         /**
          * Return the value of the key

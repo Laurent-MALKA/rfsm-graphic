@@ -39,7 +39,7 @@ class State
 
         const std::string& getName() const;
         void setName(const char* name);
-        void setName(std::string name);
+        void setName(const std::string& name);
 
         bool isInInTransitions(int id);
         bool isInOutTransitions(int id);

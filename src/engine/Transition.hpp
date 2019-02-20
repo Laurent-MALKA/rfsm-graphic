@@ -27,7 +27,7 @@ class Transition
 
         const std::string& getAction() const;
         void setAction(const char* action);
-        void setAction(std::string action);
+        void setAction(const std::string& action);
         bool hasAction();
 
         const State& getStartingState() const;

@@ -26,7 +26,7 @@ class StateChart
         ~StateChart();
 
         std::string getName() const;
-        void setName(std::string name);
+        void setName(const std::string& name);
 
         std::vector<InputVariable*> getInVariables();
         std::vector<Variable*> getOutVariables();
@@ -46,19 +46,19 @@ class StateChart
         const Variable* getInternVariable(int index) const;       
 
         //Variable name setters
-        void setInVariableName(int index, std::string name);
-        void setOutVariableName(int index, std::string name);
-        void setInoutVariableName(int index, std::string name);
-        void setInternVariableName(int index, std::string name);
+        void setInVariableName(int index, const std::string& name);
+        void setOutVariableName(int index, const std::string& name);
+        void setInoutVariableName(int index, const std::string& name);
+        void setInternVariableName(int index, const std::string& name);
 
         //Variable type setters
-        void setInVariableType(int index, std::string type);
-        void setOutVariableType(int index, std::string type);
-        void setInoutVariableType(int index, std::string type);
-        void setInternVariableType(int index, std::string type);
+        void setInVariableType(int index, const std::string& type);
+        void setOutVariableType(int index, const std::string& type);
+        void setInoutVariableType(int index, const std::string& type);
+        void setInternVariableType(int index, const std::string& type);
 
         //Variable stimuli setter
-        void setInVariableStimuli(int index, std::string stimuli);
+        void setInVariableStimuli(int index, const std::string& stimuli);
                 
         const State& getState(int state_id) const;
         State& getState(int state_id);
@@ -67,11 +67,11 @@ class StateChart
         Transition& getTransition(int transition_id);
 
         unsigned int addState(const char* name);
-        unsigned int addState(std::string name);
-        unsigned int addTransition(int starting_state_id, int end_state_id, std::string condition = "", std::string action = "");
+        unsigned int addState(const std::string& name);
+        unsigned int addTransition(int starting_state_id, int end_state_id, const std::string& condition = "", const std::string& action = "");
 
         void setInitialState(int state_id);
-        void setInitialAction(std::string action);
+        void setInitialAction(const std::string& action);
 
         void deleteState(int state_id);
         void deleteTransition(int transition_id);

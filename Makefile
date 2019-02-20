@@ -1,4 +1,4 @@
-.PHONY: all test build help
+.PHONY: all run test check help
 
 .DEFAULT_GOAL= all
 
@@ -15,6 +15,9 @@ run: all ## Run the app
 
 test: all ## Run the tests
 	@cd build && ./tests
+
+check:
+	@cppcheck --enable=style --suppress='*:includes/*' src/ 2> cppcheck.txt
 
 clean:
 	rm -rf build/

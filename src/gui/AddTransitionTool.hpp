@@ -6,7 +6,7 @@
 class AddTransitionTool : public Tool
 {
     public:
-    AddTransitionTool(MainWindow* main_window);
+    explicit AddTransitionTool(MainWindow* main_window);
     ~AddTransitionTool();
 
     void pressAct(QGraphicsSceneMouseEvent *event) {}
