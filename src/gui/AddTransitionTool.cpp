@@ -3,24 +3,22 @@
 
 #include <iostream>
 
-AddTransitionTool::AddTransitionTool(MainWindow* main_window) : Tool(main_window)
+AddTransitionTool::AddTransitionTool(MainWindow* main_window)
+    : Tool(main_window)
 {
     setCursor("../assets/transition.svg");
 }
 
-AddTransitionTool::~AddTransitionTool()
-{
-
-}
-
-void AddTransitionTool::releaseAct(QGraphicsSceneMouseEvent *event)
+void AddTransitionTool::releaseAct(QGraphicsSceneMouseEvent* event)
 {
     Canvas* canvas = main_window->getCanvas();
 
-    StateUI* start_state = dynamic_cast<StateUI*>(canvas->itemAt(event->buttonDownScenePos(Qt::LeftButton), QTransform()));
-    StateUI* end_state = dynamic_cast<StateUI*>(canvas->itemAt(event->scenePos(), QTransform()));
-    
-    if(start_state && end_state)
+    StateUI* start_state = dynamic_cast<StateUI*>(canvas->itemAt(
+        event->buttonDownScenePos(Qt::LeftButton), QTransform()));
+    StateUI* end_state =
+        dynamic_cast<StateUI*>(canvas->itemAt(event->scenePos(), QTransform()));
+
+    if((start_state != nullptr) && (end_state != nullptr))
     {
         canvas->addTransition(*start_state, *end_state);
     }

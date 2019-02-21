@@ -5,13 +5,12 @@
 
 class AddStateTool : public Tool
 {
-    public:
-        explicit AddStateTool(MainWindow* main_window);
-        ~AddStateTool();
+  public:
+    explicit AddStateTool(MainWindow* main_window);
+    ~AddStateTool() = default;
 
-        void pressAct(QGraphicsSceneMouseEvent *event);
-        void releaseAct(QGraphicsSceneMouseEvent *event) {}
-        
+    void pressAct(QGraphicsSceneMouseEvent* event) override;
+    void releaseAct(QGraphicsSceneMouseEvent* event) override {}
 };
 
 #endif

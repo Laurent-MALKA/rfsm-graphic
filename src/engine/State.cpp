@@ -1,6 +1,7 @@
-#include <stdexcept>
 #include "State.hpp"
 #include "Transition.hpp"
+
+#include <stdexcept>
 
 unsigned int State::states_counter = 0;
 
@@ -73,7 +74,7 @@ void State::removeInTransition(int id)
     if((unsigned)index == in_transitions.size())
         throw std::invalid_argument("Transition id not found");
 
-    //Handle transition destruction
+    // Handle transition destruction
     in_transitions.erase(in_transitions.begin() + index);
 }
 
@@ -83,7 +84,7 @@ void State::removeOutTransition(int id)
     if((unsigned)index == out_transitions.size())
         throw std::invalid_argument("Transition id not found");
 
-    //Handle transition destruction
+    // Handle transition destruction
     out_transitions.erase(out_transitions.begin() + index);
 }
 
@@ -117,7 +118,8 @@ unsigned int State::findInTransition(int id) const
     if(id < 0)
         throw std::invalid_argument("Id must be positive");
     unsigned int index = 0;
-    while(index < in_transitions.size() && in_transitions[index]->getId() != (unsigned)id)
+    while(index < in_transitions.size()
+          && in_transitions[index]->getId() != (unsigned)id)
     {
         index++;
     }
@@ -130,7 +132,8 @@ unsigned int State::findOutTransition(int id) const
     if(id < 0)
         throw std::invalid_argument("Id must be positive");
     unsigned int index = 0;
-    while(index < out_transitions.size() && out_transitions[index]->getId() != (unsigned)id)
+    while(index < out_transitions.size()
+          && out_transitions[index]->getId() != (unsigned)id)
     {
         index++;
     }

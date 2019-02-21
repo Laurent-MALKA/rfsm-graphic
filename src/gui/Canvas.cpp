@@ -1,19 +1,18 @@
-#include <numeric>
-#include <iostream>
-#include <stdexcept>
-
-#include <QGraphicsScene>
-
 #include "Canvas.hpp"
 #include "../engine/State.hpp"
-#include "StateUI.hpp"
 #include "MainWindow.hpp"
+#include "StateUI.hpp"
+
+#include <QGraphicsScene>
+#include <iostream>
+#include <numeric>
+#include <stdexcept>
 
 Canvas::Canvas(MainWindow* parent) : QGraphicsScene(parent)
 {
     main_window = parent;
 
-    setSceneRect(QRectF(0,0,5000,5000));
+    setSceneRect(QRectF(0, 0, 5000, 5000));
 }
 
 const std::vector<StateUI*> Canvas::getStates() const
@@ -26,7 +25,8 @@ const std::vector<StateUI*> Canvas::getStates() const
  */
 StateUI* Canvas::addState(double posX, double posY)
 {
-    std::string name = std::string("state_") + std::to_string(State::getStatesCounter());
+    std::string name =
+        std::string("state_") + std::to_string(State::getStatesCounter());
     unsigned int id = state_chart.addState(name);
     StateUI* state = new StateUI(state_chart.getState(id), posX, posY);
     this->states.push_back(state);
@@ -40,9 +40,10 @@ TransitionUI* Canvas::addTransition(StateUI& start_state, StateUI& end_state)
 {
     int start_state_id = start_state.getState().getId();
     int end_state_id = end_state.getState().getId();
-    
+
     unsigned int id = state_chart.addTransition(start_state_id, end_state_id);
-    TransitionUI* transition = new TransitionUI(state_chart.getTransition(id), start_state, end_state);
+    TransitionUI* transition =
+        new TransitionUI(state_chart.getTransition(id), start_state, end_state);
     this->transitions.push_back(transition);
 
     addItem(transition);
@@ -50,19 +51,21 @@ TransitionUI* Canvas::addTransition(StateUI& start_state, StateUI& end_state)
     return transition;
 }
 
-
 void Canvas::deleteState(int state_id)
 {
     auto state = states.begin();
-    
-    for(; state != states.end() && (*state)->getState().getId() != state_id; state++);
-    
+
+    for(; state != states.end() && (*state)->getState().getId() != state_id;
+        state++)
+        continue;
+
     if(state == states.end())
         throw std::invalid_argument("State ID not found");
 
     for(int i = 0; i < transitions.size(); i++)
     {
-        if(transitions[i]->getStartState().getState().getId() == state_id || transitions[i]->getEndState().getState().getId() == state_id)
+        if(transitions[i]->getStartState().getState().getId() == state_id
+           || transitions[i]->getEndState().getState().getId() == state_id)
         {
             delete transitions[i];
             transitions.erase(transitions.begin() + i);
@@ -71,7 +74,7 @@ void Canvas::deleteState(int state_id)
     }
     delete *state;
     states.erase(state);
-    
+
     state_chart.deleteState(state_id);
 }
 
@@ -79,7 +82,10 @@ void Canvas::deleteTransition(int transition_id)
 {
     auto transition = transitions.begin();
 
-    for(; transition != transitions.end() && (*transition)->getTransition().getId() != transition_id; transition++);
+    for(; transition != transitions.end()
+          && (*transition)->getTransition().getId() != transition_id;
+        transition++)
+        continue;
 
     if(transition == transitions.end())
         throw std::invalid_argument("Transition ID not found");
@@ -104,15 +110,16 @@ void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void Canvas::setStatesFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled)
 {
-    for(auto& state: states)
+    for(auto& state : states)
     {
         state->setFlag(flag, enabled);
     }
 }
 
-void Canvas::setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled)
+void Canvas::setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag,
+                                bool enabled)
 {
-    for(auto& transition: transitions)
+    for(auto& transition : transitions)
     {
         transition->setFlag(flag, enabled);
     }

@@ -1,18 +1,17 @@
-#include <stdexcept>
-#include <sstream>
-#include <iomanip>
-#include "Transition.hpp"
 #include "StateChart.hpp"
+#include "Transition.hpp"
 
-StateChart::StateChart(): initial_state_id(-1)
-{
-}
+#include <iomanip>
+#include <sstream>
+#include <stdexcept>
+
+StateChart::StateChart() : initial_state_id(-1) {}
 
 StateChart::~StateChart()
 {
-    for(auto &state: states)
+    for(auto& state : states)
     {
-        for(auto& out_transition: state->getOutTransitions())
+        for(auto& out_transition : state->getOutTransitions())
             delete out_transition;
         delete state;
     }
@@ -231,9 +230,9 @@ bool StateChart::stateExists(int state_id)
 
 Transition& StateChart::getTransition(int transition_id)
 {
-    for(auto& state: states)
+    for(auto& state : states)
     {
-        for(auto& transition: state->getOutTransitions())
+        for(auto& transition : state->getOutTransitions())
         {
             if(transition->getId() == transition_id)
                 return *transition;
@@ -261,7 +260,10 @@ unsigned int StateChart::addState(const std::string& name)
     return new_state->getId();
 }
 
-unsigned int StateChart::addTransition(int starting_state_id, int end_state_id, const std::string& condition, const std::string& action)
+unsigned int StateChart::addTransition(int starting_state_id,
+                                       int end_state_id,
+                                       const std::string& condition,
+                                       const std::string& action)
 {
     unsigned int starting_state_index = findStateIndex(starting_state_id);
     unsigned int end_state_index = findStateIndex(end_state_id);
@@ -275,8 +277,7 @@ unsigned int StateChart::addTransition(int starting_state_id, int end_state_id, 
     State* starting_state = states[starting_state_index];
     State* end_state = states[end_state_index];
 
-    Transition *new_transition = new Transition(*starting_state,
-                                                *end_state);
+    Transition* new_transition = new Transition(*starting_state, *end_state);
 
     new_transition->setCondition(condition);
     new_transition->setAction(action);
@@ -303,16 +304,19 @@ void StateChart::deleteState(int state_id)
 
     State* state = states[state_index];
 
-    for(auto& out_transition: state->getOutTransitions())
+    for(auto& out_transition : state->getOutTransitions())
     {
-        unsigned int end_state_index = findStateIndex(out_transition->getEndState().getId());
+        unsigned int end_state_index =
+            findStateIndex(out_transition->getEndState().getId());
         states[end_state_index]->removeInTransition(out_transition->getId());
     }
 
-    for(auto& in_transition: state->getInTransitions())
+    for(auto& in_transition : state->getInTransitions())
     {
-        unsigned int starting_state_index = findStateIndex(in_transition->getStartingState().getId());
-        states[starting_state_index]->removeOutTransition(in_transition->getId());
+        unsigned int starting_state_index =
+            findStateIndex(in_transition->getStartingState().getId());
+        states[starting_state_index]->removeOutTransition(
+            in_transition->getId());
     }
 
     delete states[state_index];
@@ -321,9 +325,9 @@ void StateChart::deleteState(int state_id)
 
 void StateChart::deleteTransition(int transition_id)
 {
-    //Can be greatly improved
+    // Can be greatly improved
     bool transition_found = false;
-    for(auto& state: states)
+    for(auto& state : states)
     {
         if(state->isInInTransitions(transition_id))
         {
@@ -343,14 +347,14 @@ void StateChart::deleteTransition(int transition_id)
 std::string StateChart::toFSMCode()
 {
     std::stringstream code;
-    std::string indent = std::string(4,' ');
+    std::string indent = std::string(4, ' ');
     bool first = true;
 
     code << "fsm model " << name << "(";
     if(in_variables.size() + out_variables.size() + inout_variables.size() != 0)
     {
         code << std::endl;
-        for(auto& var: in_variables)
+        for(auto& var : in_variables)
         {
             if(!first)
             {
@@ -360,7 +364,7 @@ std::string StateChart::toFSMCode()
             code << "in " << var->getName() << ": " << var->getType();
             first = false;
         }
-        for(auto& var: out_variables)
+        for(auto& var : out_variables)
         {
             if(!first)
             {
@@ -370,7 +374,7 @@ std::string StateChart::toFSMCode()
             code << "out " << var->getName() << ": " << var->getType();
             first = false;
         }
-        for(auto& var: inout_variables)
+        for(auto& var : inout_variables)
         {
             if(!first)
             {
@@ -388,7 +392,7 @@ std::string StateChart::toFSMCode()
 
     code << "states: " << std::endl;
     first = true;
-    for(auto& state: states)
+    for(auto& state : states)
     {
         if(!first)
             code << "," << std::endl;
@@ -403,7 +407,7 @@ std::string StateChart::toFSMCode()
         code << indent;
         code << "vars: " << std::endl;
         first = true;
-        for(auto& var: intern_variables)
+        for(auto& var : intern_variables)
         {
             if(!first)
                 code << "," << std::endl;
@@ -417,9 +421,10 @@ std::string StateChart::toFSMCode()
     code << indent;
     code << "trans: " << std::endl;
     first = true;
-    for(auto& state: states)
+
+    for(auto& state : states)
     {
-        for(auto& transition: state->getOutTransitions())
+        for(auto& transition : state->getOutTransitions())
         {
             if(!first)
                 code << "," << std::endl;
@@ -445,14 +450,16 @@ std::string StateChart::toFSMCode()
 
     code << "}" << std::endl << std::endl;
 
-    for(auto& var: in_variables)
+    for(auto& var : in_variables)
     {
-        code << "input " << var->getName() << " : " << var->getType() << " = " << var->getStimuli() << std::endl;
+        code << "input " << var->getName() << " : " << var->getType() << " = "
+             << var->getStimuli() << std::endl;
     }
 
-    for(auto& var: out_variables)
+    for(auto& var : out_variables)
     {
-        code << "output " << var->getName() << " : " << var->getType() << std::endl;        
+        code << "output " << var->getName() << " : " << var->getType()
+             << std::endl;
     }
 
     code << std::endl;
@@ -462,7 +469,7 @@ std::string StateChart::toFSMCode()
     {
         first = true;
         code << std::endl;
-        for(auto& var: in_variables)
+        for(auto& var : in_variables)
         {
             if(!first)
             {
@@ -472,7 +479,7 @@ std::string StateChart::toFSMCode()
             code << var->getName();
             first = false;
         }
-        for(auto& var: out_variables)
+        for(auto& var : out_variables)
         {
             if(!first)
             {
@@ -482,7 +489,7 @@ std::string StateChart::toFSMCode()
             code << var->getName();
             first = false;
         }
-        for(auto& var: inout_variables)
+        for(auto& var : inout_variables)
         {
             if(!first)
             {
@@ -493,7 +500,7 @@ std::string StateChart::toFSMCode()
             first = false;
         }
     }
-    
+
     code << ")";
 
     return code.str();
@@ -501,11 +508,11 @@ std::string StateChart::toFSMCode()
 
 unsigned int StateChart::findStateIndex(int state_id) const
 {
-    if (state_id < 0)
+    if(state_id < 0)
         throw std::invalid_argument("Id must be positive");
 
     unsigned int index = 0;
-    while (index < states.size() && states[index]->getId() != (unsigned)state_id)
+    while(index < states.size() && states[index]->getId() != (unsigned)state_id)
     {
         index++;
     }

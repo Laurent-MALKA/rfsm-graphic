@@ -48,9 +48,10 @@ set(TEST_SOURCES
         test/transitionTest.cpp  
         test/variableTest.cpp)
 
-# Tell CMake to create the helloworld executable
+#Executables
 add_executable(app ${COMMON_SOURCES} ${TARGET_SOURCE})
 add_executable(tests ${COMMON_SOURCES} ${TEST_SOURCES})
+
 # Use the Widgets module from Qt 5
 target_link_libraries(app
         Qt5::Core

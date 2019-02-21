@@ -1,10 +1,12 @@
-#include <stdexcept>
 #include "Transition.hpp"
 #include "State.hpp"
 
+#include <stdexcept>
+
 unsigned int Transition::transitions_counter = 0;
 
-Transition::Transition(State& starting_state, State& end_state) : starting_state(starting_state), end_state(end_state)
+Transition::Transition(State& starting_state, State& end_state)
+    : starting_state(starting_state), end_state(end_state)
 {
     id = transitions_counter++;
 

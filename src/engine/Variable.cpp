@@ -1,11 +1,12 @@
-#include <stdexcept>
 #include "Variable.hpp"
+
+#include <stdexcept>
 
 std::vector<std::string> Variable::Types = {"bool", "int", "float"};
 
-Variable::Variable(const std::string& name, int type_index):type_index(0), name(name)
-{
-}
+Variable::Variable(const std::string& name, int type_index)
+    : type_index(0), name(name)
+{}
 
 std::string Variable::getType() const
 {
@@ -14,7 +15,7 @@ std::string Variable::getType() const
 
 std::string Variable::getName() const
 {
-    return name;    
+    return name;
 }
 
 std::vector<std::string> Variable::getTypes() const

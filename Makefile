@@ -1,4 +1,4 @@
-.PHONY: all run test check help
+.PHONY: help all run test check format
 
 .DEFAULT_GOAL= all
 
@@ -7,7 +7,7 @@ help: # Display the aivailables commands
 
 all: ## Compile the app
 	@mkdir -p build
-	@cmake . -Bbuild
+	@cmake . -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 	@$(MAKE) -s -C build
 
 run: all ## Run the app
@@ -16,9 +16,12 @@ run: all ## Run the app
 test: all ## Run the tests
 	@cd build && ./tests
 
-check:
+check: ## Checks for issues in code with ccpcheck
 	@cppcheck --enable=style --suppress='*:includes/*' src/ 2> cppcheck.txt
 
-clean:
+format: ## Formats code with clang-format
+	clang-format -i -style=file src/gui/* src/engine/*
+
+clean: ## Cleans build/ folder
 	rm -rf build/
 	

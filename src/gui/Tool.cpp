@@ -1,7 +1,8 @@
 #include "Tool.hpp"
 #include "MainWindow.hpp"
 
-Tool::Tool(MainWindow* main_window): main_window(main_window), cursor(nullptr) {}
+Tool::Tool(MainWindow* main_window) : main_window(main_window), cursor(nullptr)
+{}
 
 Tool::~Tool()
 {
@@ -11,7 +12,7 @@ Tool::~Tool()
 void Tool::setCursor(const std::string& path_to_file, int hotX, int hotY)
 {
     QPixmap icon(path_to_file.c_str());
-    icon = icon.scaled(16,16,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    icon = icon.scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     delete cursor;
     cursor = new QCursor(icon, hotX, hotY);

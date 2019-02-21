@@ -1,13 +1,12 @@
 #ifndef RFSM_GRAPHIC_CANVAS_HPP
 #define RFSM_GRAPHIC_CANVAS_HPP
 
-#include <vector>
-
-#include <QGraphicsScene>
-
 #include "../engine/StateChart.hpp"
 #include "StateUI.hpp"
 #include "TransitionUI.hpp"
+
+#include <QGraphicsScene>
+#include <vector>
 
 class MainWindow;
 
@@ -17,23 +16,25 @@ class Canvas : public QGraphicsScene
     StateChart state_chart;
     std::vector<StateUI*> states;
     std::vector<TransitionUI*> transitions;
-    MainWindow *main_window;
-    
+    MainWindow* main_window;
+
   public:
     explicit Canvas(MainWindow* parent = nullptr);
 
     const std::vector<StateUI*> getStates() const;
     StateUI* addState(double posX, double posY);
-    TransitionUI* addTransition(StateUI& start_state, StateUI& end_state); 
+    TransitionUI* addTransition(StateUI& start_state, StateUI& end_state);
     void deleteState(int state_id);
     void deleteTransition(int transition_id);
 
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
-    void setStatesFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled = true);
-    void setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled = true);
-    //void addEdge(/* NODE infos */);
+    void setStatesFlag(QGraphicsItem::GraphicsItemFlag flag,
+                       bool enabled = true);
+    void setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag,
+                            bool enabled = true);
+    // void addEdge(/* NODE infos */);
 };
 
 #endif

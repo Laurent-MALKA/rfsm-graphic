@@ -7,12 +7,12 @@ class MainWindow;
 
 class SelectTool : public Tool
 {
-    public:
-        explicit SelectTool(MainWindow* main_window);
-        ~SelectTool();
+  public:
+    explicit SelectTool(MainWindow* main_window);
+    ~SelectTool() = default;
 
-        void pressAct(QGraphicsSceneMouseEvent* event);
-        void releaseAct(QGraphicsSceneMouseEvent *event) {}
+    void pressAct(QGraphicsSceneMouseEvent* event) override;
+    void releaseAct(QGraphicsSceneMouseEvent* event) override {}
 };
 
 #endif

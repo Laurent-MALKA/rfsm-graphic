@@ -6,32 +6,30 @@ DeletionTool::DeletionTool(MainWindow* main_window) : Tool(main_window)
     setCursor("../assets/delete.svg");
 }
 
-DeletionTool::~DeletionTool()
-{
-
-}
-
 void DeletionTool::pressAct(QGraphicsSceneMouseEvent* event)
 {
     Canvas* canvas = main_window->getCanvas();
     QPointF click_pos = event->scenePos();
 
-    QGraphicsItem* widget = canvas->itemAt(click_pos, QTransform());
+    QGraphicsItem* item = canvas->itemAt(click_pos, QTransform());
 
-    if(widget)
+    if(item != nullptr)
     {
-        if(widget->type() == StateUI::Type) 
+        if(item->type() == StateUI::Type)
         {
-            StateUI* state = dynamic_cast<StateUI*>(widget);
-            if(state)
+            StateUI* state = dynamic_cast<StateUI*>(item);
+            if(state != nullptr)
+            {
                 canvas->deleteState(state->getState().getId());
+            }
         }
         else
         {
-            TransitionUI* transition = dynamic_cast<TransitionUI*>(widget);
-            if(transition)
+            TransitionUI* transition = dynamic_cast<TransitionUI*>(item);
+            if(transition != nullptr)
+            {
                 canvas->deleteTransition(transition->getTransition().getId());
+            }
         }
-        
     }
 }

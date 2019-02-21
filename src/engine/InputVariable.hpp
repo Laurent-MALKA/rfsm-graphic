@@ -5,19 +5,21 @@
 
 class InputVariable : public Variable
 {
-    private:
-        static std::vector<std::string> InputTypes;
-        std::string stimuli;
-    public:
-        InputVariable(const std::string& name, int type_index = 0, const std::string& stimuli = "");
+  private:
+    static std::vector<std::string> InputTypes;
+    std::string stimuli;
 
-        std::vector<std::string> getTypes() const;
+  public:
+    InputVariable(const std::string& name,
+                  int type_index = 0,
+                  const std::string& stimuli = "");
 
-        std::string getStimuli() const;
+    std::vector<std::string> getTypes() const;
 
-        void setStimuli(const std::string& stimuli);
-        void setStimuli(const char* stimuli);
+    std::string getStimuli() const;
 
+    void setStimuli(const std::string& stimuli);
+    void setStimuli(const char* stimuli);
 };
 
 #endif

@@ -1,52 +1,57 @@
 #ifndef RFSM_GRAPHIC_MAINWINDOW_HPP
 #define RFSM_GRAPHIC_MAINWINDOW_HPP
 
-#include <string>
-#include <map>
-
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QFrame>
-#include <QPushButton>
-#include <QGroupBox>
-
 #include "Canvas.hpp"
 #include "Tools.hpp"
+
+#include <QFrame>
+#include <QGroupBox>
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QPushButton>
+#include <map>
+#include <string>
 
 class Tool;
 class QGraphicsView;
 
-enum class ToolEnum {select, initial_state, add_state, add_transition, deletion};
+enum class ToolEnum
+{
+    select,
+    initial_state,
+    add_state,
+    add_transition,
+    deletion
+};
 
 class MainWindow : public QMainWindow
 {
+    Q_OBJECT
 
-Q_OBJECT
-
-private:
+  private:
     QMenu* file_menu;
-        QAction* new_file_action;
-        QAction* open_file_action;
-        QAction* save_file_action;
-        QAction* save_as_file_action;
-        QAction* export_content_action;
-        QAction* exit_action;
+    QAction* new_file_action;
+    QAction* open_file_action;
+    QAction* save_file_action;
+    QAction* save_as_file_action;
+    QAction* export_content_action;
+    QAction* exit_action;
     QMenu* edit_menu;
-        QAction* undo_action;
-        QAction* redo_action;
+    QAction* undo_action;
+    QAction* redo_action;
     QMenu* help_menu;
-        QAction* about_action;
+    QAction* about_action;
 
-    QWidget *central_widget;
-    QFrame *tool_bar;
-    Canvas *canvas;
-    QGraphicsView *view;
-    QFrame *properties_panel;
+    QWidget* central_widget;
+    QFrame* tool_bar;
+    Canvas* canvas;
+    QGraphicsView* view;
+    QFrame* properties_panel;
 
     Tool* current_tool;
     std::map<ToolEnum, Tool*> tools;
 
-public slots:
+  public slots:
     void newFile();
     void openFile();
     void save();
@@ -56,7 +61,7 @@ public slots:
     void redo();
     void setCurrentTool(ToolEnum tool);
 
-public:
+  public:
     MainWindow();
 
     Tool* getCurrentTool();
@@ -64,12 +69,13 @@ public:
 
     Canvas* getCanvas();
 
-    //void mousePressEvent(QMouseEvent *event);
+    // void mousePressEvent(QMouseEvent *event);
 
-private:
+  private:
     void createCentralWidget();
     void createMenu();
-    QPushButton* createPushButton(std::string label, std::string icon_path);
+    QPushButton* createPushButton(const std::string& label,
+                                  const std::string& icon_path);
     void createToolBar();
     void createCanvas();
     void createPropertiesPanel();
@@ -79,8 +85,6 @@ private:
     QGroupBox* createInputVariablePanel();
     QGroupBox* createOutputVariablePanel();
     QGroupBox* createInternVariablePanel();
-
 };
-
 
 #endif

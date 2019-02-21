@@ -5,12 +5,12 @@
 
 class AddTransitionTool : public Tool
 {
-    public:
+  public:
     explicit AddTransitionTool(MainWindow* main_window);
-    ~AddTransitionTool();
+    ~AddTransitionTool() = default;
 
-    void pressAct(QGraphicsSceneMouseEvent *event) {}
-    void releaseAct(QGraphicsSceneMouseEvent *event);
+    void pressAct(QGraphicsSceneMouseEvent* event) override {}
+    void releaseAct(QGraphicsSceneMouseEvent* event) override;
 };
 
 #endif
