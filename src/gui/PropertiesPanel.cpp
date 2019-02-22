@@ -30,7 +30,9 @@ PropertiesPanel::PropertiesPanel(MainWindow* parent) : QFrame(parent)
 
     layout->addWidget(state_panel);
     layout->addWidget(transition_panel);
-    layout->addWidget(input_variable_panel);
+    //layout->addWidget(input_variable_panel);
+    //layout->addWidget(output_variable_panel);
+    //layout->addWidget(intern_variable_panel);
 
     this->setLayout(layout);
 
