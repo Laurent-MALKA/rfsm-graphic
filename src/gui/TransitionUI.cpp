@@ -8,15 +8,17 @@
 #include <vector>
 
 TransitionUI::TransitionUI(Transition& transition,
-                           StateUI& start_state,
-                           StateUI& end_state)
+                           StateUI* start_state,
+                           StateUI* end_state)
     : transition(transition),
       start_state(start_state),
       end_state(end_state),
       border_size(5),
       arrow_size(25),
       arrow_angle(30.0)
-{}
+{
+    setFlag(QGraphicsItem::ItemIsSelectable, true);
+}
 
 Transition& TransitionUI::getTransition()
 {
@@ -25,21 +27,33 @@ Transition& TransitionUI::getTransition()
 
 StateUI& TransitionUI::getStartState()
 {
-    return start_state;
+    return *start_state;
 }
 
 StateUI& TransitionUI::getEndState()
 {
-    return end_state;
+    return *end_state;
+}
+
+void TransitionUI::setStartState(StateUI* start_state)
+{
+    this->start_state = start_state;
+    transition.setStartState(&start_state->getState());
+}
+
+void TransitionUI::setEndState(StateUI* end_state)
+{
+    this->end_state = end_state;
+    transition.setEndState(&end_state->getState());
 }
 
 QRectF TransitionUI::boundingRect() const
 {
-    if(start_state.getState().getId() != end_state.getState().getId())
+    if(start_state->getState().getId() != end_state->getState().getId())
     {
         QPointF start_point =
-            start_state.mapToScene(start_state.rect().center());
-        QPointF end_point = end_state.mapToScene(end_state.rect().center());
+            start_state->mapToScene(start_state->rect().center());
+        QPointF end_point = end_state->mapToScene(end_state->rect().center());
 
         return QRectF(start_point, end_point).normalized();
     }
@@ -47,11 +61,11 @@ QRectF TransitionUI::boundingRect() const
     else
     {
         QPointF center_point =
-            mapFromItem(&start_state, start_state.rect().center());
+            mapFromItem(start_state, start_state->rect().center());
         return QRectF(center_point.x(),
                       center_point.y(),
-                      -start_state.rect().width(),
-                      -start_state.rect().height())
+                      -start_state->rect().width(),
+                      -start_state->rect().height())
             .normalized()
             .adjusted(-border_size, -border_size, border_size, border_size);
     }
@@ -61,7 +75,7 @@ QPainterPath TransitionUI::shape() const
 {
     QPainterPath path;
 
-    if(start_state.getState().getId() != end_state.getState().getId())
+    if(start_state->getState().getId() != end_state->getState().getId())
     {
         QLineF line = this->line();
         qreal angle = qDegreesToRadians(line.normalVector().angle());
@@ -83,11 +97,11 @@ QPainterPath TransitionUI::shape() const
     else
     {
         QPointF center_point =
-            mapFromItem(&start_state, start_state.rect().center());
+            mapFromItem(start_state, start_state->rect().center());
         QRectF arrow = QRectF(center_point.x(),
                               center_point.y(),
-                              -start_state.rect().width(),
-                              -start_state.rect().height())
+                              -start_state->rect().width(),
+                              -start_state->rect().height())
                            .normalized();
 
         path.addRect(arrow);
@@ -122,32 +136,32 @@ void TransitionUI::paint(QPainter* painter,
 
     painter->setRenderHint(QPainter::Antialiasing);
 
-    if(start_state.getState().getId() != end_state.getState().getId())
+    if(start_state->getState().getId() != end_state->getState().getId())
     {
-        if(start_state.collidesWithItem(&end_state))
+        if(start_state->collidesWithItem(end_state))
             return;
 
         QPointF start_point =
-            start_state.mapToScene(start_state.rect().center());
-        QPointF end_point = end_state.mapToScene(end_state.rect().center());
+            start_state->mapToScene(start_state->rect().center());
+        QPointF end_point = end_state->mapToScene(end_state->rect().center());
 
         setLine(QLineF(start_point, end_point));
 
         std::vector<QLineF> state_lines;
         QPointF p1(mapFromItem(
-            &end_state, QPointF(end_state.rect().x(), end_state.rect().y())));
+            end_state, QPointF(end_state->rect().x(), end_state->rect().y())));
         QPointF p2(mapFromItem(
-            &end_state,
-            QPointF(end_state.rect().x(),
-                    end_state.rect().y() + end_state.rect().height())));
+            end_state,
+            QPointF(end_state->rect().x(),
+                    end_state->rect().y() + end_state->rect().height())));
         QPointF p3(mapFromItem(
-            &end_state,
-            QPointF(end_state.rect().x() + end_state.rect().width(),
-                    end_state.rect().y() + end_state.rect().height())));
-        QPointF p4(
-            mapFromItem(&end_state,
-                        QPointF(end_state.rect().x() + end_state.rect().width(),
-                                end_state.rect().y())));
+            end_state,
+            QPointF(end_state->rect().x() + end_state->rect().width(),
+                    end_state->rect().y() + end_state->rect().height())));
+        QPointF p4(mapFromItem(
+            end_state,
+            QPointF(end_state->rect().x() + end_state->rect().width(),
+                    end_state->rect().y())));
         state_lines.emplace_back(p1, p2);
         state_lines.emplace_back(p2, p3);
         state_lines.emplace_back(p3, p4);
@@ -189,11 +203,11 @@ void TransitionUI::paint(QPainter* painter,
     {
         setZValue(-1);
         QPointF center_point =
-            mapFromItem(&start_state, start_state.rect().center());
+            mapFromItem(start_state, start_state->rect().center());
         QRectF arrow = QRectF(center_point.x(),
                               center_point.y(),
-                              -start_state.rect().width(),
-                              -start_state.rect().height())
+                              -start_state->rect().width(),
+                              -start_state->rect().height())
                            .normalized();
 
         painter->drawRect(arrow);

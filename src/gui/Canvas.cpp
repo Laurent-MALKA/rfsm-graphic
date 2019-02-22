@@ -20,6 +20,11 @@ const std::vector<StateUI*> Canvas::getStates() const
     return states;
 }
 
+std::vector<StateUI*> Canvas::getStates()
+{
+    return states;
+}
+
 /**
  * Create a state in the state charts and display it
  */
@@ -36,10 +41,10 @@ StateUI* Canvas::addState(double posX, double posY)
     return state;
 }
 
-TransitionUI* Canvas::addTransition(StateUI& start_state, StateUI& end_state)
+TransitionUI* Canvas::addTransition(StateUI* start_state, StateUI* end_state)
 {
-    int start_state_id = start_state.getState().getId();
-    int end_state_id = end_state.getState().getId();
+    int start_state_id = start_state->getState().getId();
+    int end_state_id = end_state->getState().getId();
 
     unsigned int id = state_chart.addTransition(start_state_id, end_state_id);
     TransitionUI* transition =

@@ -277,7 +277,7 @@ unsigned int StateChart::addTransition(int starting_state_id,
     State* starting_state = states[starting_state_index];
     State* end_state = states[end_state_index];
 
-    Transition* new_transition = new Transition(*starting_state, *end_state);
+    Transition* new_transition = new Transition(starting_state, end_state);
 
     new_transition->setCondition(condition);
     new_transition->setAction(action);

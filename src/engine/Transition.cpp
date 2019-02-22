@@ -5,13 +5,13 @@
 
 unsigned int Transition::transitions_counter = 0;
 
-Transition::Transition(State& starting_state, State& end_state)
+Transition::Transition(State* starting_state, State* end_state)
     : starting_state(starting_state), end_state(end_state)
 {
     id = transitions_counter++;
 
-    starting_state.addOutTransition(this);
-    end_state.addInTransition(this);
+    starting_state->addOutTransition(this);
+    end_state->addInTransition(this);
 }
 
 unsigned int Transition::getId() const
@@ -56,20 +56,33 @@ bool Transition::hasAction()
 
 const State& Transition::getStartingState() const
 {
-    return starting_state;
+    return *starting_state;
 }
 
 const State& Transition::getEndState() const
 {
-    return end_state;
+    return *end_state;
+}
+
+void Transition::setStartState(State* start_state)
+{
+    this->starting_state->removeOutTransition(id);
+    this->starting_state = start_state;
+    this->starting_state->addOutTransition(this);
+}
+void Transition::setEndState(State* end_state)
+{
+    this->end_state->removeInTransition(id);
+    this->end_state = end_state;
+    this->end_state->addInTransition(this);
 }
 
 unsigned int Transition::getStartingStateId() const
 {
-    return starting_state.getId();
+    return starting_state->getId();
 }
 
 unsigned int Transition::getEndStateId() const
 {
-    return end_state.getId();
+    return end_state->getId();
 }

@@ -5,12 +5,12 @@
 TEST_CASE("transition")
 {
     State n1, n2;
-    Transition transition(n1,n2);
+    Transition transition(&n1,&n2);
 
     SECTION("transition.id")
     {
         unsigned int first_id = transition.getId();
-        REQUIRE(Transition(n1,n2).getId() == first_id+1);
+        REQUIRE(Transition(&n1,&n2).getId() == first_id+1);
     }
 
     SECTION("transition.condition")

@@ -15,24 +15,7 @@ void SelectTool::pressAct(QGraphicsSceneMouseEvent* event)
     QGraphicsItem* item = canvas->itemAt(event->scenePos(), QTransform());
 
     if(item != nullptr)
-    {
-        if(item->type() == StateUI::Type)
-        {
-            StateUI* state = dynamic_cast<StateUI*>(item);
-            if(state != nullptr)
-            {
-                std::cout << "State selected : " << state->getState().getId()
-                          << std::endl;
-            }
-        }
-        else
-        {
-            TransitionUI* transition = dynamic_cast<TransitionUI*>(item);
-            if(transition != nullptr)
-            {
-                std::cout << "Transition selected : "
-                          << transition->getTransition().getId() << std::endl;
-            }
-        }
-    }
+        main_window->getPropertiesPanel()->setSelectedItem(item);
+    else
+        main_window->getPropertiesPanel()->unselectItem();
 }

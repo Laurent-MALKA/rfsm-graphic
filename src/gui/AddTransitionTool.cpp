@@ -20,6 +20,11 @@ void AddTransitionTool::releaseAct(QGraphicsSceneMouseEvent* event)
 
     if((start_state != nullptr) && (end_state != nullptr))
     {
-        canvas->addTransition(*start_state, *end_state);
+        TransitionUI* transition =
+            canvas->addTransition(start_state, end_state);
+
+        main_window->getPropertiesPanel()->setSelectedItem(transition);
+
+        transition->setSelected(true);
     }
 }

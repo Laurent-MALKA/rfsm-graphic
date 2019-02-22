@@ -20,33 +20,35 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 
 # Populate a CMake variable with the sources
 set(COMMON_SOURCES
-        src/Config.cpp  
+        src/Config.cpp
+        src/engine/InputVariable.cpp
         src/engine/State.cpp
         src/engine/StateChart.cpp
         src/engine/Transition.cpp
         src/engine/Variable.cpp
-        src/engine/InputVariable.cpp
         )
 
 set(TARGET_SOURCE
-        src/main.cpp
-        src/gui/MainWindow.cpp
-        src/gui/Canvas.cpp
-        src/gui/StateUI.cpp
-        src/gui/TransitionUI.cpp
-        src/gui/Tool.cpp
-        src/gui/SelectTool.cpp
         src/gui/AddStateTool.cpp
         src/gui/AddTransitionTool.cpp
+        src/gui/Canvas.cpp
         src/gui/DeletionTool.cpp
+        src/gui/MainWindow.cpp
+        src/gui/PropertiesPanel.cpp
+        src/gui/SelectTool.cpp
+        src/gui/StateUI.cpp
+        src/gui/Tool.cpp
+        src/gui/TransitionUI.cpp
+        src/main.cpp
         )
 
 set(TEST_SOURCES
-        test/stateTest.cpp  
-        test/stateChartTest.cpp  
-        test/tests.cpp  
-        test/transitionTest.cpp  
-        test/variableTest.cpp)
+        test/stateChartTest.cpp
+        test/stateTest.cpp
+        test/tests.cpp
+        test/transitionTest.cpp
+        test/variableTest.cpp
+        )
 
 #Executables
 add_executable(app ${COMMON_SOURCES} ${TARGET_SOURCE})
@@ -56,9 +58,11 @@ add_executable(tests ${COMMON_SOURCES} ${TEST_SOURCES})
 target_link_libraries(app
         Qt5::Core
         Qt5::Widgets
-        Qt5::Gui)
+        Qt5::Gui
+        )
 
 target_link_libraries(tests
         Qt5::Core
         Qt5::Widgets
-        Qt5::Gui)
+        Qt5::Gui
+        )

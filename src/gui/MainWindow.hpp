@@ -2,6 +2,7 @@
 #define RFSM_GRAPHIC_MAINWINDOW_HPP
 
 #include "Canvas.hpp"
+#include "PropertiesPanel.hpp"
 #include "Tools.hpp"
 
 #include <QFrame>
@@ -36,9 +37,11 @@ class MainWindow : public QMainWindow
     QAction* save_as_file_action;
     QAction* export_content_action;
     QAction* exit_action;
+
     QMenu* edit_menu;
     QAction* undo_action;
     QAction* redo_action;
+
     QMenu* help_menu;
     QAction* about_action;
 
@@ -46,7 +49,7 @@ class MainWindow : public QMainWindow
     QFrame* tool_bar;
     Canvas* canvas;
     QGraphicsView* view;
-    QFrame* properties_panel;
+    PropertiesPanel* properties_panel;
 
     Tool* current_tool;
     std::map<ToolEnum, Tool*> tools;
@@ -68,6 +71,7 @@ class MainWindow : public QMainWindow
     void setCurrentTool(Tool* tool);
 
     Canvas* getCanvas();
+    PropertiesPanel* getPropertiesPanel();
 
     // void mousePressEvent(QMouseEvent *event);
 

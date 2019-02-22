@@ -13,4 +13,6 @@ void AddStateTool::pressAct(QGraphicsSceneMouseEvent* event)
 
     StateUI* state = canvas->addState(click_pos.x(), click_pos.y());
     state->setFlag(QGraphicsItem::ItemIsMovable, false);
+
+    main_window->getPropertiesPanel()->setSelectedItem(state);
 }

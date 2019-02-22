@@ -12,8 +12,8 @@ class TransitionUI : public QGraphicsLineItem
 {
   private:
     Transition& transition;
-    StateUI& start_state;
-    StateUI& end_state;
+    StateUI* start_state;
+    StateUI* end_state;
 
     double border_size;
     double arrow_size;
@@ -27,11 +27,15 @@ class TransitionUI : public QGraphicsLineItem
     };
 
     TransitionUI(Transition& transition,
-                 StateUI& start_state,
-                 StateUI& end_state);
+                 StateUI* start_state,
+                 StateUI* end_state);
+
     Transition& getTransition();
     StateUI& getStartState();
     StateUI& getEndState();
+
+    void setStartState(StateUI* start_state);
+    void setEndState(StateUI* end_state);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

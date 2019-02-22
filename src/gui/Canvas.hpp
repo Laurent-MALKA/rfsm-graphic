@@ -22,8 +22,9 @@ class Canvas : public QGraphicsScene
     explicit Canvas(MainWindow* parent = nullptr);
 
     const std::vector<StateUI*> getStates() const;
+    std::vector<StateUI*> getStates();
     StateUI* addState(double posX, double posY);
-    TransitionUI* addTransition(StateUI& start_state, StateUI& end_state);
+    TransitionUI* addTransition(StateUI* start_state, StateUI* end_state);
     void deleteState(int state_id);
     void deleteTransition(int transition_id);
 

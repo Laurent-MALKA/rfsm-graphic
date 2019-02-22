@@ -31,5 +31,6 @@ void DeletionTool::pressAct(QGraphicsSceneMouseEvent* event)
                 canvas->deleteTransition(transition->getTransition().getId());
             }
         }
+        main_window->getPropertiesPanel()->unselectItem();
     }
 }

@@ -1,4 +1,6 @@
 #include "MainWindow.hpp"
+#include "Canvas.hpp"
+#include "PropertiesPanel.hpp"
 #include "Tools.hpp"
 
 #include <QApplication>
@@ -9,7 +11,6 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QSignalMapper>
 #include <QTextEdit>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -44,6 +45,11 @@ void MainWindow::setCurrentTool(Tool* tool)
 Canvas* MainWindow::getCanvas()
 {
     return canvas;
+}
+
+PropertiesPanel* MainWindow::getPropertiesPanel()
+{
+    return properties_panel;
 }
 
 /**
@@ -180,21 +186,21 @@ void MainWindow::createCanvas()
 
 void MainWindow::createPropertiesPanel()
 {
-    properties_panel = new QFrame();
+    properties_panel = new PropertiesPanel(this);
     properties_panel->setMinimumWidth(240);
     properties_panel->setMaximumWidth(360);
 
-    QVBoxLayout* layout = new QVBoxLayout;
-    layout->setAlignment(Qt::AlignTop);
+    // QVBoxLayout* layout = new QVBoxLayout;
+    // layout->setAlignment(Qt::AlignTop);
 
-    layout->addWidget(createTreeView());
-    layout->addWidget(createStatePanel());
-    layout->addWidget(createTransitionPanel());
-    layout->addWidget(createInputVariablePanel());
-    layout->addWidget(createOutputVariablePanel());
-    layout->addWidget(createInternVariablePanel());
+    // layout->addWidget(createTreeView());
+    // layout->addWidget(createStatePanel());
+    // layout->addWidget(createTransitionPanel());
+    // layout->addWidget(createInputVariablePanel());
+    // layout->addWidget(createOutputVariablePanel());
+    // layout->addWidget(createInternVariablePanel());
 
-    properties_panel->setLayout(layout);
+    // properties_panel->setLayout(layout);
 }
 
 /**
