@@ -2,45 +2,28 @@
 
 #include <stdexcept>
 
-std::vector<std::string> Variable::Types = {"bool", "int", "float"};
-
-Variable::Variable(const std::string& name, int type_index)
-    : type_index(0), name(name)
+Variable::Variable(const std::string& name, const std::string& type)
+    : type(type), name(name)
 {}
 
-std::string Variable::getType() const
+const std::string& Variable::getType() const
 {
-    return getTypes()[type_index];
+    return type;
 }
 
-std::string Variable::getName() const
+const std::string& Variable::getName() const
 {
     return name;
 }
 
-std::vector<std::string> Variable::getTypes() const
+void Variable::setType(const char* type)
 {
-    return Types;
-}
-
-void Variable::setType(int type_index)
-{
-    if(0 > type_index || (unsigned)type_index >= getTypes().size())
-        throw std::invalid_argument("Invalid type index");
-
-    this->type_index = type_index;
+    this->type = type;
 }
 
 void Variable::setType(const std::string& type)
 {
-    unsigned int index = 0;
-    while(index < getTypes().size() && getTypes()[index] != type)
-        index++;
-
-    if(index == getTypes().size())
-        throw std::invalid_argument("Invalid type name");
-
-    setType(index);
+    this->type = type;
 }
 
 void Variable::setName(const char* name)

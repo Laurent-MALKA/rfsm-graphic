@@ -6,22 +6,17 @@
 
 class Variable
 {
-  private:
-    static std::vector<std::string> Types;
-
   protected:
-    int type_index;
+    std::string type;
     std::string name;
 
   public:
-    Variable(const std::string& name, int type_index = 0);
+    Variable(const std::string& name, const std::string& type_index = "int");
 
-    std::string getType() const;
-    std::string getName() const;
+    const std::string& getType() const;
+    const std::string& getName() const;
 
-    virtual std::vector<std::string> getTypes() const;
-
-    void setType(int type_index);
+    void setType(const char* type_index);
     void setType(const std::string& type);
 
     void setName(const char* name);

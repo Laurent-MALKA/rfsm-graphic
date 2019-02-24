@@ -40,6 +40,14 @@ class StateChart
     int addInoutVariable();
     int addInternVariable();
 
+    // Variable creations with args
+    int addInVariable(const std::string& name,
+                      const std::string& type,
+                      const std::string& stimuli);
+    int addOutVariable(const std::string& name, const std::string& type);
+    int addInoutVariable(const std::string& name, const std::string& type);
+    int addInternVariable(const std::string& name, const std::string& type);
+
     // Variable getters
     const InputVariable* getInVariable(int index) const;
     const Variable* getOutVariable(int index) const;
@@ -60,6 +68,11 @@ class StateChart
 
     // Variable stimuli setter
     void setInVariableStimuli(int index, const std::string& stimuli);
+
+    void removeInputVariable(int index);
+    void removeOutputVariable(int index);
+    void removeInoutVariable(int index);
+    void removeInternVariable(int index);
 
     const State& getState(int state_id) const;
     State& getState(int state_id);

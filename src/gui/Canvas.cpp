@@ -12,7 +12,14 @@ Canvas::Canvas(MainWindow* parent) : QGraphicsScene(parent)
 {
     main_window = parent;
 
+    state_chart = new StateChart();
+
     setSceneRect(QRectF(0, 0, 5000, 5000));
+}
+
+StateChart* Canvas::getStateChart()
+{
+    return state_chart;
 }
 
 const std::vector<StateUI*> Canvas::getStates() const
@@ -32,8 +39,8 @@ StateUI* Canvas::addState(double posX, double posY)
 {
     std::string name =
         std::string("state_") + std::to_string(State::getStatesCounter());
-    unsigned int id = state_chart.addState(name);
-    StateUI* state = new StateUI(state_chart.getState(id), posX, posY);
+    unsigned int id = state_chart->addState(name);
+    StateUI* state = new StateUI(state_chart->getState(id), posX, posY);
     this->states.push_back(state);
 
     addItem(state);
@@ -46,9 +53,9 @@ TransitionUI* Canvas::addTransition(StateUI* start_state, StateUI* end_state)
     int start_state_id = start_state->getState().getId();
     int end_state_id = end_state->getState().getId();
 
-    unsigned int id = state_chart.addTransition(start_state_id, end_state_id);
-    TransitionUI* transition =
-        new TransitionUI(state_chart.getTransition(id), start_state, end_state);
+    unsigned int id = state_chart->addTransition(start_state_id, end_state_id);
+    TransitionUI* transition = new TransitionUI(
+        state_chart->getTransition(id), start_state, end_state);
     this->transitions.push_back(transition);
 
     addItem(transition);
@@ -80,7 +87,7 @@ void Canvas::deleteState(int state_id)
     delete *state;
     states.erase(state);
 
-    state_chart.deleteState(state_id);
+    state_chart->deleteState(state_id);
 }
 
 void Canvas::deleteTransition(int transition_id)
@@ -98,7 +105,7 @@ void Canvas::deleteTransition(int transition_id)
     delete *transition;
     transitions.erase(transition);
 
-    state_chart.deleteTransition(transition_id);
+    state_chart->deleteTransition(transition_id);
 }
 
 void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* event)

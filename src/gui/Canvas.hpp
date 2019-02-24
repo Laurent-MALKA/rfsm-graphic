@@ -13,7 +13,7 @@ class MainWindow;
 class Canvas : public QGraphicsScene
 {
   private:
-    StateChart state_chart;
+    StateChart* state_chart;
     std::vector<StateUI*> states;
     std::vector<TransitionUI*> transitions;
     MainWindow* main_window;
@@ -21,10 +21,14 @@ class Canvas : public QGraphicsScene
   public:
     explicit Canvas(MainWindow* parent = nullptr);
 
+    StateChart* getStateChart();
+
     const std::vector<StateUI*> getStates() const;
     std::vector<StateUI*> getStates();
+
     StateUI* addState(double posX, double posY);
     TransitionUI* addTransition(StateUI* start_state, StateUI* end_state);
+
     void deleteState(int state_id);
     void deleteTransition(int transition_id);
 
@@ -35,7 +39,6 @@ class Canvas : public QGraphicsScene
                        bool enabled = true);
     void setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag,
                             bool enabled = true);
-    // void addEdge(/* NODE infos */);
 };
 
 #endif

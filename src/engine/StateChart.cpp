@@ -75,6 +75,34 @@ int StateChart::addInternVariable()
     return intern_variables.size() - 1;
 }
 
+int StateChart::addInVariable(const std::string& name,
+                              const std::string& type,
+                              const std::string& stimuli)
+{
+    in_variables.push_back(new InputVariable(name, type));
+    return in_variables.size() - 1;
+}
+
+int StateChart::addOutVariable(const std::string& name, const std::string& type)
+{
+    out_variables.push_back(new Variable(name, type));
+    return out_variables.size() - 1;
+}
+
+int StateChart::addInoutVariable(const std::string& name,
+                                 const std::string& type)
+{
+    inout_variables.push_back(new Variable(name, type));
+    return inout_variables.size() - 1;
+}
+
+int StateChart::addInternVariable(const std::string& name,
+                                  const std::string& type)
+{
+    intern_variables.push_back(new Variable(name, type));
+    return intern_variables.size() - 1;
+}
+
 const InputVariable* StateChart::getInVariable(int index) const
 {
     if(0 <= index && index < in_variables.size())
@@ -203,6 +231,38 @@ void StateChart::setInVariableStimuli(int index, const std::string& stimuli)
     }
     else
         throw std::out_of_range("invalid index");
+}
+
+void StateChart::removeInputVariable(int index)
+{
+    if(index < 0 || in_variables.size() <= index)
+        throw std::invalid_argument("Wrong variable index");
+
+    in_variables.erase(in_variables.begin() + index);
+}
+
+void StateChart::removeOutputVariable(int index)
+{
+    if(index < 0 || out_variables.size() <= index)
+        throw std::invalid_argument("Wrong variable index");
+
+    out_variables.erase(out_variables.begin() + index);
+}
+
+void StateChart::removeInoutVariable(int index)
+{
+    if(index < 0 || inout_variables.size() <= index)
+        throw std::invalid_argument("Wrong variable index");
+
+    inout_variables.erase(inout_variables.begin() + index);
+}
+
+void StateChart::removeInternVariable(int index)
+{
+    if(index < 0 || intern_variables.size() <= index)
+        throw std::invalid_argument("Wrong variable index");
+
+    intern_variables.erase(intern_variables.begin() + index);
 }
 
 const State& StateChart::getState(int state_id) const

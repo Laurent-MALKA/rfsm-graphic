@@ -6,7 +6,9 @@
 #include <QGraphicsItem>
 #include <QGroupBox>
 #include <QLineEdit>
+#include <QListView>
 #include <QString>
+#include <QStringListModel>
 
 class MainWindow;
 class StateUI;
@@ -32,9 +34,30 @@ class PropertiesPanel : public QFrame
     QLineEdit* transition_condition_field;
     QLineEdit* transition_action_field;
 
-    // QGroupBox* input_variable_panel;
-    // QGroupBox* output_variable_panel;
-    // QGroupBox* intern_variable_panel;
+    QGroupBox* intern_variable_panel;
+    QLineEdit* intern_variable_name;
+    QLineEdit* intern_variable_type;
+    QStringListModel* intern_variables_model;
+    QListView* intern_variables_view;
+
+    QGroupBox* input_variable_panel;
+    QLineEdit* input_variable_name;
+    QLineEdit* input_variable_type;
+    QLineEdit* input_variable_stimuli;
+    QStringListModel* input_variables_model;
+    QListView* input_variables_view;
+
+    QGroupBox* output_variable_panel;
+    QLineEdit* output_variable_name;
+    QLineEdit* output_variable_type;
+    QStringListModel* output_variables_model;
+    QListView* output_variables_view;
+
+    QGroupBox* inout_variable_panel;
+    QLineEdit* inout_variable_name;
+    QLineEdit* inout_variable_type;
+    QStringListModel* inout_variables_model;
+    QListView* inout_variables_view;
 
   public:
     PropertiesPanel(MainWindow* parent);
@@ -47,17 +70,32 @@ class PropertiesPanel : public QFrame
 
   public slots:
     void setStateName(const QString& name);
+
     void setTransitionStartState(int index);
     void setTransitionEndState(int index);
     void setTransitionCondition(const QString& condition);
     void setTransitionAction(const QString& action);
 
+    void addInternVariable();
+    void removeInternVariables();
+
+    void addInputVariable();
+    void removeInputVariables();
+
+    void addOutputVariable();
+    void removeOutputVariables();
+
+    void addInoutVariable();
+    void removeInoutVariables();
+
   private:
     void createStatePanel();
     void createTransitionPanel();
-    // void createInputVariablePanel();
-    // void createOutputVariablePanel();
-    // void createInternVariablePanel();
+
+    void createInternVariablePanel();
+    void createInputVariablePanel();
+    void createOutputVariablePanel();
+    void createInoutVariablePanel();
 };
 
 #endif
