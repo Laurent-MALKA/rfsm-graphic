@@ -5,16 +5,20 @@
 
 #include <QApplication>
 #include <QComboBox>
+#include <QFileDialog>
 #include <QGraphicsView>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QTreeView>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <cstdio>
+#include <fstream>
 #include <iostream>
 
 MainWindow::MainWindow()
@@ -171,8 +175,9 @@ void MainWindow::createToolBar()
     connect(select_tool, &QPushButton::clicked, this, [this]() {
         setCurrentTool(ToolEnum::select);
     });
-    connect(set_initial_state_tool, &QPushButton::clicked, this, [this](){
-    setCurrentTool(ToolEnum::set_initial_state); });
+    connect(set_initial_state_tool, &QPushButton::clicked, this, [this]() {
+        setCurrentTool(ToolEnum::set_initial_state);
+    });
     connect(add_state_tool, &QPushButton::clicked, this, [this]() {
         setCurrentTool(ToolEnum::add_state);
     });
@@ -235,7 +240,37 @@ void MainWindow::saveAs() {}
 /**
  * Export the file
  */
-void MainWindow::exportContent() {}
+void MainWindow::exportContent()
+{
+    std::ofstream file;
+    QString file_name;
+
+    do
+    {
+        file_name = QFileDialog::getSaveFileName(
+            this, "Export to FSM file", "", "FSM file (*.fsm)");
+
+        if(file_name.isEmpty())
+            return;
+
+        file.open(file_name.toStdString());
+        if(!file)
+            QMessageBox::warning(this, "Error", "Unable to open file");
+    } while(!file);
+
+    try
+    {
+        std::string fsm_code = canvas->getStateChart()->toFSMCode();
+        file << fsm_code;
+    }
+    catch(const std::exception& e)
+    {
+        file.close();
+        std::remove(file_name.toStdString().c_str());
+        QMessageBox::warning(
+            this, "Error", "Unable to export : " + QString(e.what()));
+    }
+}
 
 /**
  * Undo the last command

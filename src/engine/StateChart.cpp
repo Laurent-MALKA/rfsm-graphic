@@ -474,8 +474,10 @@ std::string StateChart::toFSMCode()
         code << ";" << std::endl;
     }
 
-    code << indent;
-    code << "trans: " << std::endl;
+
+    std::stringstream transitions_code;
+    transitions_code << indent;
+    transitions_code << "trans: " << std::endl;
     first = true;
 
     for(auto& state : states)
@@ -483,20 +485,25 @@ std::string StateChart::toFSMCode()
         for(auto& transition : state->getOutTransitions())
         {
             if(!first)
-                code << "," << std::endl;
-            code << indent << indent;
-            code << transition->getStartingState().getName() << " -- ";
-            code << transition->getCondition();
+                transitions_code << "," << std::endl;
+            transitions_code << indent << indent;
+            transitions_code << transition->getStartingState().getName() << " -- ";
+            if(transition->getCondition().empty())
+                throw std::invalid_argument("A transition doesn't have a condition");
+            transitions_code << transition->getCondition();
             if(transition->hasAction())
             {
-                code << " | ";
-                code << transition->getAction();
+                transitions_code << " | ";
+                transitions_code << transition->getAction();
             }
-            code << " -> " << transition->getEndState().getName();
+            transitions_code << " -> " << transition->getEndState().getName();
             first = false;
         }
     }
-    code << ";" << std::endl;
+    transitions_code << ";" << std::endl;
+
+    if(!first)
+        code << transitions_code.str();
 
     code << indent;
     code << "itrans: " << std::endl;
