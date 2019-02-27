@@ -3,7 +3,7 @@
 
 DeletionTool::DeletionTool(MainWindow* main_window) : Tool(main_window)
 {
-    setCursor("../assets/delete.svg");
+    setCursor("assets/delete.svg");
 }
 
 void DeletionTool::pressAct(QGraphicsSceneMouseEvent* event)

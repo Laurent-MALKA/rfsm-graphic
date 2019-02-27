@@ -3,7 +3,7 @@
 
 AddStateTool::AddStateTool(MainWindow* main_window) : Tool(main_window)
 {
-    setCursor("../assets/state.svg");
+    setCursor("assets/state.svg");
 }
 
 void AddStateTool::pressAct(QGraphicsSceneMouseEvent* event)

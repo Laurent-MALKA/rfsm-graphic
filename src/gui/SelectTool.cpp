@@ -3,7 +3,7 @@
 
 SelectTool::SelectTool(MainWindow* main_window) : Tool(main_window)
 {
-    setCursor("../assets/select.svg", 0, 0);
+    setCursor("assets/select.svg", 0, 0);
 }
 
 void SelectTool::pressAct(QGraphicsSceneMouseEvent* event)

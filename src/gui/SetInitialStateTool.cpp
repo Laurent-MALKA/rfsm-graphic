@@ -7,7 +7,7 @@
 SetInitialStateTool::SetInitialStateTool(MainWindow* main_window)
     : Tool(main_window), current_initial_state(nullptr)
 {
-    setCursor("../assets/init_state.svg");
+    setCursor("assets/init_state.svg");
 }
 
 void SetInitialStateTool::pressAct(QGraphicsSceneMouseEvent* event)

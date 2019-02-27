@@ -152,15 +152,14 @@ void MainWindow::createToolBar()
 
     // Create all buttons
     QPushButton* select_tool =
-        createPushButton("Selection", "../assets/select.svg");
+        createPushButton("Selection", "assets/select.svg");
     QPushButton* set_initial_state_tool =
-        createPushButton("Initial State", "../assets/init_state.svg");
-    QPushButton* add_state_tool =
-        createPushButton("State", "../assets/state.svg");
+        createPushButton("Initial State", "assets/init_state.svg");
+    QPushButton* add_state_tool = createPushButton("State", "assets/state.svg");
     QPushButton* add_transition_tool =
-        createPushButton("Transition", "../assets/transition.svg");
+        createPushButton("Transition", "assets/transition.svg");
     QPushButton* deletion_tool =
-        createPushButton("Delete", "../assets/delete.svg");
+        createPushButton("Delete", "assets/delete.svg");
 
     // Bind button to the layout
     layout->addWidget(select_tool);

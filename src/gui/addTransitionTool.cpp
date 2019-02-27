@@ -6,7 +6,7 @@
 AddTransitionTool::AddTransitionTool(MainWindow* main_window)
     : Tool(main_window)
 {
-    setCursor("../assets/transition.svg");
+    setCursor("assets/transition.svg");
 }
 
 void AddTransitionTool::releaseAct(QGraphicsSceneMouseEvent* event)

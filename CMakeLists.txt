@@ -15,6 +15,12 @@ set(CMAKE_CXX_STANDARD 11)
 #
 set(CMAKE_BUILD_TYPE Debug)
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        add_compile_options (-fdiagnostics-color=always)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        add_compile_options (-fcolor-diagnostics)
+endif ()
+
 # Find the QtWidgets library
 find_package(Qt5Widgets CONFIG REQUIRED)
 
