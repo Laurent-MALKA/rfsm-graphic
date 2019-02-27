@@ -1,9 +1,6 @@
 #include "SelectTool.hpp"
 #include "MainWindow.hpp"
 
-#include <QLabel>
-#include <iostream>
-
 SelectTool::SelectTool(MainWindow* main_window) : Tool(main_window)
 {
     setCursor("../assets/select.svg", 0, 0);

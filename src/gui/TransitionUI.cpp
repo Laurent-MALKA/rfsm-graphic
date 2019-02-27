@@ -118,8 +118,8 @@ int TransitionUI::type() const
 }
 
 void TransitionUI::paint(QPainter* painter,
-                         const QStyleOptionGraphicsItem* option,
-                         QWidget* widget)
+                         const QStyleOptionGraphicsItem*,
+                         QWidget*)
 {
     QPen pen(Qt::black, border_size);
 

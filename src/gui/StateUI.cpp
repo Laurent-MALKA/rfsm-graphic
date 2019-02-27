@@ -86,5 +86,5 @@ QVariant StateUI::itemChange(GraphicsItemChange change, const QVariant& value)
         }
     }
 
-    return QGraphicsItem::itemChange(change, value);
+    return QGraphicsWidget::itemChange(change, value);
 }

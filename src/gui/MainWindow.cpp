@@ -32,6 +32,12 @@ MainWindow::MainWindow()
     setCurrentTool(ToolEnum::add_state);
 }
 
+MainWindow::~MainWindow()
+{
+    for(auto& tool : tools)
+        delete tool.second;
+}
+
 Tool* MainWindow::getCurrentTool()
 {
     return current_tool;

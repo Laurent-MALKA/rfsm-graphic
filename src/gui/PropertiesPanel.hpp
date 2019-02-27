@@ -60,8 +60,8 @@ class PropertiesPanel : public QFrame
     QListView* inout_variables_view;
 
   public:
-    PropertiesPanel(MainWindow* parent);
-    ~PropertiesPanel() = default;
+    explicit PropertiesPanel(MainWindow* parent);
+    ~PropertiesPanel();
 
     void unselectItem();
     void setSelectedItem(QGraphicsItem* item);

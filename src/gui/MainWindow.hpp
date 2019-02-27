@@ -66,6 +66,7 @@ class MainWindow : public QMainWindow
 
   public:
     MainWindow();
+    ~MainWindow();
 
     Tool* getCurrentTool();
     void setCurrentTool(Tool* tool);

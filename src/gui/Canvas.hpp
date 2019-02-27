@@ -20,6 +20,7 @@ class Canvas : public QGraphicsScene
 
   public:
     explicit Canvas(MainWindow* parent = nullptr);
+    ~Canvas();
 
     StateChart* getStateChart();
 

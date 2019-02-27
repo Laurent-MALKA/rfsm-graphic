@@ -6,6 +6,7 @@
 #include "Transition.hpp"
 #include "Variable.hpp"
 
+#include <string>
 #include <vector>
 
 class StateChart
@@ -23,7 +24,7 @@ class StateChart
     std::string initial_action;
 
   public:
-    StateChart();
+    explicit StateChart(const std::string& name = "StateChart");
     ~StateChart();
 
     std::string getName() const;

@@ -17,6 +17,15 @@ Canvas::Canvas(MainWindow* parent) : QGraphicsScene(parent)
     setSceneRect(QRectF(0, 0, 5000, 5000));
 }
 
+Canvas::~Canvas()
+{
+    delete state_chart;
+    for(auto& state : states)
+        delete state;
+    for(auto& transition : transitions)
+        delete transition;
+}
+
 StateChart* Canvas::getStateChart()
 {
     return state_chart;

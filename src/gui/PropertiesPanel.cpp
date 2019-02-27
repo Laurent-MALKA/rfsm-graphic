@@ -65,6 +65,14 @@ PropertiesPanel::PropertiesPanel(MainWindow* parent) : QFrame(parent)
             &PropertiesPanel::setTransitionAction);
 }
 
+PropertiesPanel::~PropertiesPanel()
+{
+    delete intern_variables_model;
+    delete input_variables_model;
+    delete output_variables_model;
+    delete inout_variables_model;
+}
+
 void PropertiesPanel::unselectItem()
 {
     selected_item = nullptr;
@@ -224,9 +232,8 @@ void PropertiesPanel::addInternVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    int variable_index = state_chart->addInternVariable(
-        intern_variable_name->text().toStdString(),
-        intern_variable_type->text().toStdString());
+    state_chart->addInternVariable(intern_variable_name->text().toStdString(),
+                                   intern_variable_type->text().toStdString());
 
     QStringList string_list = intern_variables_model->stringList();
     string_list << intern_variable_name->text() + " : "
@@ -264,10 +271,9 @@ void PropertiesPanel::addInputVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    int variable_index = state_chart->addInVariable(
-        input_variable_name->text().toStdString(),
-        input_variable_type->text().toStdString(),
-        input_variable_stimuli->text().toStdString());
+    state_chart->addInVariable(input_variable_name->text().toStdString(),
+                               input_variable_type->text().toStdString(),
+                               input_variable_stimuli->text().toStdString());
 
     QStringList string_list = input_variables_model->stringList();
     string_list << input_variable_name->text() + " : "
@@ -306,9 +312,8 @@ void PropertiesPanel::addOutputVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    int variable_index =
-        state_chart->addOutVariable(output_variable_name->text().toStdString(),
-                                    output_variable_type->text().toStdString());
+    state_chart->addOutVariable(output_variable_name->text().toStdString(),
+                                output_variable_type->text().toStdString());
 
     QStringList string_list = output_variables_model->stringList();
     string_list << output_variable_name->text() + " : "
@@ -346,9 +351,8 @@ void PropertiesPanel::addInoutVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    int variable_index = state_chart->addInoutVariable(
-        inout_variable_name->text().toStdString(),
-        inout_variable_type->text().toStdString());
+    state_chart->addInoutVariable(inout_variable_name->text().toStdString(),
+                                  inout_variable_type->text().toStdString());
 
     QStringList string_list = inout_variables_model->stringList();
     string_list << inout_variable_name->text() + " : "
@@ -434,7 +438,6 @@ void PropertiesPanel::createTransitionPanel()
 void PropertiesPanel::createInternVariablePanel()
 {
     intern_variable_panel = new QGroupBox("Intern variables");
-    QVBoxLayout* variablePanelLayout = new QVBoxLayout();
     QGridLayout* grid = new QGridLayout();
 
     // QLabel* variableLabel = new QLabel("Variables");
@@ -488,7 +491,6 @@ void PropertiesPanel::createInternVariablePanel()
 void PropertiesPanel::createInputVariablePanel()
 {
     input_variable_panel = new QGroupBox("Input variables");
-    QVBoxLayout* variablePanelLayout = new QVBoxLayout();
     QGridLayout* grid = new QGridLayout();
 
     // QLabel* variableLabel = new QLabel("Variables");
@@ -546,7 +548,6 @@ void PropertiesPanel::createInputVariablePanel()
 void PropertiesPanel::createOutputVariablePanel()
 {
     output_variable_panel = new QGroupBox("Output variables");
-    QVBoxLayout* variablePanelLayout = new QVBoxLayout();
     QGridLayout* grid = new QGridLayout();
 
     // QLabel* variableLabel = new QLabel("Variables");
@@ -601,7 +602,6 @@ void PropertiesPanel::createOutputVariablePanel()
 void PropertiesPanel::createInoutVariablePanel()
 {
     inout_variable_panel = new QGroupBox("Inout variables");
-    QVBoxLayout* variablePanelLayout = new QVBoxLayout();
     QGridLayout* grid = new QGridLayout();
 
     // QLabel* variableLabel = new QLabel("Variables");
