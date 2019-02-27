@@ -91,6 +91,8 @@ class StateChart
     void setInitialState(int state_id);
     void setInitialAction(const std::string& action);
 
+    int getInitialStateId() const;
+
     void deleteState(int state_id);
     void deleteTransition(int transition_id);
 

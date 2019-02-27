@@ -2,4 +2,5 @@
 #include "AddTransitionTool.hpp"
 #include "DeletionTool.hpp"
 #include "SelectTool.hpp"
+#include "SetInitialStateTool.hpp"
 #include "Tool.hpp"

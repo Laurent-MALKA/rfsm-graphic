@@ -6,7 +6,7 @@
 #include <QPen>
 #include <QRectF>
 
-StateUI::StateUI(State& state, double posX, double posY) : state(state)
+StateUI::StateUI(State& state, double posX, double posY) : state(state), initial(false)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -32,16 +32,27 @@ int StateUI::type() const
     return Type;
 }
 
+bool StateUI::isInitial() const
+{
+    return initial;
+}
+
+void StateUI::setInitial(bool initial)
+{
+    this->initial = initial;
+}
+
 /**
  * Overload method the repaint the component
  */
 
 void StateUI::paint(QPainter* painter,
-                    const QStyleOptionGraphicsItem* option,
-                    QWidget* widget)
+                    const QStyleOptionGraphicsItem*,
+                    QWidget*)
 {
     painter->setRenderHint(QPainter::Antialiasing);
     QPen pen(Qt::black, borderSize);
+    QBrush brush(Qt::white);
 
     if(isSelected())
         pen.setStyle(Qt::DashLine);
@@ -49,9 +60,17 @@ void StateUI::paint(QPainter* painter,
         pen.setStyle(Qt::SolidLine);
 
     painter->setPen(pen);
-    painter->setBrush(Qt::white);
+    painter->setBrush(brush);
 
     painter->drawRoundedRect(rect(), 20, 20);
+    if(initial)
+    {
+        painter->setPen(QPen(Qt::NoPen));
+        painter->setBrush(QBrush(Qt::lightGray, Qt::DiagCrossPattern));
+        painter->drawRoundedRect(rect(), 20, 20);
+        painter->setPen(pen);
+        painter->setBrush(brush);
+    }
 
     QPointF pos(rect().x(), rect().y());
     QTransform t = painter->transform();

@@ -36,6 +36,7 @@ set(TARGET_SOURCE
         src/gui/MainWindow.cpp
         src/gui/PropertiesPanel.cpp
         src/gui/SelectTool.cpp
+        src/gui/SetInitialStateTool.cpp
         src/gui/StateUI.cpp
         src/gui/Tool.cpp
         src/gui/TransitionUI.cpp

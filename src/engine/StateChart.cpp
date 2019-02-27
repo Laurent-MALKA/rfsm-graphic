@@ -344,6 +344,11 @@ void StateChart::setInitialAction(const std::string& action)
     initial_action = action;
 }
 
+int StateChart::getInitialStateId() const
+{
+    return initial_state_id;
+}
+
 void StateChart::deleteState(int state_id)
 {
     unsigned int state_index = findStateIndex(state_id);
@@ -369,6 +374,9 @@ void StateChart::deleteState(int state_id)
 
     delete states[state_index];
     states.erase(states.begin() + state_index);
+
+    if(initial_state_id == state_id)
+        initial_state_id = -1;
 }
 
 void StateChart::deleteTransition(int transition_id)

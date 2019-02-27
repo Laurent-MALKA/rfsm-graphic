@@ -10,6 +10,7 @@ class StateUI : public QGraphicsWidget
   private:
     State& state;
     float borderSize = 1;
+    bool initial;
 
   public:
     enum
@@ -22,6 +23,9 @@ class StateUI : public QGraphicsWidget
     State& getState();
 
     int type() const;
+
+    bool isInitial() const;
+    void setInitial(bool initial = true);
 
     void paint(QPainter* painter,
                const QStyleOptionGraphicsItem* option,

@@ -19,7 +19,7 @@ class QGraphicsView;
 enum class ToolEnum
 {
     select,
-    initial_state,
+    set_initial_state,
     add_state,
     add_transition,
     deletion
