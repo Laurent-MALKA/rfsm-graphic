@@ -241,6 +241,18 @@ void MainWindow::saveAs() {}
  */
 void MainWindow::exportContent()
 {
+    std::string fsm_code;
+    try
+    {
+        fsm_code = canvas->getStateChart()->toFSMCode();
+    }
+    catch(const std::exception& e)
+    {
+        QMessageBox::warning(
+            this, "Error", "Unable to export : " + QString(e.what()));
+        return;
+    }
+
     std::ofstream file;
     QString file_name;
 
@@ -257,18 +269,7 @@ void MainWindow::exportContent()
             QMessageBox::warning(this, "Error", "Unable to open file");
     } while(!file);
 
-    try
-    {
-        std::string fsm_code = canvas->getStateChart()->toFSMCode();
-        file << fsm_code;
-    }
-    catch(const std::exception& e)
-    {
-        file.close();
-        std::remove(file_name.toStdString().c_str());
-        QMessageBox::warning(
-            this, "Error", "Unable to export : " + QString(e.what()));
-    }
+    file << fsm_code;
 }
 
 /**
