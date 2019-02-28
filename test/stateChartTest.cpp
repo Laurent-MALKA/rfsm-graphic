@@ -23,7 +23,7 @@ TEST_CASE("stateChart")
         REQUIRE(sc.getState(state2_id).getOutTransitions().empty());
 
         REQUIRE(sc.getState(state1_id).getOutTransition(transition_id).getEndStateId() == state2_id);
-        REQUIRE(sc.getState(state2_id).getInTransition(transition_id).getStartingStateId() == state1_id);
+        REQUIRE(sc.getState(state2_id).getInTransition(transition_id).getStartStateId() == state1_id);
 
     }
 
@@ -51,10 +51,10 @@ TEST_CASE("stateChart")
     SECTION("stateChart.codeGeneration")
     {
         
-        sc.addInVariable();
-        auto vars = sc.getInVariables();
+        sc.addInputVariable();
+        auto vars = sc.getInputVariables();
         vars[0]->setStimuli("periodic(10,10,100)");
-        sc.addOutVariable();
+        sc.addOutputVariable();
         //std::cout << sc.toFSMCode();
         REQUIRE(sc.toFSMCode() == "...");
     }

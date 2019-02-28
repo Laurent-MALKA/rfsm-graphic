@@ -5,12 +5,12 @@
 
 unsigned int Transition::transitions_counter = 0;
 
-Transition::Transition(State* starting_state, State* end_state)
-    : starting_state(starting_state), end_state(end_state)
+Transition::Transition(State* start_state, State* end_state)
+    : start_state(start_state), end_state(end_state)
 {
     id = transitions_counter++;
 
-    starting_state->addOutTransition(this);
+    start_state->addOutTransition(this);
     end_state->addInTransition(this);
 }
 
@@ -24,11 +24,6 @@ const std::string& Transition::getCondition() const
     return condition;
 }
 
-void Transition::setCondition(const char* condition)
-{
-    this->condition = condition;
-}
-
 void Transition::setCondition(const std::string& condition)
 {
     this->condition = condition;
@@ -37,11 +32,6 @@ void Transition::setCondition(const std::string& condition)
 const std::string& Transition::getAction() const
 {
     return action;
-}
-
-void Transition::setAction(const char* action)
-{
-    this->action = action;
 }
 
 void Transition::setAction(const std::string& action)
@@ -54,9 +44,9 @@ bool Transition::hasAction()
     return !action.empty();
 }
 
-const State& Transition::getStartingState() const
+const State& Transition::getStartState() const
 {
-    return *starting_state;
+    return *start_state;
 }
 
 const State& Transition::getEndState() const
@@ -66,9 +56,9 @@ const State& Transition::getEndState() const
 
 void Transition::setStartState(State* start_state)
 {
-    this->starting_state->removeOutTransition(id);
-    this->starting_state = start_state;
-    this->starting_state->addOutTransition(this);
+    this->start_state->removeOutTransition(id);
+    this->start_state = start_state;
+    this->start_state->addOutTransition(this);
 }
 void Transition::setEndState(State* end_state)
 {
@@ -77,9 +67,9 @@ void Transition::setEndState(State* end_state)
     this->end_state->addInTransition(this);
 }
 
-unsigned int Transition::getStartingStateId() const
+unsigned int Transition::getStartStateId() const
 {
-    return starting_state->getId();
+    return start_state->getId();
 }
 
 unsigned int Transition::getEndStateId() const

@@ -33,6 +33,9 @@ class TransitionUI : public QGraphicsLineItem
     Transition& getTransition();
     StateUI& getStartState();
     StateUI& getEndState();
+    const Transition& getTransition() const;
+    const StateUI& getStartState() const;
+    const StateUI& getEndState() const;
 
     void setStartState(StateUI* start_state);
     void setEndState(StateUI* end_state);

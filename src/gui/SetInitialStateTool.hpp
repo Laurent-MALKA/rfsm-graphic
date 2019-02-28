@@ -9,6 +9,7 @@ class SetInitialStateTool : public Tool
 {
   private:
     StateUI* current_initial_state;
+
   public:
     explicit SetInitialStateTool(MainWindow* main_window);
     ~SetInitialStateTool() = default;

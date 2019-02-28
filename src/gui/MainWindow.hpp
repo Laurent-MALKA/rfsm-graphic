@@ -30,6 +30,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
   private:
+    QMenuBar* menu_bar;
+
     QMenu* file_menu;
     QAction* new_file_action;
     QAction* open_file_action;
@@ -62,6 +64,7 @@ class MainWindow : public QMainWindow
     void exportContent();
     void undo();
     void redo();
+
     void setCurrentTool(ToolEnum tool);
 
   public:

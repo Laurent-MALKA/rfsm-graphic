@@ -38,7 +38,6 @@ class State
     void removeOutTransition(int id);
 
     const std::string& getName() const;
-    void setName(const char* name);
     void setName(const std::string& name);
 
     bool isInInTransitions(int id);

@@ -21,6 +21,7 @@ class StateUI : public QGraphicsWidget
     StateUI(State& state, double posX, double posY);
 
     State& getState();
+    const State& getState() const;
 
     int type() const;
 

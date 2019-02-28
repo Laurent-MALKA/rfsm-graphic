@@ -81,7 +81,8 @@ void Canvas::deleteState(int state_id)
         continue;
 
     if(state == states.end())
-        throw std::invalid_argument("State ID not found");
+        throw std::invalid_argument(std::string("No state found with id : ")
+                                    + std::to_string(state_id));
 
     for(int i = 0; i < transitions.size(); i++)
     {
@@ -109,7 +110,9 @@ void Canvas::deleteTransition(int transition_id)
         continue;
 
     if(transition == transitions.end())
-        throw std::invalid_argument("Transition ID not found");
+        throw std::invalid_argument(
+            std::string("No transition found with id : ")
+            + std::to_string(transition_id));
 
     delete *transition;
     transitions.erase(transition);

@@ -16,7 +16,6 @@ class InputVariable : public Variable
     const std::string& getStimuli() const;
 
     void setStimuli(const std::string& stimuli);
-    void setStimuli(const char* stimuli);
 };
 
 #endif

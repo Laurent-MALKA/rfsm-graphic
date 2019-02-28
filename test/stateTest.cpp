@@ -24,12 +24,12 @@ TEST_CASE("state")
     SECTION("state.transitions")
     {
         // Init
-        State starting_state;
+        State start_state;
         State end_state;
-        Transition transition(&starting_state, &end_state);
+        Transition transition(&start_state, &end_state);
         unsigned transition_id = transition.getId();
 
-        REQUIRE(starting_state.getOutTransition(transition_id).getId() == transition.getId());
+        REQUIRE(start_state.getOutTransition(transition_id).getId() == transition.getId());
         REQUIRE(end_state.getInTransition(transition_id).getId() == transition.getId());
     }
 

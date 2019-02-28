@@ -14,8 +14,8 @@ class StateChart
   private:
     std::string name;
 
-    std::vector<InputVariable*> in_variables;
-    std::vector<Variable*> out_variables;
+    std::vector<InputVariable*> input_variables;
+    std::vector<Variable*> output_variables;
     std::vector<Variable*> inout_variables;
     std::vector<Variable*> intern_variables;
 
@@ -30,45 +30,45 @@ class StateChart
     std::string getName() const;
     void setName(const std::string& name);
 
-    std::vector<InputVariable*> getInVariables();
-    std::vector<Variable*> getOutVariables();
+    std::vector<InputVariable*> getInputVariables();
+    std::vector<Variable*> getOutputVariables();
     std::vector<Variable*> getInoutVariables();
     std::vector<Variable*> getInternVariables();
 
     // Variable creations
-    int addInVariable();
-    int addOutVariable();
+    int addInputVariable();
+    int addOutputVariable();
     int addInoutVariable();
     int addInternVariable();
 
     // Variable creations with args
-    int addInVariable(const std::string& name,
-                      const std::string& type,
-                      const std::string& stimuli);
-    int addOutVariable(const std::string& name, const std::string& type);
+    int addInputVariable(const std::string& name,
+                         const std::string& type,
+                         const std::string& stimuli);
+    int addOutputVariable(const std::string& name, const std::string& type);
     int addInoutVariable(const std::string& name, const std::string& type);
     int addInternVariable(const std::string& name, const std::string& type);
 
     // Variable getters
-    const InputVariable* getInVariable(int index) const;
-    const Variable* getOutVariable(int index) const;
+    const InputVariable* getInputVariable(int index) const;
+    const Variable* getOutputVariable(int index) const;
     const Variable* getInoutVariable(int index) const;
     const Variable* getInternVariable(int index) const;
 
     // Variable name setters
-    void setInVariableName(int index, const std::string& name);
-    void setOutVariableName(int index, const std::string& name);
+    void setInputVariableName(int index, const std::string& name);
+    void setOutputVariableName(int index, const std::string& name);
     void setInoutVariableName(int index, const std::string& name);
     void setInternVariableName(int index, const std::string& name);
 
     // Variable type setters
-    void setInVariableType(int index, const std::string& type);
-    void setOutVariableType(int index, const std::string& type);
+    void setInputVariableType(int index, const std::string& type);
+    void setOutputVariableType(int index, const std::string& type);
     void setInoutVariableType(int index, const std::string& type);
     void setInternVariableType(int index, const std::string& type);
 
     // Variable stimuli setter
-    void setInVariableStimuli(int index, const std::string& stimuli);
+    void setInputVariableStimuli(int index, const std::string& stimuli);
 
     void removeInputVariable(int index);
     void removeOutputVariable(int index);
@@ -81,9 +81,8 @@ class StateChart
 
     Transition& getTransition(int transition_id);
 
-    unsigned int addState(const char* name);
     unsigned int addState(const std::string& name);
-    unsigned int addTransition(int starting_state_id,
+    unsigned int addTransition(int start_state_id,
                                int end_state_id,
                                const std::string& condition = "",
                                const std::string& action = "");

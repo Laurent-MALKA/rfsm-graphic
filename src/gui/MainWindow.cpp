@@ -19,7 +19,6 @@
 #include <QWidget>
 #include <cstdio>
 #include <fstream>
-#include <iostream>
 
 MainWindow::MainWindow()
 {
@@ -40,6 +39,7 @@ MainWindow::~MainWindow()
 {
     for(auto& tool : tools)
         delete tool.second;
+    delete menu_bar;
 }
 
 Tool* MainWindow::getCurrentTool()
@@ -68,9 +68,10 @@ PropertiesPanel* MainWindow::getPropertiesPanel()
 void MainWindow::createMenu()
 {
     // Setup the menubar
-    file_menu = menuBar()->addMenu("&File");
-    edit_menu = menuBar()->addMenu("&Edit");
-    help_menu = menuBar()->addMenu("&Help");
+    menu_bar = menuBar();
+    file_menu = menu_bar->addMenu("&File");
+    edit_menu = menu_bar->addMenu("&Edit");
+    help_menu = menu_bar->addMenu("&Help");
 
     // Init and bind action
     new_file_action =

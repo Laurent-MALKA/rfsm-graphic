@@ -156,26 +156,28 @@ void PropertiesPanel::setTransitionStartState(int index)
         return;
 
     auto transition = dynamic_cast<TransitionUI*>(selected_item);
-    if(transition != nullptr)
+
+    if(transition == nullptr)
+        throw std::invalid_argument("No transition selected");
+
+    int state_id = transition_start_state_field->itemData(index).toInt();
+
+    auto states = main_window->getCanvas()->getStates();
+    StateUI* state = nullptr;
+    for(auto& stateUI : states)
     {
-        int state_id = transition_start_state_field->itemData(index).toInt();
-
-        auto states = main_window->getCanvas()->getStates();
-        StateUI* state = nullptr;
-        for(auto& stateUI : states)
+        if(stateUI->getState().getId() == state_id)
         {
-            if(stateUI->getState().getId() == state_id)
-            {
-                state = stateUI;
-                break;
-            }
+            state = stateUI;
+            break;
         }
-
-        if(state != nullptr)
-            transition->setStartState(state);
-        else
-            throw std::invalid_argument("Wrong state id");
     }
+
+    if(state == nullptr)
+        throw std::invalid_argument(std::string("No state found with id : ")
+                                    + std::to_string(state_id));
+
+    transition->setStartState(state);
 }
 
 void PropertiesPanel::setTransitionEndState(int index)
@@ -184,26 +186,28 @@ void PropertiesPanel::setTransitionEndState(int index)
         return;
 
     auto transition = dynamic_cast<TransitionUI*>(selected_item);
-    if(transition != nullptr)
+
+    if(transition == nullptr)
+        throw std::invalid_argument("No transition selected");
+
+    int state_id = transition_end_state_field->itemData(index).toInt();
+
+    auto states = main_window->getCanvas()->getStates();
+    StateUI* state = nullptr;
+    for(auto& stateUI : states)
     {
-        int state_id = transition_end_state_field->itemData(index).toInt();
-
-        auto states = main_window->getCanvas()->getStates();
-        StateUI* state = nullptr;
-        for(auto& stateUI : states)
+        if(stateUI->getState().getId() == state_id)
         {
-            if(stateUI->getState().getId() == state_id)
-            {
-                state = stateUI;
-                break;
-            }
+            state = stateUI;
+            break;
         }
-
-        if(state != nullptr)
-            transition->setEndState(state);
-        else
-            throw std::invalid_argument("Wrong state id");
     }
+
+    if(state == nullptr)
+        throw std::invalid_argument(std::string("No state found with id : ")
+                                    + std::to_string(state_id));
+
+    transition->setEndState(state);
 }
 
 void PropertiesPanel::setTransitionCondition(const QString& condition)
@@ -211,8 +215,7 @@ void PropertiesPanel::setTransitionCondition(const QString& condition)
     auto transition = dynamic_cast<TransitionUI*>(selected_item);
     if(transition != nullptr)
     {
-        transition->getTransition().setCondition(
-            condition.toStdString().c_str());
+        transition->getTransition().setCondition(condition.toStdString());
     }
 }
 
@@ -221,7 +224,7 @@ void PropertiesPanel::setTransitionAction(const QString& action)
     auto transition = dynamic_cast<TransitionUI*>(selected_item);
     if(transition != nullptr)
     {
-        transition->getTransition().setAction(action.toStdString().c_str());
+        transition->getTransition().setAction(action.toStdString());
     }
 }
 
@@ -271,9 +274,9 @@ void PropertiesPanel::addInputVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    state_chart->addInVariable(input_variable_name->text().toStdString(),
-                               input_variable_type->text().toStdString(),
-                               input_variable_stimuli->text().toStdString());
+    state_chart->addInputVariable(input_variable_name->text().toStdString(),
+                                  input_variable_type->text().toStdString(),
+                                  input_variable_stimuli->text().toStdString());
 
     QStringList string_list = input_variables_model->stringList();
     string_list << input_variable_name->text() + " : "
@@ -312,8 +315,8 @@ void PropertiesPanel::addOutputVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    state_chart->addOutVariable(output_variable_name->text().toStdString(),
-                                output_variable_type->text().toStdString());
+    state_chart->addOutputVariable(output_variable_name->text().toStdString(),
+                                   output_variable_type->text().toStdString());
 
     QStringList string_list = output_variables_model->stringList();
     string_list << output_variable_name->text() + " : "
@@ -406,17 +409,17 @@ void PropertiesPanel::createTransitionPanel()
     QVBoxLayout* transitionLayout = new QVBoxLayout();
 
     // Group start and end transition state
-    QLabel* startLabel = new QLabel("Starting Node");
+    QLabel* startLabel = new QLabel("Start State");
     transition_start_state_field = new QComboBox();
     transitionLayout->addWidget(startLabel);
     transitionLayout->addWidget(transition_start_state_field);
-    QLabel* endLabel = new QLabel("Ending Node");
+    QLabel* endLabel = new QLabel("End State");
     transition_end_state_field = new QComboBox();
     transitionLayout->addWidget(endLabel);
     transitionLayout->addWidget(transition_end_state_field);
 
     // Conditions input
-    QLabel* conditionLabel = new QLabel("Conditions");
+    QLabel* conditionLabel = new QLabel("Condition");
     transition_condition_field = new QLineEdit();
     transitionLayout->addWidget(conditionLabel);
     transitionLayout->addWidget(transition_condition_field);
@@ -450,7 +453,8 @@ void PropertiesPanel::createInternVariablePanel()
     grid->addWidget(intern_variable_type, 1, 3, 1, 3);
 
     QStringList intern_variables;
-    for(auto& var : main_window->getCanvas()->getStateChart()->getInVariables())
+    for(auto& var :
+        main_window->getCanvas()->getStateChart()->getInternVariables())
     {
         std::string res = var->getName() + " : " + var->getType();
         intern_variables << QString(res.c_str());
@@ -506,7 +510,8 @@ void PropertiesPanel::createInputVariablePanel()
     grid->addWidget(input_variable_stimuli, 1, 4, 1, 2);
 
     QStringList input_variables;
-    for(auto& var : main_window->getCanvas()->getStateChart()->getInVariables())
+    for(auto& var :
+        main_window->getCanvas()->getStateChart()->getInputVariables())
     {
         std::string res =
             var->getName() + " : " + var->getType() + " = " + var->getStimuli();
@@ -561,7 +566,7 @@ void PropertiesPanel::createOutputVariablePanel()
 
     QStringList output_variables;
     for(auto& var :
-        main_window->getCanvas()->getStateChart()->getOutVariables())
+        main_window->getCanvas()->getStateChart()->getOutputVariables())
     {
         std::string res = var->getName() + " : " + var->getType();
         output_variables << QString(res.c_str());

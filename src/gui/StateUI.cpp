@@ -6,7 +6,8 @@
 #include <QPen>
 #include <QRectF>
 
-StateUI::StateUI(State& state, double posX, double posY) : state(state), initial(false)
+StateUI::StateUI(State& state, double posX, double posY)
+    : state(state), initial(false)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -23,6 +24,11 @@ StateUI::StateUI(State& state, double posX, double posY) : state(state), initial
 }
 
 State& StateUI::getState()
+{
+    return state;
+}
+
+const State& StateUI::getState() const
 {
     return state;
 }

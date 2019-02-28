@@ -14,30 +14,28 @@ class Transition
     std::string condition;
     std::string action;
 
-    State* starting_state;
+    State* start_state;
     State* end_state;
 
   public:
-    Transition(State* starting_state, State* end_state);
+    Transition(State* start_state, State* end_state);
 
     unsigned int getId() const;
 
     const std::string& getCondition() const;
-    void setCondition(const char*);
     void setCondition(const std::string&);
 
     const std::string& getAction() const;
-    void setAction(const char* action);
     void setAction(const std::string& action);
     bool hasAction();
 
-    const State& getStartingState() const;
+    const State& getStartState() const;
     const State& getEndState() const;
 
     void setStartState(State* start_state);
     void setEndState(State* end_state);
 
-    unsigned int getStartingStateId() const;
+    unsigned int getStartStateId() const;
     unsigned int getEndStateId() const;
 };
 

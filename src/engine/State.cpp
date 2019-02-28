@@ -24,7 +24,8 @@ const Transition& State::getInTransition(int id) const
 {
     unsigned int index = findInTransition(id);
     if((unsigned)index == in_transitions.size())
-        throw std::invalid_argument("Transition id not found");
+        throw std::invalid_argument(
+            std::string("No transition found with id : ") + std::to_string(id));
 
     return *in_transitions[index];
 }
@@ -33,7 +34,8 @@ const Transition& State::getOutTransition(int id) const
 {
     unsigned int index = findOutTransition(id);
     if((unsigned)index == out_transitions.size())
-        throw std::invalid_argument("Transition id not found");
+        throw std::invalid_argument(
+            std::string("No transition found with id : ") + std::to_string(id));
 
     return *out_transitions[index];
 }
@@ -72,7 +74,8 @@ void State::removeInTransition(int id)
 {
     unsigned int index = findInTransition(id);
     if((unsigned)index == in_transitions.size())
-        throw std::invalid_argument("Transition id not found");
+        throw std::invalid_argument(
+            std::string("No transition found with id : ") + std::to_string(id));
 
     // Handle transition destruction
     in_transitions.erase(in_transitions.begin() + index);
@@ -82,7 +85,8 @@ void State::removeOutTransition(int id)
 {
     unsigned int index = findOutTransition(id);
     if((unsigned)index == out_transitions.size())
-        throw std::invalid_argument("Transition id not found");
+        throw std::invalid_argument(
+            std::string("No transition found with id : ") + std::to_string(id));
 
     // Handle transition destruction
     out_transitions.erase(out_transitions.begin() + index);
@@ -91,11 +95,6 @@ void State::removeOutTransition(int id)
 const std::string& State::getName() const
 {
     return name;
-}
-
-void State::setName(const char* name)
-{
-    this->name = name;
 }
 
 void State::setName(const std::string& name)

@@ -16,10 +16,8 @@ class Variable
     const std::string& getType() const;
     const std::string& getName() const;
 
-    void setType(const char* type_index);
     void setType(const std::string& type);
 
-    void setName(const char* name);
     void setName(const std::string& name);
 };
 

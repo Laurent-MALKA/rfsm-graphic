@@ -35,6 +35,21 @@ StateUI& TransitionUI::getEndState()
     return *end_state;
 }
 
+const Transition& TransitionUI::getTransition() const
+{
+    return transition;
+}
+
+const StateUI& TransitionUI::getStartState() const
+{
+    return *start_state;
+}
+
+const StateUI& TransitionUI::getEndState() const
+{
+    return *end_state;
+}
+
 void TransitionUI::setStartState(StateUI* start_state)
 {
     this->start_state = start_state;

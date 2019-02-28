@@ -15,8 +15,3 @@ void InputVariable::setStimuli(const std::string& stimuli)
 {
     this->stimuli = stimuli;
 }
-
-void InputVariable::setStimuli(const char* stimuli)
-{
-    this->stimuli = stimuli;
-}
