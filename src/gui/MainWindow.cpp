@@ -255,17 +255,21 @@ void MainWindow::exportContent()
     }
 
     std::ofstream file;
-    QString file_name;
+    std::string file_name;
 
     do
     {
         file_name = QFileDialog::getSaveFileName(
-            this, "Export to FSM file", "", "FSM file (*.fsm)");
+                        this, "Export to FSM file", "", "FSM file (*.fsm)")
+                        .toStdString();
 
-        if(file_name.isEmpty())
+        if(file_name.empty())
             return;
 
-        file.open(file_name.toStdString());
+        if(file_name.substr(file_name.length() - 4) != ".fsm")
+            file_name += ".fsm";
+
+        file.open(file_name);
         if(!file)
             QMessageBox::warning(this, "Error", "Unable to open file");
     } while(!file);
@@ -293,12 +297,14 @@ void MainWindow::setCurrentTool(ToolEnum tool)
     view->setCursor(current_tool->getCursor());
     if(tool == ToolEnum::select)
     {
+        view->setDragMode(QGraphicsView::RubberBandDrag);
         canvas->setStatesFlag(QGraphicsItem::ItemIsMovable, true);
         canvas->setStatesFlag(QGraphicsItem::ItemIsSelectable, true);
         canvas->setTransitionsFlag(QGraphicsItem::ItemIsSelectable, true);
     }
     else
     {
+        view->setDragMode(QGraphicsView::NoDrag);
         canvas->setStatesFlag(QGraphicsItem::ItemIsMovable, false);
         canvas->setStatesFlag(QGraphicsItem::ItemIsSelectable, false);
         canvas->setTransitionsFlag(QGraphicsItem::ItemIsSelectable, false);

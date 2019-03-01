@@ -122,13 +122,19 @@ void Canvas::deleteTransition(int transition_id)
 
 void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    main_window->getCurrentTool()->pressAct(event);
+    if(event->button() == Qt::LeftButton)
+    {
+        main_window->getCurrentTool()->pressAct(event);
+    }
     QGraphicsScene::mousePressEvent(event);
 }
 
 void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-    main_window->getCurrentTool()->releaseAct(event);
+    if(event->button() == Qt::LeftButton)
+    {
+        main_window->getCurrentTool()->releaseAct(event);
+    }
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
