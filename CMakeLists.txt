@@ -26,7 +26,6 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 
 # Populate a CMake variable with the sources
 set(COMMON_SOURCES
-        src/Config.cpp
         src/engine/InputVariable.cpp
         src/engine/State.cpp
         src/engine/StateChart.cpp

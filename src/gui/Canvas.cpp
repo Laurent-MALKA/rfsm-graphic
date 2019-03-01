@@ -1,4 +1,5 @@
 #include "Canvas.hpp"
+#include "../../includes/nlohmann_json.hpp"
 #include "../engine/State.hpp"
 #include "MainWindow.hpp"
 #include "StateUI.hpp"
@@ -149,6 +150,192 @@ void Canvas::setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag,
     {
         transition->setFlag(flag, enabled);
     }
+}
+
+void Canvas::importCanvas(const std::string& json_data)
+{
+    auto json_file = nlohmann::json::parse(json_data);
+
+    std::unique_ptr<StateChart> new_state_chart(new StateChart);
+    std::vector<std::unique_ptr<StateUI>> new_states;
+    std::vector<std::unique_ptr<TransitionUI>> new_transitions;
+
+    new_states.reserve(json_file.at("states").size());
+
+    for(const auto& json_state_ui : json_file.at("states"))
+    {
+        auto json_state = json_state_ui.at("state");
+        int state_id = new_state_chart->addState(json_state.at("name"),
+                                                 json_state.at("id"));
+        new_states.emplace_back(new StateUI(new_state_chart->getState(state_id),
+                                            json_state_ui.at("x"),
+                                            json_state_ui.at("y")));
+    }
+
+    new_transitions.reserve(json_file.at("transitions").size());
+
+    for(const auto& json_transition_ui : json_file.at("transitions"))
+    {
+        int start_id = json_transition_ui.at("start_state_id");
+        int end_id = json_transition_ui.at("end_state_id");
+        std::string condition = json_transition_ui.at("condition");
+        std::string action = json_transition_ui.at("action");
+
+        unsigned int transition_id =
+            new_state_chart->addTransition(start_id, end_id, condition, action);
+
+        StateUI* start_state = nullptr;
+        StateUI* end_state = nullptr;
+
+        auto it = new_states.begin();
+
+        for(; it != new_states.end()
+              && (start_state == nullptr || end_state == nullptr);
+            it++)
+        {
+            if((*it)->getState().getId() == start_id)
+                start_state = it->get();
+            if((*it)->getState().getId() == end_id)
+                end_state = it->get();
+        }
+        if(start_state == nullptr)
+            throw std::invalid_argument("No start state found with id : "
+                                        + std::to_string(start_id));
+        if(end_state == nullptr)
+            throw std::invalid_argument("No end state found with id : "
+                                        + std::to_string(start_id));
+
+        new_transitions.emplace_back(
+            new TransitionUI(new_state_chart->getTransition(transition_id),
+                             start_state,
+                             end_state));
+    }
+
+    for(const auto& json_input_variable : json_file.at("input_variables"))
+    {
+        new_state_chart->addInputVariable(json_input_variable.at("name"),
+                                          json_input_variable.at("type"),
+                                          json_input_variable.at("stimuli"));
+    }
+
+    for(const auto& json_output_variable : json_file.at("output_variables"))
+    {
+        new_state_chart->addOutputVariable(json_output_variable.at("name"),
+                                           json_output_variable.at("type"));
+    }
+
+    for(const auto& json_inout_variable : json_file.at("inout_variables"))
+    {
+        new_state_chart->addInoutVariable(json_inout_variable.at("name"),
+                                          json_inout_variable.at("type"));
+    }
+
+    for(const auto& json_intern_variable : json_file.at("intern_variables"))
+    {
+        new_state_chart->addInternVariable(json_intern_variable.at("name"),
+                                           json_intern_variable.at("type"));
+    }
+
+    free();
+
+    state_chart = new_state_chart.release();
+
+    states.reserve(new_states.size());
+    for(auto& new_state : new_states)
+    {
+        states.push_back(new_state.release());
+        addItem(states.back());
+    }
+
+    transitions.reserve(new_transitions.size());
+    for(auto& new_transition : new_transitions)
+    {
+        transitions.push_back(new_transition.release());
+        addItem(transitions.back());
+    }
+}
+
+std::string Canvas::exportCanvas()
+{
+    nlohmann::json json_res;
+
+    // Fill states properties
+    json_res["states"] = nlohmann::json::array();
+    for(const auto& state_ui : states)
+    {
+        const auto& state = state_ui->getState();
+
+        nlohmann::json json_state_ui;
+
+        json_state_ui["x"] = state_ui->x();
+        json_state_ui["y"] = state_ui->y();
+
+        nlohmann::json json_state;
+        json_state["id"] = state.getId();
+        json_state["name"] = state.getName();
+
+        json_state_ui["state"] = json_state;
+
+        json_res["states"].push_back(json_state_ui);
+    }
+
+    json_res["transitions"] = nlohmann::json::array();
+    for(const auto& transition_ui : transitions)
+    {
+        const auto& transition = transition_ui->getTransition();
+        nlohmann::json json_transition;
+
+        json_transition["id"] = transition.getId();
+        json_transition["start_state_id"] = transition.getStartStateId();
+        json_transition["end_state_id"] = transition.getEndStateId();
+        json_transition["condition"] = transition.getCondition();
+        json_transition["action"] = transition.getAction();
+
+        json_res["transitions"].push_back(json_transition);
+    }
+
+    json_res["input_variables"] = nlohmann::json::array();
+    for(const auto& input_variable : state_chart->getInputVariables())
+    {
+        nlohmann::json json_input_variable;
+        json_input_variable["type"] = input_variable->getType();
+        json_input_variable["name"] = input_variable->getName();
+        json_input_variable["stimuli"] = input_variable->getStimuli();
+
+        json_res["input_variables"].push_back(json_input_variable);
+    }
+
+    json_res["output_variables"] = nlohmann::json::array();
+    for(const auto& output_variable : state_chart->getOutputVariables())
+    {
+        nlohmann::json json_output_variable;
+        json_output_variable["type"] = output_variable->getType();
+        json_output_variable["name"] = output_variable->getName();
+
+        json_res["output_variables"].push_back(json_output_variable);
+    }
+
+    json_res["inout_variables"] = nlohmann::json::array();
+    for(const auto& inout_variable : state_chart->getInoutVariables())
+    {
+        nlohmann::json json_inout_variable;
+        json_inout_variable["type"] = inout_variable->getType();
+        json_inout_variable["name"] = inout_variable->getName();
+
+        json_res["inout_variables"].push_back(json_inout_variable);
+    }
+
+    json_res["intern_variables"] = nlohmann::json::array();
+    for(const auto& intern_variable : state_chart->getInternVariables())
+    {
+        nlohmann::json json_intern_variable;
+        json_intern_variable["type"] = intern_variable->getType();
+        json_intern_variable["name"] = intern_variable->getName();
+
+        json_res["intern_variables"].push_back(json_intern_variable);
+    }
+
+    return json_res.dump(4);
 }
 
 void Canvas::clear()

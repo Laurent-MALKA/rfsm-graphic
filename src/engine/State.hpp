@@ -16,7 +16,7 @@ class State
     std::vector<Transition*> out_transitions;
 
   public:
-    State();
+    State(const std::string& name = "", int id = -1);
     // State(State&); //for copy/pasting
 
     unsigned int getId() const;

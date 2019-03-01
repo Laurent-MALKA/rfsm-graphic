@@ -81,6 +81,7 @@ class StateChart
 
     Transition& getTransition(int transition_id);
 
+    unsigned int addState(const std::string& name, unsigned int id);
     unsigned int addState(const std::string& name);
     unsigned int addTransition(int start_state_id,
                                int end_state_id,

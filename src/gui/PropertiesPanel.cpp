@@ -671,6 +671,7 @@ void PropertiesPanel::createInoutVariablePanel()
             this,
             &PropertiesPanel::removeInoutVariables);
 }
+
 void PropertiesPanel::fillVariablesLists()
 {
     QStringList intern_variables;

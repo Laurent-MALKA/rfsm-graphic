@@ -41,6 +41,9 @@ class Canvas : public QGraphicsScene
     void setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag,
                             bool enabled = true);
 
+    void importCanvas(const std::string& json);
+    std::string exportCanvas();
+
     void clear();
 
   private:

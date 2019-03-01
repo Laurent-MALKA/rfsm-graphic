@@ -56,6 +56,8 @@ class MainWindow : public QMainWindow
     Tool* current_tool;
     std::map<ToolEnum, Tool*> tools;
 
+    std::string file_name;
+
   public slots:
     void newFile();
     void openFile();

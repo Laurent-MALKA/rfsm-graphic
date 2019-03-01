@@ -5,9 +5,10 @@
 
 unsigned int State::states_counter = 0;
 
-State::State()
+State::State(const std::string& name, int id)
+    : id(id == -1 ? states_counter : id), name(name)
 {
-    id = states_counter++;
+    states_counter++;
 }
 
 unsigned int State::getId() const

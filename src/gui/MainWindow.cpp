@@ -220,22 +220,104 @@ void MainWindow::createPropertiesPanel()
 /**
  * Create a new file
  */
-void MainWindow::newFile() {}
+void MainWindow::newFile()
+{
+    canvas->clear();
+    properties_panel->clear();
+
+    file_name.clear();
+}
 
 /**
  * Open a new file
  */
-void MainWindow::openFile() {}
+void MainWindow::openFile()
+{
+    std::ifstream file;
+    std::string new_file_name;
+
+    do
+    {
+        new_file_name = QFileDialog::getOpenFileName(
+                            this, "Open state chart", "", "GFSM file (*.gfsm)")
+                            .toStdString();
+
+        if(new_file_name.empty())
+            return;
+
+        file.open(new_file_name);
+        if(!file)
+            QMessageBox::warning(this, "Error", "Unable to open file");
+    } while(!file);
+
+    try
+    {
+        std::string json_data;
+
+        // Fills json_data with the content of the whole file
+        file.seekg(0, std::ios::end);
+        json_data.reserve(file.tellg());
+        file.seekg(0, std::ios::beg);
+        json_data.assign((std::istreambuf_iterator<char>(file)),
+                         std::istreambuf_iterator<char>());
+
+        canvas->importCanvas(json_data);
+    }
+    catch(const std::exception& e)
+    {
+        QMessageBox::warning(
+            this, "Error", "Unable to import : " + QString(e.what()));
+        return;
+    }
+
+    properties_panel->clear();
+
+    file_name = new_file_name;
+}
 
 /**
  * Save the file
  */
-void MainWindow::save() {}
+void MainWindow::save()
+{
+    std::ofstream file(file_name);
+
+    if(!file)
+    {
+        saveAs();
+    }
+    else
+    {
+        file << canvas->exportCanvas();
+    }
+}
 
 /**
  * Save as the file
  */
-void MainWindow::saveAs() {}
+void MainWindow::saveAs()
+{
+    std::ofstream file;
+
+    do
+    {
+        file_name = QFileDialog::getSaveFileName(
+                        this, "Save state chart", "", "GFSM file (*.gfsm)")
+                        .toStdString();
+
+        if(file_name.empty())
+            return;
+
+        if(file_name.substr(file_name.length() - 5) != ".gfsm")
+            file_name += ".gfsm";
+
+        file.open(file_name);
+        if(!file)
+            QMessageBox::warning(this, "Error", "Unable to open file");
+    } while(!file);
+
+    file << canvas->exportCanvas();
+}
 
 /**
  * Export the file

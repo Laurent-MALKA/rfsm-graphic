@@ -302,6 +302,14 @@ Transition& StateChart::getTransition(int transition_id)
                                 + std::to_string(transition_id));
 }
 
+unsigned int StateChart::addState(const std::string& name, unsigned int id)
+{
+    State* new_state = new State(name, id);
+    states.push_back(new_state);
+
+    return new_state->getId();
+}
+
 unsigned int StateChart::addState(const std::string& name)
 {
     State* new_state = new State();
