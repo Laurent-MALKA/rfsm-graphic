@@ -4,11 +4,12 @@
 #include "../engine/Transition.hpp"
 #include "StateUI.hpp"
 
-#include <QGraphicsLineItem>
+#include <QGraphicsItem>
 
 class QPolygonF;
+class QPainterPath;
 
-class TransitionUI : public QGraphicsLineItem
+class TransitionUI : public QGraphicsItem
 {
   private:
     Transition& transition;
@@ -18,7 +19,11 @@ class TransitionUI : public QGraphicsLineItem
     double border_size;
     double arrow_size;
     qreal arrow_angle;
+
+    QPolygonF line;
     QPolygonF arrow_head;
+
+    QPainterPath path;
 
   public:
     enum
@@ -47,6 +52,10 @@ class TransitionUI : public QGraphicsLineItem
     void paint(QPainter* painter,
                const QStyleOptionGraphicsItem* option,
                QWidget* widget = 0);
+
+  private:
+    void defineLine();
+    void defineArrowHead();
 };
 
 #endif

@@ -64,66 +64,11 @@ void TransitionUI::setEndState(StateUI* end_state)
 
 QRectF TransitionUI::boundingRect() const
 {
-    if(start_state->getState().getId() != end_state->getState().getId())
-    {
-        QPointF start_point =
-            start_state->mapToScene(start_state->rect().center());
-        QPointF end_point = end_state->mapToScene(end_state->rect().center());
-
-        return QRectF(start_point, end_point).normalized();
-    }
-
-    else
-    {
-        QPointF center_point =
-            mapFromItem(start_state, start_state->rect().center());
-        return QRectF(center_point.x(),
-                      center_point.y(),
-                      -start_state->rect().width(),
-                      -start_state->rect().height())
-            .normalized()
-            .adjusted(-border_size, -border_size, border_size, border_size);
-    }
+    return path.boundingRect();
 }
 
 QPainterPath TransitionUI::shape() const
 {
-    QPainterPath path;
-
-    if(start_state->getState().getId() != end_state->getState().getId())
-    {
-        QLineF line = this->line();
-        qreal angle = qDegreesToRadians(line.normalVector().angle());
-        QPolygonF polygon;
-        polygon << mapToScene(QPointF(line.x1() + border_size * qCos(angle),
-                                      line.y1() - border_size * qSin(angle)));
-        polygon << mapToScene(QPointF(line.x1() - border_size * qCos(angle),
-                                      line.y1() + border_size * qSin(angle)));
-        polygon << mapToScene(QPointF(line.x2() - border_size * qCos(angle),
-                                      line.y2() + border_size * qSin(angle)));
-        polygon << mapToScene(QPointF(line.x2() + border_size * qCos(angle),
-                                      line.y2() - border_size * qSin(angle)));
-        polygon << mapToScene(QPointF(line.x1() + border_size * qCos(angle),
-                                      line.y1() - border_size * qSin(angle)));
-
-        path.addPolygon(polygon);
-    }
-
-    else
-    {
-        QPointF center_point =
-            mapFromItem(start_state, start_state->rect().center());
-        QRectF arrow = QRectF(center_point.x(),
-                              center_point.y(),
-                              -start_state->rect().width(),
-                              -start_state->rect().height())
-                           .normalized();
-
-        path.addRect(arrow);
-    }
-
-    path.addPolygon(arrow_head);
-
     return path;
 }
 
@@ -136,116 +81,143 @@ void TransitionUI::paint(QPainter* painter,
                          const QStyleOptionGraphicsItem*,
                          QWidget*)
 {
-    QPen pen(Qt::black, border_size);
-
+    QBrush brush;
     if(isSelected())
-    {
-        pen.setStyle(Qt::DotLine);
-    }
+        brush.setStyle(Qt::Dense4Pattern);
     else
-    {
-        pen.setStyle(Qt::SolidLine);
-    }
+        brush.setStyle(Qt::SolidPattern);
 
-    painter->setPen(pen);
+    if(transition.getCondition().empty())
+        brush.setColor(Qt::red);
+    else
+        brush.setColor(Qt::black);
 
+    painter->setPen(QPen(Qt::black));
+    painter->setBrush(brush);
     painter->setRenderHint(QPainter::Antialiasing);
 
-    if(start_state->getState().getId() != end_state->getState().getId())
+    QPainterPathStroker stroker;
+    stroker.setWidth(border_size);
+    stroker.setCapStyle(Qt::FlatCap);
+    stroker.setJoinStyle(Qt::MiterJoin);
+
+    defineLine();
+    defineArrowHead();
+
+    path = QPainterPath();
+    path.addPolygon(line);
+
+    path = stroker.createStroke(path);
+
+    // TODO find a better solution to avoid intersect area not to be filled
     {
-        if(start_state->collidesWithItem(end_state))
-            return;
+        QPainterPath p;
+        p.addPolygon(arrow_head);
 
-        QPointF start_point =
-            start_state->mapToScene(start_state->rect().center());
-        QPointF end_point = end_state->mapToScene(end_state->rect().center());
+        QPainterPath intersect = path.intersected(p);
 
-        setLine(QLineF(start_point, end_point));
-
-        std::vector<QLineF> state_lines;
-        QPointF p1(mapFromItem(
-            end_state, QPointF(end_state->rect().x(), end_state->rect().y())));
-        QPointF p2(mapFromItem(
-            end_state,
-            QPointF(end_state->rect().x(),
-                    end_state->rect().y() + end_state->rect().height())));
-        QPointF p3(mapFromItem(
-            end_state,
-            QPointF(end_state->rect().x() + end_state->rect().width(),
-                    end_state->rect().y() + end_state->rect().height())));
-        QPointF p4(mapFromItem(
-            end_state,
-            QPointF(end_state->rect().x() + end_state->rect().width(),
-                    end_state->rect().y())));
-        state_lines.emplace_back(p1, p2);
-        state_lines.emplace_back(p2, p3);
-        state_lines.emplace_back(p3, p4);
-        state_lines.emplace_back(p4, p1);
-        for(auto& state_line : state_lines)
-        {
-            if(line().intersect(state_line, &end_point)
-               == QLineF::BoundedIntersection)
-                break;
-        }
-        arrow_head.clear();
-        arrow_head << end_point;
-        QPointF arrow_point_1(
-            end_point.x()
-                - arrow_size
-                      * qCos(qDegreesToRadians(arrow_angle - line().angle())),
-            end_point.y()
-                - arrow_size
-                      * qSin(qDegreesToRadians(arrow_angle - line().angle())));
-        QPointF arrow_point_2(
-            end_point.x()
-                - arrow_size
-                      * qCos(qDegreesToRadians(arrow_angle + line().angle())),
-            end_point.y()
-                + arrow_size
-                      * qSin(qDegreesToRadians(arrow_angle + line().angle())));
-        arrow_head << arrow_point_1;
-        arrow_head << arrow_point_2;
-        arrow_head << end_point;
-
-        line().intersect(QLineF(arrow_point_1, arrow_point_2), &end_point);
-
-        setLine(QLineF(start_point, end_point));
-
-        painter->drawLine(line());
+        path.addPolygon(arrow_head);
+        path.addPath(intersect);
     }
 
+    painter->fillPath(path, QColor(205, 232, 255));
+    painter->drawPath(path);
+}
+
+void TransitionUI::defineLine()
+{
+    QPointF start_point =
+        start_state->mapToScene(start_state->boundingRect().center());
+    QPointF end_point =
+        end_state->mapToScene(end_state->boundingRect().center());
+
+    line.clear();
+
+    line << start_point;
+
+    // Loop transition
+    if(start_point == end_point)
+    {
+        line << QPointF(start_point.x(),
+                        start_point.y() - start_state->boundingRect().height());
+        line << QPointF(start_point.x() - start_state->boundingRect().width(),
+                        start_point.y() - start_state->boundingRect().height());
+        line << QPointF(start_point.x() - start_state->boundingRect().width(),
+                        start_point.y());
+    }
+    // Transition to another state
     else
     {
-        setZValue(-1);
-        QPointF center_point =
-            mapFromItem(start_state, start_state->rect().center());
-        QRectF arrow = QRectF(center_point.x(),
-                              center_point.y(),
-                              -start_state->rect().width(),
-                              -start_state->rect().height())
-                           .normalized();
+        QRectF end_rect =
+            QRectF(end_state->mapToScene(end_state->boundingRect().topLeft()),
+                   end_state->boundingRect().size());
 
-        painter->drawRect(arrow);
-
-        arrow_head.clear();
-        QPointF end_point(center_point.x() - arrow.width() / 2,
-                          center_point.y());
-
-        arrow_head << end_point;
-        arrow_head << QPointF(
-            end_point.x() - arrow_size * qCos(qDegreesToRadians(arrow_angle)),
-            end_point.y() - arrow_size * qSin(qDegreesToRadians(arrow_angle)));
-        arrow_head << QPointF(
-            end_point.x() - arrow_size * qCos(qDegreesToRadians(arrow_angle)),
-            end_point.y() + arrow_size * qSin(qDegreesToRadians(arrow_angle)));
-        arrow_head << end_point;
+        if((start_point.x() < end_rect.left()
+            || start_point.x() > end_rect.right())
+           && (start_point.y() < end_rect.top()
+               || start_point.y() > end_rect.bottom()))
+        {
+            line << QPointF(start_point.x(), end_point.y());
+        }
+        else
+        {
+            if(start_point.x() > end_rect.left()
+               && start_point.x() < end_rect.right())
+                end_point.setX(start_point.x());
+            else
+                line.first().setY(end_point.y());
+        }
     }
 
-    pen.setWidth(1);
-    pen.setStyle(Qt::SolidLine);
-    painter->setPen(pen);
-    QBrush brush(Qt::black);
-    painter->setBrush(brush);
+    line << end_point;
+}
 
-    painter->drawPolygon(arrow_head);
+void TransitionUI::defineArrowHead()
+{
+    QPointF previous_point = line.at(line.size() - 2);
+    QPointF end_point = line.at(line.size() - 1);
+
+    QLineF last_line(previous_point, end_point);
+    QRectF end_rect(mapFromItem(end_state, end_state->boundingRect().topLeft()),
+                    end_state->boundingRect().size());
+
+    std::vector<QLineF> state_lines;
+    state_lines.emplace_back(end_rect.topLeft(), end_rect.bottomLeft());
+    state_lines.emplace_back(end_rect.bottomLeft(), end_rect.bottomRight());
+    state_lines.emplace_back(end_rect.bottomRight(), end_rect.topRight());
+    state_lines.emplace_back(end_rect.topRight(), end_rect.topLeft());
+
+    for(auto& state_line : state_lines)
+    {
+        if(last_line.intersect(state_line, &end_point)
+           == QLineF::BoundedIntersection)
+            break;
+    }
+
+    arrow_head.clear();
+    arrow_head << end_point;
+    // Computes the position of the points to make the arrow_head
+    QPointF arrow_point_1(
+        end_point.x()
+            - arrow_size
+                  * qCos(qDegreesToRadians(arrow_angle - last_line.angle())),
+        end_point.y()
+            - arrow_size
+                  * qSin(qDegreesToRadians(arrow_angle - last_line.angle())));
+
+    QPointF arrow_point_2(
+        end_point.x()
+            - arrow_size
+                  * qCos(qDegreesToRadians(arrow_angle + last_line.angle())),
+        end_point.y()
+            + arrow_size
+                  * qSin(qDegreesToRadians(arrow_angle + last_line.angle())));
+
+    arrow_head << arrow_point_1;
+    arrow_head << arrow_point_2;
+    arrow_head << end_point;
+
+    last_line.intersect(QLineF(arrow_point_1, arrow_point_2), &end_point);
+
+    line.last() = end_point;
 }
