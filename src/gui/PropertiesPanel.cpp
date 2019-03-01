@@ -144,6 +144,7 @@ void PropertiesPanel::setStateName(const QString& name)
     if(state != nullptr)
     {
         state->getState().setName(name.toStdString());
+        main_window->getCanvas()->update();
         main_window->setUnsavedChanges(true);
     }
 }
@@ -176,6 +177,8 @@ void PropertiesPanel::setTransitionStartState(int index)
                                     + std::to_string(state_id));
 
     transition->setStartState(state);
+
+    main_window->getCanvas()->update();
     main_window->setUnsavedChanges(true);
 }
 
@@ -207,6 +210,8 @@ void PropertiesPanel::setTransitionEndState(int index)
                                     + std::to_string(state_id));
 
     transition->setEndState(state);
+
+    main_window->getCanvas()->update();
     main_window->setUnsavedChanges(true);
 }
 
@@ -216,6 +221,7 @@ void PropertiesPanel::setTransitionCondition(const QString& condition)
     if(transition != nullptr)
     {
         transition->getTransition().setCondition(condition.toStdString());
+        main_window->getCanvas()->update();
         main_window->setUnsavedChanges(true);
     }
 }
@@ -226,6 +232,7 @@ void PropertiesPanel::setTransitionAction(const QString& action)
     if(transition != nullptr)
     {
         transition->getTransition().setAction(action.toStdString());
+        main_window->getCanvas()->update();
         main_window->setUnsavedChanges(true);
     }
 }

@@ -97,8 +97,6 @@ void StateUI::paint(QPainter* painter,
                       size.height(),
                       Qt::AlignHCenter | Qt::AlignVCenter,
                       state.getName().c_str());
-
-    scene()->update();
 }
 
 QVariant StateUI::itemChange(GraphicsItemChange change, const QVariant& value)

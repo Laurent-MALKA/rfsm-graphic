@@ -51,6 +51,8 @@ StateUI* Canvas::addState(double posX, double posY)
 
     addItem(state);
 
+    update();
+
     return state;
 }
 
@@ -65,6 +67,8 @@ TransitionUI* Canvas::addTransition(StateUI* start_state, StateUI* end_state)
     this->transitions.push_back(transition);
 
     addItem(transition);
+
+    update();
 
     return transition;
 }
@@ -126,6 +130,8 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* event)
         main_window->getCurrentTool()->pressAct(event);
     }
     QGraphicsScene::mousePressEvent(event);
+
+    update();
 }
 
 void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
@@ -135,6 +141,8 @@ void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
         main_window->getCurrentTool()->releaseAct(event);
     }
     QGraphicsScene::mouseReleaseEvent(event);
+
+    update();
 }
 
 void Canvas::setStatesFlag(QGraphicsItem::GraphicsItemFlag flag, bool enabled)
@@ -255,6 +263,8 @@ void Canvas::importCanvas(const std::string& json_data)
         transitions.push_back(new_transition.release());
         addItem(transitions.back());
     }
+
+    update();
 }
 
 std::string Canvas::exportCanvas()
@@ -347,6 +357,8 @@ void Canvas::clear()
     free();
 
     state_chart = new StateChart();
+
+    update();
 }
 
 void Canvas::free()
