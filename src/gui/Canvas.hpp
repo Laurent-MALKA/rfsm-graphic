@@ -30,6 +30,9 @@ class Canvas : public QGraphicsScene
     StateUI* addState(double posX, double posY);
     TransitionUI* addTransition(StateUI* start_state, StateUI* end_state);
 
+    const StateUI* getInitialState() const;
+    void setInitialState(int state_id);
+
     void deleteState(int state_id);
     void deleteTransition(int transition_id);
 

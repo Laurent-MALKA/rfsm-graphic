@@ -27,6 +27,7 @@ class PropertiesPanel : public QFrame
 
     QGroupBox* state_panel;
     QLineEdit* state_name_field;
+    QLineEdit* initial_action_field;
 
     QGroupBox* transition_panel;
     QComboBox* transition_start_state_field;
@@ -70,6 +71,7 @@ class PropertiesPanel : public QFrame
 
   public slots:
     void setStateName(const QString& name);
+    void setInitialAction(const QString& action);
 
     void setTransitionStartState(int index);
     void setTransitionEndState(int index);

@@ -362,6 +362,11 @@ int StateChart::getInitialStateId() const
     return initial_state_id;
 }
 
+std::string StateChart::getInitialAction() const
+{
+    return initial_action;
+}
+
 void StateChart::deleteState(int state_id)
 {
     unsigned int state_index = findStateIndex(state_id);

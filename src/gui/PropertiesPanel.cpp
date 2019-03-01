@@ -47,6 +47,10 @@ PropertiesPanel::PropertiesPanel(MainWindow* parent) : QFrame(parent)
             &QLineEdit::textEdited,
             this,
             &PropertiesPanel::setStateName);
+    connect(initial_action_field,
+            &QLineEdit::textEdited,
+            this,
+            &PropertiesPanel::setInitialAction);
     connect(transition_start_state_field,
             QOverload<int>::of(&QComboBox::activated),
             this,
@@ -101,7 +105,14 @@ void PropertiesPanel::setSelectedItem(StateUI* state)
     transition_panel->hide();
     state_panel->show();
 
+    if(state->isInitial())
+        initial_action_field->setEnabled(true);
+    else
+        initial_action_field->setEnabled(false);
+
     state_name_field->setText(state->getState().getName().c_str());
+    initial_action_field->setText(
+        main_window->getCanvas()->getStateChart()->getInitialAction().c_str());
 }
 
 void PropertiesPanel::setSelectedItem(TransitionUI* transition)
@@ -147,6 +158,13 @@ void PropertiesPanel::setStateName(const QString& name)
         main_window->getCanvas()->update();
         main_window->setUnsavedChanges(true);
     }
+}
+
+void PropertiesPanel::setInitialAction(const QString& action)
+{
+    main_window->getCanvas()->getStateChart()->setInitialAction(
+        action.toStdString());
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::setTransitionStartState(int index)
@@ -431,9 +449,13 @@ void PropertiesPanel::createStatePanel()
     // Name input
     QLabel* nameLabel = new QLabel("Name");
     state_name_field = new QLineEdit();
+    QLabel* initialActionLabel = new QLabel("Initial action");
+    initial_action_field = new QLineEdit();
 
     statePanelLayout->addWidget(nameLabel);
     statePanelLayout->addWidget(state_name_field);
+    statePanelLayout->addWidget(initialActionLabel);
+    statePanelLayout->addWidget(initial_action_field);
 
     state_panel->setLayout(statePanelLayout);
 

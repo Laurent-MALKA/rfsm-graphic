@@ -73,6 +73,49 @@ TransitionUI* Canvas::addTransition(StateUI* start_state, StateUI* end_state)
     return transition;
 }
 
+const StateUI* Canvas::getInitialState() const
+{
+    for(const auto& state : states)
+    {
+        if(state->isInitial())
+            return state;
+    }
+
+    return nullptr;
+}
+
+void Canvas::setInitialState(int state_id)
+{
+    StateUI* previous_initial_state = nullptr;
+    StateUI* new_initial_state = nullptr;
+
+    for(auto it = states.begin();
+        it != states.end()
+        && (previous_initial_state == nullptr || new_initial_state == nullptr);
+        it++)
+    {
+        if((*it)->isInitial())
+            previous_initial_state = *it;
+        if((*it)->getState().getId() == state_id)
+            new_initial_state = *it;
+    }
+
+    if(new_initial_state == nullptr)
+        throw std::invalid_argument(std::string("No state found with id : ")
+                                    + std::to_string(state_id));
+
+    if(new_initial_state == previous_initial_state)
+        return; // Nothing to do
+
+    if(previous_initial_state != nullptr)
+        previous_initial_state->setInitial(false);
+
+    new_initial_state->setInitial(true);
+    state_chart->setInitialState(state_id);
+
+    main_window->setUnsavedChanges(true);
+}
+
 void Canvas::deleteState(int state_id)
 {
     auto state = states.begin();
@@ -171,7 +214,7 @@ void Canvas::importCanvas(const std::string& json_data)
     std::vector<std::unique_ptr<TransitionUI>> new_transitions;
 
     new_states.reserve(json_file.at("states").size());
-
+    int initial_state_id = json_file.at("initial_state_id");
     for(const auto& json_state_ui : json_file.at("states"))
     {
         auto json_state = json_state_ui.at("state");
@@ -180,7 +223,11 @@ void Canvas::importCanvas(const std::string& json_data)
         new_states.emplace_back(new StateUI(new_state_chart->getState(state_id),
                                             json_state_ui.at("x"),
                                             json_state_ui.at("y")));
+        if(state_id == initial_state_id)
+            new_states.back()->setInitial(true);
     }
+    new_state_chart->setInitialState(initial_state_id);
+    new_state_chart->setInitialAction(json_file.at("initial_action"));
 
     new_transitions.reserve(json_file.at("transitions").size());
 
@@ -292,6 +339,9 @@ std::string Canvas::exportCanvas()
 
         json_res["states"].push_back(json_state_ui);
     }
+
+    json_res["initial_state_id"] = state_chart->getInitialStateId();
+    json_res["initial_action"] = state_chart->getInitialAction();
 
     json_res["transitions"] = nlohmann::json::array();
     for(const auto& transition_ui : transitions)

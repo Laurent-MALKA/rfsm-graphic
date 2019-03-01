@@ -20,14 +20,9 @@ void SetInitialStateTool::pressAct(QGraphicsSceneMouseEvent* event)
 
     if(state != nullptr)
     {
-        if(canvas->getStateChart()->getInitialStateId() != -1
-           && current_initial_state != nullptr)
-            current_initial_state->setInitial(false);
+        canvas->setInitialState(state->getState().getId());
 
-        canvas->getStateChart()->setInitialState(state->getState().getId());
-        state->setInitial(true);
-        current_initial_state = state;
-
+        main_window->getPropertiesPanel()->setSelectedItem(state);
         main_window->setUnsavedChanges(true);
     }
 }
