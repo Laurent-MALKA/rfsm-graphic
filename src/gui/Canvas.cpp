@@ -91,6 +91,7 @@ void Canvas::deleteState(int state_id)
             i--;
         }
     }
+    removeItem(*state);
     delete *state;
     states.erase(state);
 
@@ -111,6 +112,7 @@ void Canvas::deleteTransition(int transition_id)
             std::string("No transition found with id : ")
             + std::to_string(transition_id));
 
+    removeItem(*transition);
     delete *transition;
     transitions.erase(transition);
 
@@ -267,8 +269,10 @@ std::string Canvas::exportCanvas()
 
         nlohmann::json json_state_ui;
 
-        json_state_ui["x"] = state_ui->x();
-        json_state_ui["y"] = state_ui->y();
+        json_state_ui["x"] =
+            state_ui->x() + int(state_ui->boundingRect().width() / 2);
+        json_state_ui["y"] =
+            state_ui->y() + int(state_ui->boundingRect().height() / 2);
 
         nlohmann::json json_state;
         json_state["id"] = state.getId();

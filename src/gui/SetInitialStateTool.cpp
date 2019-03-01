@@ -18,7 +18,7 @@ void SetInitialStateTool::pressAct(QGraphicsSceneMouseEvent* event)
     QGraphicsItem* item = canvas->itemAt(click_pos, QTransform());
     StateUI* state = dynamic_cast<StateUI*>(item);
 
-    if(item != nullptr)
+    if(state != nullptr)
     {
         if(canvas->getStateChart()->getInitialStateId() != -1
            && current_initial_state != nullptr)

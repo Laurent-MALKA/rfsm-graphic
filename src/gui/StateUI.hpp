@@ -3,14 +3,19 @@
 
 #include "../engine/State.hpp"
 
-#include <QGraphicsWidget>
+#include <QGraphicsItem>
 
-class StateUI : public QGraphicsWidget
+class StateUI : public QGraphicsItem
 {
   private:
     State& state;
-    float borderSize = 1;
     bool initial;
+
+    float border_size = 1;
+    qreal width = 100;
+    qreal height = 50;
+
+    QSize size;
 
   public:
     enum
@@ -24,6 +29,8 @@ class StateUI : public QGraphicsWidget
     const State& getState() const;
 
     int type() const;
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
 
     bool isInitial() const;
     void setInitial(bool initial = true);
