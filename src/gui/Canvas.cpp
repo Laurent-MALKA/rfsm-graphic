@@ -352,6 +352,36 @@ std::string Canvas::exportCanvas()
     return json_res.dump(4);
 }
 
+void Canvas::selectAllItems()
+{
+    for(auto& item : items())
+    {
+        item->setSelected(true);
+    }
+}
+
+void Canvas::deleteSelectedItems()
+{
+    QList<QGraphicsItem*> items = selectedItems();
+    while(!items.isEmpty())
+    {
+        auto current_item = items.front();
+
+        if(current_item->type() == StateUI::Type)
+        {
+            auto state = dynamic_cast<StateUI*>(current_item);
+            deleteState(state->getState().getId());
+        }
+        else if(current_item->type() == TransitionUI::Type)
+        {
+            auto transition = dynamic_cast<TransitionUI*>(current_item);
+            deleteTransition(transition->getTransition().getId());
+        }
+
+        items = selectedItems();
+    }
+}
+
 void Canvas::clear()
 {
     free();

@@ -9,6 +9,7 @@
 #include <QGraphicsView>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QKeyEvent>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
@@ -32,7 +33,7 @@ MainWindow::MainWindow() : unsaved_changes(false)
     tools[ToolEnum::set_initial_state] = new SetInitialStateTool(this);
     tools[ToolEnum::add_transition] = new AddTransitionTool(this);
     tools[ToolEnum::deletion] = new DeletionTool(this);
-    setCurrentTool(ToolEnum::add_state);
+    setCurrentTool(ToolEnum::select);
 }
 
 MainWindow::~MainWindow()
@@ -69,6 +70,15 @@ void MainWindow::setUnsavedChanges(bool unsaved_changes)
                                    : "RFSM Graphic");
 }
 
+void MainWindow::keyReleaseEvent(QKeyEvent* event)
+{
+    if(event->matches(QKeySequence::SelectAll))
+        canvas->selectAllItems();
+
+    else if(event->key() == Qt::Key_Delete)
+        deleteSelectedItems();
+}
+
 /**
  * Generate the menu
  */
@@ -77,8 +87,6 @@ void MainWindow::createMenu()
     // Setup the menubar
     menu_bar = menuBar();
     file_menu = menu_bar->addMenu("&File");
-    edit_menu = menu_bar->addMenu("&Edit");
-    help_menu = menu_bar->addMenu("&Help");
 
     // Init and bind action
     new_file_action =
@@ -93,11 +101,6 @@ void MainWindow::createMenu()
         "&Export", this, SLOT(exportContent()), QKeySequence("Ctrl+E"));
     exit_action = file_menu->addAction(
         "&Exit", this, SLOT(closeWindow()), QKeySequence("Ctrl+Q"));
-
-    undo_action =
-        edit_menu->addAction("&Undo", this, SLOT(undo()), QKeySequence::Undo);
-    redo_action =
-        edit_menu->addAction("&Redo", this, SLOT(redo()), QKeySequence::Redo);
 }
 
 /**
@@ -434,16 +437,6 @@ void MainWindow::exportContent()
 }
 
 /**
- * Undo the last command
- */
-void MainWindow::undo() {}
-
-/**
- * Redo the last command
- */
-void MainWindow::redo() {}
-
-/**
  * Set the current tool for the canvas
  */
 void MainWindow::setCurrentTool(ToolEnum tool)
@@ -464,5 +457,15 @@ void MainWindow::setCurrentTool(ToolEnum tool)
         canvas->setStatesFlag(QGraphicsItem::ItemIsMovable, false);
         canvas->setStatesFlag(QGraphicsItem::ItemIsSelectable, false);
         canvas->setTransitionsFlag(QGraphicsItem::ItemIsSelectable, false);
+    }
+}
+
+void MainWindow::deleteSelectedItems()
+{
+    if(view->hasFocus() && !canvas->selectedItems().isEmpty())
+    {
+        canvas->deleteSelectedItems();
+
+        setUnsavedChanges(true);
     }
 }

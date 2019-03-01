@@ -40,13 +40,6 @@ class MainWindow : public QMainWindow
     QAction* export_content_action;
     QAction* exit_action;
 
-    QMenu* edit_menu;
-    QAction* undo_action;
-    QAction* redo_action;
-
-    QMenu* help_menu;
-    QAction* about_action;
-
     QWidget* central_widget;
     QFrame* tool_bar;
     Canvas* canvas;
@@ -66,10 +59,10 @@ class MainWindow : public QMainWindow
     void save();
     void saveAs();
     void exportContent();
-    void undo();
-    void redo();
 
     void setCurrentTool(ToolEnum tool);
+
+    void deleteSelectedItems();
 
   public:
     MainWindow();
@@ -83,7 +76,7 @@ class MainWindow : public QMainWindow
 
     void setUnsavedChanges(bool unsaved_changes = true);
 
-    // void mousePressEvent(QMouseEvent *event);
+    void keyReleaseEvent(QKeyEvent* event);
 
   private:
     void createCentralWidget();

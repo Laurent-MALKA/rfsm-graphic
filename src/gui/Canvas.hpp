@@ -44,6 +44,9 @@ class Canvas : public QGraphicsScene
     void importCanvas(const std::string& json);
     std::string exportCanvas();
 
+    void selectAllItems();
+    void deleteSelectedItems();
+
     void clear();
 
   private:
