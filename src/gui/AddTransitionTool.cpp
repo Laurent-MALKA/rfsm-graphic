@@ -26,5 +26,7 @@ void AddTransitionTool::releaseAct(QGraphicsSceneMouseEvent* event)
         main_window->getPropertiesPanel()->setSelectedItem(transition);
 
         transition->setSelected(true);
+
+        main_window->setUnsavedChanges(true);
     }
 }

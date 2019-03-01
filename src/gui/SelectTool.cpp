@@ -16,3 +16,14 @@ void SelectTool::pressAct(QGraphicsSceneMouseEvent* event)
     else
         main_window->getPropertiesPanel()->unselectItem();
 }
+
+void SelectTool::releaseAct(QGraphicsSceneMouseEvent* event)
+{
+    StateUI* state = dynamic_cast<StateUI*>(
+        main_window->getCanvas()->itemAt(event->scenePos(), QTransform()));
+
+    // TODO find a proper way to detect if an object has moved
+    if(event->buttonDownScenePos(Qt::LeftButton) != event->scenePos()
+       && state != nullptr)
+        main_window->setUnsavedChanges(true);
+}

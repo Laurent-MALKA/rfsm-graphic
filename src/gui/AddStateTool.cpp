@@ -15,4 +15,6 @@ void AddStateTool::pressAct(QGraphicsSceneMouseEvent* event)
     state->setFlag(QGraphicsItem::ItemIsMovable, false);
 
     main_window->getPropertiesPanel()->setSelectedItem(state);
+
+    main_window->setUnsavedChanges(true);
 }

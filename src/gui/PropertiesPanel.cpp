@@ -144,6 +144,7 @@ void PropertiesPanel::setStateName(const QString& name)
     if(state != nullptr)
     {
         state->getState().setName(name.toStdString());
+        main_window->setUnsavedChanges(true);
     }
 }
 
@@ -175,6 +176,7 @@ void PropertiesPanel::setTransitionStartState(int index)
                                     + std::to_string(state_id));
 
     transition->setStartState(state);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::setTransitionEndState(int index)
@@ -205,6 +207,7 @@ void PropertiesPanel::setTransitionEndState(int index)
                                     + std::to_string(state_id));
 
     transition->setEndState(state);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::setTransitionCondition(const QString& condition)
@@ -213,6 +216,7 @@ void PropertiesPanel::setTransitionCondition(const QString& condition)
     if(transition != nullptr)
     {
         transition->getTransition().setCondition(condition.toStdString());
+        main_window->setUnsavedChanges(true);
     }
 }
 
@@ -222,6 +226,7 @@ void PropertiesPanel::setTransitionAction(const QString& action)
     if(transition != nullptr)
     {
         transition->getTransition().setAction(action.toStdString());
+        main_window->setUnsavedChanges(true);
     }
 }
 
@@ -239,6 +244,7 @@ void PropertiesPanel::addInternVariable()
     string_list << intern_variable_name->text() + " : "
                        + intern_variable_type->text();
     intern_variables_model->setStringList(string_list);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::removeInternVariables()
@@ -261,6 +267,7 @@ void PropertiesPanel::removeInternVariables()
     }
 
     intern_variables_model->setStringList(string_list);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::addInputVariable()
@@ -280,6 +287,7 @@ void PropertiesPanel::addInputVariable()
                        + input_variable_type->text() + " = "
                        + input_variable_stimuli->text();
     input_variables_model->setStringList(string_list);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::removeInputVariables()
@@ -303,6 +311,7 @@ void PropertiesPanel::removeInputVariables()
     }
 
     input_variables_model->setStringList(string_list);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::addOutputVariable()
@@ -319,6 +328,7 @@ void PropertiesPanel::addOutputVariable()
     string_list << output_variable_name->text() + " : "
                        + output_variable_type->text();
     output_variables_model->setStringList(string_list);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::removeOutputVariables()
@@ -342,6 +352,7 @@ void PropertiesPanel::removeOutputVariables()
     }
 
     output_variables_model->setStringList(string_list);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::addInoutVariable()
@@ -358,6 +369,7 @@ void PropertiesPanel::addInoutVariable()
     string_list << inout_variable_name->text() + " : "
                        + inout_variable_type->text();
     inout_variables_model->setStringList(string_list);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::removeInoutVariables()
@@ -381,6 +393,7 @@ void PropertiesPanel::removeInoutVariables()
     }
 
     inout_variables_model->setStringList(string_list);
+    main_window->setUnsavedChanges(true);
 }
 
 void PropertiesPanel::clear()

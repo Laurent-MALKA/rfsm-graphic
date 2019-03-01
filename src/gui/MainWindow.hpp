@@ -57,8 +57,10 @@ class MainWindow : public QMainWindow
     std::map<ToolEnum, Tool*> tools;
 
     std::string file_name;
+    bool unsaved_changes;
 
   public slots:
+    void closeWindow();
     void newFile();
     void openFile();
     void save();
@@ -78,6 +80,8 @@ class MainWindow : public QMainWindow
 
     Canvas* getCanvas();
     PropertiesPanel* getPropertiesPanel();
+
+    void setUnsavedChanges(bool unsaved_changes = true);
 
     // void mousePressEvent(QMouseEvent *event);
 

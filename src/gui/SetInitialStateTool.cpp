@@ -27,5 +27,7 @@ void SetInitialStateTool::pressAct(QGraphicsSceneMouseEvent* event)
         canvas->getStateChart()->setInitialState(state->getState().getId());
         state->setInitial(true);
         current_initial_state = state;
+
+        main_window->setUnsavedChanges(true);
     }
 }

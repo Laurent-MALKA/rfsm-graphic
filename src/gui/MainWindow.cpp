@@ -20,7 +20,7 @@
 #include <cstdio>
 #include <fstream>
 
-MainWindow::MainWindow()
+MainWindow::MainWindow() : unsaved_changes(false)
 {
     setWindowTitle("RFSM Graphic");
     resize(1280, 720);
@@ -62,6 +62,13 @@ PropertiesPanel* MainWindow::getPropertiesPanel()
     return properties_panel;
 }
 
+void MainWindow::setUnsavedChanges(bool unsaved_changes)
+{
+    this->unsaved_changes = unsaved_changes;
+    setWindowTitle(unsaved_changes ? "RFSM Graphic (Unsaved changes)"
+                                   : "RFSM Graphic");
+}
+
 /**
  * Generate the menu
  */
@@ -85,7 +92,7 @@ void MainWindow::createMenu()
     export_content_action = file_menu->addAction(
         "&Export", this, SLOT(exportContent()), QKeySequence("Ctrl+E"));
     exit_action = file_menu->addAction(
-        "&Exit", this, SLOT(close()), QKeySequence("Ctrl+Q"));
+        "&Exit", this, SLOT(closeWindow()), QKeySequence("Ctrl+Q"));
 
     undo_action =
         edit_menu->addAction("&Undo", this, SLOT(undo()), QKeySequence::Undo);
@@ -217,15 +224,60 @@ void MainWindow::createPropertiesPanel()
 //     return treePanel;
 // }
 
+void MainWindow::closeWindow()
+{
+    if(unsaved_changes)
+    {
+        QMessageBox save_message;
+        save_message.setText("Do you want to save your changes?");
+        save_message.setStandardButtons(QMessageBox::Save | QMessageBox::Discard
+                                        | QMessageBox::Cancel);
+        save_message.setDefaultButton(QMessageBox::Save);
+
+        int save_answer = save_message.exec();
+
+        switch(save_answer)
+        {
+            case QMessageBox::Cancel:
+                return;
+            case QMessageBox::Save:
+                save();
+        }
+    }
+
+    close();
+}
+
 /**
  * Create a new file
  */
 void MainWindow::newFile()
 {
+    if(unsaved_changes)
+    {
+        QMessageBox save_message;
+        save_message.setText("Do you want to save your changes?");
+        save_message.setStandardButtons(QMessageBox::Save | QMessageBox::Discard
+                                        | QMessageBox::Cancel);
+        save_message.setDefaultButton(QMessageBox::Save);
+
+        int save_answer = save_message.exec();
+
+        switch(save_answer)
+        {
+            case QMessageBox::Cancel:
+                return;
+            case QMessageBox::Save:
+                save();
+        }
+    }
+
     canvas->clear();
     properties_panel->clear();
 
     file_name.clear();
+
+    setUnsavedChanges(false);
 }
 
 /**
@@ -233,6 +285,25 @@ void MainWindow::newFile()
  */
 void MainWindow::openFile()
 {
+    if(unsaved_changes)
+    {
+        QMessageBox save_message;
+        save_message.setText("Do you want to save your changes?");
+        save_message.setStandardButtons(QMessageBox::Save | QMessageBox::Discard
+                                        | QMessageBox::Cancel);
+        save_message.setDefaultButton(QMessageBox::Save);
+
+        int save_answer = save_message.exec();
+
+        switch(save_answer)
+        {
+            case QMessageBox::Cancel:
+                return;
+            case QMessageBox::Save:
+                save();
+        }
+    }
+
     std::ifstream file;
     std::string new_file_name;
 
@@ -273,6 +344,7 @@ void MainWindow::openFile()
     properties_panel->clear();
 
     file_name = new_file_name;
+    setUnsavedChanges(false);
 }
 
 /**
@@ -289,6 +361,7 @@ void MainWindow::save()
     else
     {
         file << canvas->exportCanvas();
+        setUnsavedChanges(false);
     }
 }
 
@@ -317,6 +390,7 @@ void MainWindow::saveAs()
     } while(!file);
 
     file << canvas->exportCanvas();
+    setUnsavedChanges(false);
 }
 
 /**

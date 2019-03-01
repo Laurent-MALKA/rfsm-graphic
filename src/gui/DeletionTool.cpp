@@ -32,5 +32,7 @@ void DeletionTool::pressAct(QGraphicsSceneMouseEvent* event)
             }
         }
         main_window->getPropertiesPanel()->unselectItem();
+
+        main_window->setUnsavedChanges(true);
     }
 }
