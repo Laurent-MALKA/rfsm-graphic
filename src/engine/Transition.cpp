@@ -27,6 +27,8 @@ const std::string& Transition::getCondition() const
 void Transition::setCondition(const std::string& condition)
 {
     this->condition = condition;
+    for(auto& character : this->condition)
+        character = std::tolower(character);
 }
 
 const std::string& Transition::getAction() const
@@ -37,6 +39,8 @@ const std::string& Transition::getAction() const
 void Transition::setAction(const std::string& action)
 {
     this->action = action;
+    for(auto& character : this->action)
+        character = std::tolower(character);
 }
 
 bool Transition::hasAction()

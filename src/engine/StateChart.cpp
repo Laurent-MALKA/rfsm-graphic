@@ -1,6 +1,7 @@
 #include "StateChart.hpp"
 #include "Transition.hpp"
 
+#include <cctype>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
@@ -355,6 +356,8 @@ void StateChart::setInitialState(int state_id)
 void StateChart::setInitialAction(const std::string& action)
 {
     initial_action = action;
+    for(auto& character : this->initial_action)
+        character = std::tolower(character);
 }
 
 int StateChart::getInitialStateId() const
@@ -437,7 +440,10 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            code << "in " << var->getName() << ": " << var->getType();
+            auto to_lower_name = var->getName();
+            for(auto& c : to_lower_name)
+                c = std::tolower(c);
+            code << "in " << to_lower_name << ": " << var->getType();
             first = false;
         }
         for(const auto& var : output_variables)
@@ -447,7 +453,10 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            code << "out " << var->getName() << ": " << var->getType();
+            auto to_lower_name = var->getName();
+            for(auto& c : to_lower_name)
+                c = std::tolower(c);
+            code << "out " << to_lower_name << ": " << var->getType();
             first = false;
         }
         for(const auto& var : inout_variables)
@@ -457,7 +466,10 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            code << "inout " << var->getName() << ": " << var->getType();
+            auto to_lower_name = var->getName();
+            for(auto& c : to_lower_name)
+                c = std::tolower(c);
+            code << "inout " << to_lower_name << ": " << var->getType();
             first = false;
         }
     }
@@ -488,7 +500,10 @@ std::string StateChart::toFSMCode()
             if(!first)
                 code << "," << std::endl;
             code << indent << indent;
-            code << var->getName() << ": " << var->getType();
+            auto to_lower_name = var->getName();
+            for(auto& c : to_lower_name)
+                c = std::tolower(c);
+            code << to_lower_name << ": " << var->getType();
             first = false;
         }
         code << ";" << std::endl;
@@ -538,13 +553,17 @@ std::string StateChart::toFSMCode()
 
     for(const auto& var : input_variables)
     {
-        code << "input " << var->getName() << " : " << var->getType() << " = "
-             << var->getStimuli() << std::endl;
+        auto to_capitalize_name = var->getName();
+        to_capitalize_name.front() = std::toupper(to_capitalize_name.front());
+        code << "input " << to_capitalize_name << " : " << var->getType()
+             << " = " << var->getStimuli() << std::endl;
     }
 
     for(const auto& var : output_variables)
     {
-        code << "output " << var->getName() << " : " << var->getType()
+        auto to_capitalize_name = var->getName();
+        to_capitalize_name.front() = std::toupper(to_capitalize_name.front());
+        code << "output " << to_capitalize_name << " : " << var->getType()
              << std::endl;
     }
 
@@ -563,7 +582,10 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            code << var->getName();
+            auto to_capitalize_name = var->getName();
+            to_capitalize_name.front() =
+                std::toupper(to_capitalize_name.front());
+            code << to_capitalize_name;
             first = false;
         }
         for(const auto& var : output_variables)
@@ -573,7 +595,10 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            code << var->getName();
+            auto to_capitalize_name = var->getName();
+            to_capitalize_name.front() =
+                std::toupper(to_capitalize_name.front());
+            code << to_capitalize_name;
             first = false;
         }
         for(const auto& var : inout_variables)
@@ -583,7 +608,10 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            code << var->getName();
+            auto to_capitalize_name = var->getName();
+            to_capitalize_name.front() =
+                std::toupper(to_capitalize_name.front());
+            code << to_capitalize_name;
             first = false;
         }
     }

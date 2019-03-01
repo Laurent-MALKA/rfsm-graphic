@@ -164,6 +164,8 @@ void PropertiesPanel::setInitialAction(const QString& action)
 {
     main_window->getCanvas()->getStateChart()->setInitialAction(
         action.toStdString());
+    initial_action_field->setText(
+        main_window->getCanvas()->getStateChart()->getInitialAction().c_str());
     main_window->setUnsavedChanges(true);
 }
 
@@ -239,6 +241,8 @@ void PropertiesPanel::setTransitionCondition(const QString& condition)
     if(transition != nullptr)
     {
         transition->getTransition().setCondition(condition.toStdString());
+        transition_condition_field->setText(
+            transition->getTransition().getCondition().c_str());
         main_window->getCanvas()->update();
         main_window->setUnsavedChanges(true);
     }
@@ -250,6 +254,8 @@ void PropertiesPanel::setTransitionAction(const QString& action)
     if(transition != nullptr)
     {
         transition->getTransition().setAction(action.toStdString());
+        transition_action_field->setText(
+            transition->getTransition().getAction().c_str());
         main_window->getCanvas()->update();
         main_window->setUnsavedChanges(true);
     }
