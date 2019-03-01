@@ -19,11 +19,7 @@ Canvas::Canvas(MainWindow* parent) : QGraphicsScene(parent)
 
 Canvas::~Canvas()
 {
-    delete state_chart;
-    for(auto& state : states)
-        delete state;
-    for(auto& transition : transitions)
-        delete transition;
+    free();
 }
 
 StateChart* Canvas::getStateChart()
@@ -153,4 +149,22 @@ void Canvas::setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag,
     {
         transition->setFlag(flag, enabled);
     }
+}
+
+void Canvas::clear()
+{
+    free();
+
+    state_chart = new StateChart();
+}
+
+void Canvas::free()
+{
+    QGraphicsScene::clear();
+
+    states.clear();
+    transitions.clear();
+
+    delete state_chart;
+    state_chart = nullptr;
 }

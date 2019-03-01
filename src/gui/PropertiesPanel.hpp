@@ -88,6 +88,8 @@ class PropertiesPanel : public QFrame
     void addInoutVariable();
     void removeInoutVariables();
 
+    void clear();
+
   private:
     void createStatePanel();
     void createTransitionPanel();
@@ -96,6 +98,9 @@ class PropertiesPanel : public QFrame
     void createInputVariablePanel();
     void createOutputVariablePanel();
     void createInoutVariablePanel();
+
+    void fillVariablesLists();
+    void free();
 };
 
 #endif

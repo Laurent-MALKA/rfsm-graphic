@@ -40,6 +40,13 @@ class Canvas : public QGraphicsScene
                        bool enabled = true);
     void setTransitionsFlag(QGraphicsItem::GraphicsItemFlag flag,
                             bool enabled = true);
+
+    void clear();
+
+  private:
+    void free(); /* WARNING : Doesn't reallocate state_chart,
+                  * clearCanvas() does
+                  */
 };
 
 #endif

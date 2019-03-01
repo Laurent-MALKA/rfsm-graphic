@@ -67,10 +67,7 @@ PropertiesPanel::PropertiesPanel(MainWindow* parent) : QFrame(parent)
 
 PropertiesPanel::~PropertiesPanel()
 {
-    delete intern_variables_model;
-    delete input_variables_model;
-    delete output_variables_model;
-    delete inout_variables_model;
+    free();
 }
 
 void PropertiesPanel::unselectItem()
@@ -386,6 +383,26 @@ void PropertiesPanel::removeInoutVariables()
     inout_variables_model->setStringList(string_list);
 }
 
+void PropertiesPanel::clear()
+{
+    selected_item = nullptr;
+
+    state_panel->hide();
+    transition_panel->hide();
+
+    fillVariablesLists();
+
+    intern_variable_name->clear();
+    intern_variable_type->clear();
+    input_variable_name->clear();
+    input_variable_type->clear();
+    input_variable_stimuli->clear();
+    output_variable_name->clear();
+    output_variable_type->clear();
+    inout_variable_name->clear();
+    inout_variable_type->clear();
+}
+
 void PropertiesPanel::createStatePanel()
 {
     state_panel = new QGroupBox("State settings");
@@ -653,4 +670,59 @@ void PropertiesPanel::createInoutVariablePanel()
             &QPushButton::clicked,
             this,
             &PropertiesPanel::removeInoutVariables);
+}
+void PropertiesPanel::fillVariablesLists()
+{
+    QStringList intern_variables;
+    for(auto& var :
+        main_window->getCanvas()->getStateChart()->getInternVariables())
+    {
+        std::string res = var->getName() + " : " + var->getType();
+        intern_variables << QString(res.c_str());
+    }
+    delete intern_variables_model;
+    intern_variables_model = new QStringListModel(intern_variables);
+    intern_variables_view->setModel(intern_variables_model);
+
+    QStringList input_variables;
+    for(auto& var :
+        main_window->getCanvas()->getStateChart()->getInputVariables())
+    {
+        std::string res =
+            var->getName() + " : " + var->getType() + " = " + var->getStimuli();
+        input_variables << QString(res.c_str());
+    }
+    delete input_variables_model;
+    input_variables_model = new QStringListModel(input_variables);
+    input_variables_view->setModel(input_variables_model);
+
+    QStringList output_variables;
+    for(auto& var :
+        main_window->getCanvas()->getStateChart()->getOutputVariables())
+    {
+        std::string res = var->getName() + " : " + var->getType();
+        output_variables << QString(res.c_str());
+    }
+    delete output_variables_model;
+    output_variables_model = new QStringListModel(output_variables);
+    output_variables_view->setModel(output_variables_model);
+
+    QStringList inout_variables;
+    for(auto& var :
+        main_window->getCanvas()->getStateChart()->getInoutVariables())
+    {
+        std::string res = var->getName() + " : " + var->getType();
+        inout_variables << QString(res.c_str());
+    }
+    delete inout_variables_model;
+    inout_variables_model = new QStringListModel(inout_variables);
+    inout_variables_view->setModel(inout_variables_model);
+}
+
+void PropertiesPanel::free()
+{
+    delete intern_variables_model;
+    delete input_variables_model;
+    delete output_variables_model;
+    delete inout_variables_model;
 }
