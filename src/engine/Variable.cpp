@@ -1,10 +1,13 @@
 #include "Variable.hpp"
 
+#include <cctype>
 #include <stdexcept>
 
 Variable::Variable(const std::string& name, const std::string& type)
-    : type(type), name(name)
-{}
+{
+    setType(type);
+    setName(name);
+}
 
 const std::string& Variable::getType() const
 {
@@ -19,9 +22,13 @@ const std::string& Variable::getName() const
 void Variable::setType(const std::string& type)
 {
     this->type = type;
+    for(auto& character : this->type)
+        character = std::tolower(character);
 }
 
 void Variable::setName(const std::string& name)
 {
     this->name = name;
+    for(auto& character : this->name)
+        character = std::tolower(character);
 }

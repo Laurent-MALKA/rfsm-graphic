@@ -268,12 +268,15 @@ void PropertiesPanel::addInternVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    state_chart->addInternVariable(intern_variable_name->text().toStdString(),
-                                   intern_variable_type->text().toStdString());
+    int variable_index = state_chart->addInternVariable(
+        intern_variable_name->text().toStdString(),
+        intern_variable_type->text().toStdString());
 
+    auto variable = state_chart->getInternVariable(variable_index);
     QStringList string_list = intern_variables_model->stringList();
-    string_list << intern_variable_name->text() + " : "
-                       + intern_variable_type->text();
+    string_list << std::string(variable->getName() + " : "
+                               + variable->getType())
+                       .c_str();
     intern_variables_model->setStringList(string_list);
     main_window->setUnsavedChanges(true);
 }
@@ -309,14 +312,16 @@ void PropertiesPanel::addInputVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    state_chart->addInputVariable(input_variable_name->text().toStdString(),
-                                  input_variable_type->text().toStdString(),
-                                  input_variable_stimuli->text().toStdString());
+    int variable_index = state_chart->addInputVariable(
+        input_variable_name->text().toStdString(),
+        input_variable_type->text().toStdString(),
+        input_variable_stimuli->text().toStdString());
 
+    auto variable = state_chart->getInputVariable(variable_index);
     QStringList string_list = input_variables_model->stringList();
-    string_list << input_variable_name->text() + " : "
-                       + input_variable_type->text() + " = "
-                       + input_variable_stimuli->text();
+    string_list << std::string(variable->getName() + " : " + variable->getType()
+                               + " = " + variable->getStimuli())
+                       .c_str();
     input_variables_model->setStringList(string_list);
     main_window->setUnsavedChanges(true);
 }
@@ -352,12 +357,15 @@ void PropertiesPanel::addOutputVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    state_chart->addOutputVariable(output_variable_name->text().toStdString(),
-                                   output_variable_type->text().toStdString());
+    int variable_index = state_chart->addOutputVariable(
+        output_variable_name->text().toStdString(),
+        output_variable_type->text().toStdString());
 
+    auto variable = state_chart->getOutputVariable(variable_index);
     QStringList string_list = output_variables_model->stringList();
-    string_list << output_variable_name->text() + " : "
-                       + output_variable_type->text();
+    string_list << std::string(variable->getName() + " : "
+                               + variable->getType())
+                       .c_str();
     output_variables_model->setStringList(string_list);
     main_window->setUnsavedChanges(true);
 }
@@ -393,12 +401,15 @@ void PropertiesPanel::addInoutVariable()
 
     StateChart* state_chart = main_window->getCanvas()->getStateChart();
 
-    state_chart->addInoutVariable(inout_variable_name->text().toStdString(),
-                                  inout_variable_type->text().toStdString());
+    int variable_index = state_chart->addInoutVariable(
+        inout_variable_name->text().toStdString(),
+        inout_variable_type->text().toStdString());
 
+    auto variable = state_chart->getInoutVariable(variable_index);
     QStringList string_list = inout_variables_model->stringList();
-    string_list << inout_variable_name->text() + " : "
-                       + inout_variable_type->text();
+    string_list << std::string(variable->getName() + " : "
+                               + variable->getType())
+                       .c_str();
     inout_variables_model->setStringList(string_list);
     main_window->setUnsavedChanges(true);
 }

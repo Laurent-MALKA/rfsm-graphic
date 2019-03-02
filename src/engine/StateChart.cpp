@@ -440,10 +440,7 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            auto to_lower_name = var->getName();
-            for(auto& c : to_lower_name)
-                c = std::tolower(c);
-            code << "in " << to_lower_name << ": " << var->getType();
+            code << "in " << var->getName() << ": " << var->getType();
             first = false;
         }
         for(const auto& var : output_variables)
@@ -453,10 +450,7 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            auto to_lower_name = var->getName();
-            for(auto& c : to_lower_name)
-                c = std::tolower(c);
-            code << "out " << to_lower_name << ": " << var->getType();
+            code << "out " << var->getName() << ": " << var->getType();
             first = false;
         }
         for(const auto& var : inout_variables)
@@ -466,10 +460,7 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            auto to_lower_name = var->getName();
-            for(auto& c : to_lower_name)
-                c = std::tolower(c);
-            code << "inout " << to_lower_name << ": " << var->getType();
+            code << "inout " << var->getName() << ": " << var->getType();
             first = false;
         }
     }
@@ -500,10 +491,7 @@ std::string StateChart::toFSMCode()
             if(!first)
                 code << "," << std::endl;
             code << indent << indent;
-            auto to_lower_name = var->getName();
-            for(auto& c : to_lower_name)
-                c = std::tolower(c);
-            code << to_lower_name << ": " << var->getType();
+            code << var->getName() << ": " << var->getType();
             first = false;
         }
         code << ";" << std::endl;
@@ -553,17 +541,13 @@ std::string StateChart::toFSMCode()
 
     for(const auto& var : input_variables)
     {
-        auto to_capitalize_name = var->getName();
-        to_capitalize_name.front() = std::toupper(to_capitalize_name.front());
-        code << "input " << to_capitalize_name << " : " << var->getType()
-             << " = " << var->getStimuli() << std::endl;
+        code << "input " << var->getName() << " : " << var->getType() << " = "
+             << var->getStimuli() << std::endl;
     }
 
     for(const auto& var : output_variables)
     {
-        auto to_capitalize_name = var->getName();
-        to_capitalize_name.front() = std::toupper(to_capitalize_name.front());
-        code << "output " << to_capitalize_name << " : " << var->getType()
+        code << "output " << var->getName() << " : " << var->getType()
              << std::endl;
     }
 
@@ -582,10 +566,7 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            auto to_capitalize_name = var->getName();
-            to_capitalize_name.front() =
-                std::toupper(to_capitalize_name.front());
-            code << to_capitalize_name;
+            code << var->getName();
             first = false;
         }
         for(const auto& var : output_variables)
@@ -595,10 +576,7 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            auto to_capitalize_name = var->getName();
-            to_capitalize_name.front() =
-                std::toupper(to_capitalize_name.front());
-            code << to_capitalize_name;
+            code << var->getName();
             first = false;
         }
         for(const auto& var : inout_variables)
@@ -608,10 +586,7 @@ std::string StateChart::toFSMCode()
                 code << "," << std::endl;
             }
             code << indent;
-            auto to_capitalize_name = var->getName();
-            to_capitalize_name.front() =
-                std::toupper(to_capitalize_name.front());
-            code << to_capitalize_name;
+            code << var->getName();
             first = false;
         }
     }
